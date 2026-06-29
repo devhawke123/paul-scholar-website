@@ -38,7 +38,7 @@ export function AboutSection() {
             <img
               src={homeAssets.aboutPortrait}
               alt="Dr. Paul A. Stokes"
-              className="aspect-[464/663] w-full object-cover object-top"
+              className="aspect-[464/500] w-full object-cover object-top"
             />
           </div>
 
