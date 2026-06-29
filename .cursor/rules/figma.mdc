@@ -1,0 +1,51 @@
+---
+description: Figma design source for the Paul Scholar project
+alwaysApply: true
+---
+
+# Figma — Paul design file
+
+This project is linked to the **Paul** Figma file via the Figma MCP server.
+
+## File
+
+- **Name:** Paul
+- **URL:** https://www.figma.com/design/354mOGQ3VC3WZmyGVp06kg/Paul
+- **File key:** `354mOGQ3VC3WZmyGVp06kg`
+- **Default page:** `0:1` (Page 1)
+
+## Stack alignment
+
+When implementing designs from Figma into this repo:
+
+- React 19 + TypeScript + Vite
+- Tailwind CSS v4 (`tailwind.config.ts` breakpoints: xs 320, sm 425, md 768, lg 1024, xl 1440, 2xl 2550)
+- Adapt Figma MCP reference output to existing project structure under `src/`
+
+## Project structure
+
+```
+src/
+  assets/           # Static assets, organized by page or shared scope
+    homepage/       # Homepage-specific images
+    icons/          # Shared icons
+  components/
+    layout/         # Navbar, Footer, etc.
+    ui/             # Reusable UI primitives (Button, SectionBadge, …)
+  pages/
+    home/           # One folder per page
+      HomePage.tsx
+      components/   # Page-specific section components
+      data/         # Page content / constants
+```
+
+- Keep assets separate under `src/assets/` (never inline remote Figma URLs in production code).
+- Each page gets its own folder under `src/pages/`.
+- Shared layout lives in `src/components/layout/`; reusable UI in `src/components/ui/`.
+
+## MCP workflow
+
+- **Design → code:** `get_design_context` with `fileKey` + `nodeId` (convert `-` to `:` in node IDs, e.g. `0-1` → `0:1`)
+- **Structure overview:** `get_metadata` with `fileKey`
+- **Screenshots:** `get_screenshot`
+- **Code → design / edits:** `use_figma` (load `figma-use` skill first)
