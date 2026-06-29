@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
-import { homeAssets } from '../data/homeAssets'
-import { blogPosts } from '../data/homeContent'
+import { blogPosts } from '../../../data/blogs'
+import { BlogCard } from '../../blogs/components/BlogCard'
 
 export function BlogsSection() {
+  const featuredPosts = blogPosts.slice(0, 2)
+
   return (
     <section id="blogs" className="bg-cream px-4 py-20 md:px-11">
       <div className="mx-auto max-w-[1440px]">
@@ -15,36 +18,15 @@ export function BlogsSection() {
         </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
-          {blogPosts.map((post, index) => (
-            <article
-              key={`${post.title}-${index}`}
-              className="overflow-hidden rounded-3xl bg-white shadow-sm"
-            >
-              <img
-                src={homeAssets.blogs[index]}
-                alt={post.title}
-                className="aspect-[585/339] w-full object-cover"
-              />
-              <div className="p-6">
-                <div className="flex flex-wrap items-center gap-4 text-sm text-navy/60">
-                  <span className="inline-flex items-center gap-2">
-                    <img
-                      src={homeAssets.authorAvatar}
-                      alt=""
-                      className="size-8 rounded-full object-cover"
-                    />
-                    {post.author}
-                  </span>
-                  <span>{post.readTime}</span>
-                </div>
-                <h3 className="mt-4 text-xl font-semibold text-navy">{post.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-navy/70">{post.excerpt}</p>
-                <Button variant="outline" className="mt-6 rounded-full px-8">
-                  Read More
-                </Button>
-              </div>
-            </article>
+          {featuredPosts.map((post) => (
+            <BlogCard key={post.slug} post={post} />
           ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link to="/blogs">
+            <Button className="rounded-full px-10">View All Articles</Button>
+          </Link>
         </div>
       </div>
     </section>

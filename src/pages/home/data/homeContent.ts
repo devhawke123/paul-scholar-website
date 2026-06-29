@@ -1,9 +1,9 @@
 export const navLinks = [
-  { label: 'Home', href: '#', active: true },
-  { label: 'About', href: '#about' },
-  { label: 'Library', href: '#library' },
-  { label: 'Blogs', href: '#blogs' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/#about' },
+  { label: 'Library', href: '/#library' },
+  { label: 'Blogs', href: '/blogs' },
+  { label: 'Contact', href: '/contact' },
 ] as const
 
 export const heroTags = ['Scholar, Strategist', 'Pioneer', 'Managerial Cybernetics'] as const
@@ -130,23 +130,6 @@ export const experienceCards = [
     title: 'Corporate Social Responsibility (CSR)',
     description:
       'Delivering specialized research and consulting services to major international entities, including the European Commission and various global NGOs.',
-  },
-] as const
-
-export const blogPosts = [
-  {
-    author: 'Dr. Paul A. Stokes',
-    readTime: '5 min read',
-    title: 'The Cybernetic Organization',
-    excerpt:
-      'The teachings of Stafford Beer remain more relevant today than ever. In this article, we explore how Managerial Cybernetics can help modern firms move beyond rigid hierarchies to create self-regulating systems that thrive on complexity rather than being crushed by it',
-  },
-  {
-    author: 'Dr. Paul A. Stokes',
-    readTime: '5 min read',
-    title: 'The Cybernetic Organization',
-    excerpt:
-      'The teachings of Stafford Beer remain more relevant today than ever. In this article, we explore how Managerial Cybernetics can help modern firms move beyond rigid hierarchies to create self-regulating systems that thrive on complexity rather than being crushed by it',
   },
 ] as const
 
