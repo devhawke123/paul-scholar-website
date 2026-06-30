@@ -92,9 +92,9 @@ export function AboutSection() {
           </div>
 
           <div className="mt-8 flex justify-end">
-            <Link to="/about">
+            {/* <Link to="/about"> */}
               <Button className="rounded-full px-10">Explore More</Button>
-            </Link>
+            {/* </Link> */}
           </div>
         </div>
       </div>

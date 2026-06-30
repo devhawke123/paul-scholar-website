@@ -32,9 +32,9 @@ export function DocumentLibrarySection() {
 
         {papers.length > HOME_PREVIEW_COUNT && (
           <div className="mt-10 text-center">
-            <Link to="/library">
+            {/* <Link to="/library"> */}
               <Button className="rounded-full px-10">Explore More</Button>
-            </Link>
+            {/* </Link> */}
           </div>
         )}
       </div>

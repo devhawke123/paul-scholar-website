@@ -28,7 +28,8 @@ export function Navbar() {
           {navLinks.map((link) => (
             <Link
               key={link.label}
-              to={link.href}
+              to="/"
+              // to={link.href}
               className={`text-base transition-colors hover:text-accent ${
                 isNavActive(link.href, pathname)
                   ? 'font-medium text-navy'
@@ -41,7 +42,7 @@ export function Navbar() {
         </nav>
 
         <Button className="hidden h-[55px] min-w-[172px] rounded-[27.5px] px-10 text-sm lg:inline-flex">
-          Sign in
+          Subscribe
         </Button>
 
         <button

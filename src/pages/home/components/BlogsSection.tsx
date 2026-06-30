@@ -25,9 +25,9 @@ export function BlogsSection() {
         </div>
 
         <div className="mt-10 text-center">
-          <Link to="/blogs">
+          {/* <Link to="/blogs"> */}
             <Button className="rounded-full px-10">View All Articles</Button>
-          </Link>
+          {/* </Link> */}
         </div>
       </div>
     </section>

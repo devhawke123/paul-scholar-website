@@ -2,17 +2,11 @@ import { Button } from '../../../components/ui/Button'
 import { homeAssets } from '../data/homeAssets'
 import { heroTags } from '../data/homeContent'
 
-const socialLinks = [
-  { label: 'YouTube', icon: '▶' },
-  { label: 'Instagram', icon: '◎' },
-  { label: 'Facebook', icon: 'f' },
-  { label: 'WhatsApp', icon: '✆' },
-]
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-cream">
-      <div className="mx-auto max-w-[1440px] px-4 pb-16 pt-6 md:px-11">
+      <div className="mx-auto max-w-[1440px] px-4 pb-6 pt-6 md:px-11">
         <div className="relative overflow-hidden rounded-[32px]">
           <img
             src={homeAssets.heroBg}
@@ -77,22 +71,6 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-
-        <aside
-          className="absolute right-6 top-1/3 hidden flex-col gap-4 lg:flex"
-          aria-label="Social media links"
-        >
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href="#"
-              aria-label={link.label}
-              className="flex size-8 items-center justify-center rounded-full bg-white/90 text-xs font-bold text-navy shadow-sm transition hover:bg-accent"
-            >
-              {link.icon}
-            </a>
-          ))}
-        </aside>
       </div>
     </section>
   )
