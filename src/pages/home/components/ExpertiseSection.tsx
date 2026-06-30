@@ -1,5 +1,5 @@
 import { ArrowLink } from '../../../components/ui/ArrowLink'
-import { aboutIcons } from '../data/aboutAssets'
+// import { aboutIcons } from '../data/aboutAssets'
 import { expertiseCards } from '../data/homeContent'
 
 export function ExpertiseSection() {
