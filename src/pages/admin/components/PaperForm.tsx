@@ -1,6 +1,11 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '../../../components/ui/Button'
 import { paperCategories, type Paper, type PaperInput } from '../../../types/paper'
+import {
+  formatFileSize,
+  formatTagsInput,
+  parseTagsInput,
+} from '../../../utils/papers'
 
 type PaperFormProps = {
   initial?: Paper
@@ -10,30 +15,107 @@ type PaperFormProps = {
 
 const emptyInput: PaperInput = {
   title: '',
+  excerpt: '',
   date: new Date().toISOString().slice(0, 10),
   category: 'Research Paper',
   access: 'Public',
+  tags: [],
 }
 
 const inputClassName =
   'w-full rounded-xl border border-navy/15 bg-white px-4 py-3 text-sm text-navy outline-none transition focus:border-accent'
+
+function readFileAsDataUrl(file: File, errorMessage: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(String(reader.result))
+    reader.onerror = () => reject(new Error(errorMessage))
+    reader.readAsDataURL(file)
+  })
+}
 
 export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
   const [form, setForm] = useState<PaperInput>(() =>
     initial
       ? {
           title: initial.title,
+          excerpt: initial.excerpt ?? '',
           date: initial.date,
           category: initial.category,
           access: initial.access,
+          tags: initial.tags ?? [],
+          fileSize: initial.fileSize,
+          thumbnailDataUrl: initial.thumbnailDataUrl,
+          thumbnailFileName: initial.thumbnailFileName,
+          pdfDataUrl: initial.pdfDataUrl,
+          pdfFileName: initial.pdfFileName,
         }
       : emptyInput,
   )
+  const [tagsInput, setTagsInput] = useState(() => formatTagsInput(initial?.tags))
+  const [isUploading, setIsUploading] = useState(false)
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
-    if (!form.title.trim()) return
-    onSubmit({ ...form, title: form.title.trim() })
+    if (!form.title.trim() || !form.excerpt?.trim()) return
+
+    const tags = parseTagsInput(tagsInput)
+    const input: PaperInput = {
+      ...form,
+      title: form.title.trim(),
+      excerpt: form.excerpt.trim(),
+      tags: tags.length > 0 ? tags : undefined,
+      fileSize: form.fileSize?.trim() || undefined,
+    }
+
+    onSubmit(input)
+  }
+
+  async function handlePdfSelect(file: File | null) {
+    if (!file) return
+    if (file.type !== 'application/pdf') return
+
+    setIsUploading(true)
+    try {
+      const dataUrl = await readFileAsDataUrl(file, 'Unable to read PDF file')
+      setForm((prev) => ({
+        ...prev,
+        pdfDataUrl: dataUrl,
+        pdfFileName: file.name,
+        fileSize: formatFileSize(file.size),
+      }))
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  async function handleThumbnailSelect(file: File | null) {
+    if (!file) return
+    if (!file.type.startsWith('image/')) return
+
+    const dataUrl = await readFileAsDataUrl(file, 'Unable to read thumbnail image')
+    setForm((prev) => ({
+      ...prev,
+      thumbnailDataUrl: dataUrl,
+      thumbnailFileName: file.name,
+    }))
+  }
+
+  function handleRemoveThumbnail() {
+    setForm((prev) => ({
+      ...prev,
+      thumbnailDataUrl: undefined,
+      thumbnailFileName: undefined,
+    }))
+  }
+
+  function handleRemovePdf() {
+    setForm((prev) => ({
+      ...prev,
+      pdfDataUrl: undefined,
+      pdfFileName: undefined,
+      fileSize: undefined,
+    }))
   }
 
   return (
@@ -45,7 +127,7 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
         {initial ? 'Edit Paper' : 'Add New Paper'}
       </h3>
       <p className="mt-1 text-sm text-navy/60">
-        Papers added here will appear in the document library on the public site.
+        Fields below match how papers appear in the document library cards.
       </p>
 
       <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -61,14 +143,15 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
           />
         </label>
 
-        <label className="block">
-          <span className="mb-2 block text-sm font-medium text-navy">Date</span>
-          <input
-            type="date"
+        <label className="block md:col-span-2">
+          <span className="mb-2 block text-sm font-medium text-navy">Excerpt</span>
+          <textarea
             required
-            value={form.date}
-            onChange={(event) => setForm((prev) => ({ ...prev, date: event.target.value }))}
-            className={inputClassName}
+            rows={3}
+            value={form.excerpt ?? ''}
+            onChange={(event) => setForm((prev) => ({ ...prev, excerpt: event.target.value }))}
+            placeholder="Short summary shown under the title on library cards"
+            className={`${inputClassName} resize-y`}
           />
         </label>
 
@@ -90,6 +173,20 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
               </option>
             ))}
           </select>
+          <p className="mt-1.5 text-xs text-navy/50">
+            Reports appear under the Blog tab on the library page.
+          </p>
+        </label>
+
+        <label className="block">
+          <span className="mb-2 block text-sm font-medium text-navy">Publish date</span>
+          <input
+            type="date"
+            required
+            value={form.date}
+            onChange={(event) => setForm((prev) => ({ ...prev, date: event.target.value }))}
+            className={inputClassName}
+          />
         </label>
 
         <label className="block md:col-span-2">
@@ -116,6 +213,99 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
               </label>
             ))}
           </div>
+        </label>
+
+        <label className="block md:col-span-2">
+          <span className="mb-2 block text-sm font-medium text-navy">Tags</span>
+          <input
+            type="text"
+            value={tagsInput}
+            onChange={(event) => setTagsInput(event.target.value)}
+            placeholder="Machine Learning, Climate Science"
+            className={inputClassName}
+          />
+          <p className="mt-1.5 text-xs text-navy/50">
+            Comma-separated. Up to two tags show on library cards, with a +N indicator for more.
+          </p>
+        </label>
+
+        <label className="block md:col-span-2">
+          <span className="mb-2 block text-sm font-medium text-navy">Thumbnail image</span>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => void handleThumbnailSelect(event.target.files?.[0] ?? null)}
+            className={inputClassName}
+          />
+          <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-navy/60">
+            <span>
+              {form.thumbnailFileName
+                ? `Attached: ${form.thumbnailFileName}`
+                : 'No thumbnail attached yet'}
+            </span>
+            {form.thumbnailDataUrl && (
+              <button
+                type="button"
+                onClick={handleRemoveThumbnail}
+                className="rounded-full border border-navy/15 px-3 py-1 text-xs text-navy transition hover:border-navy/30"
+              >
+                Remove thumbnail
+              </button>
+            )}
+          </div>
+          {form.thumbnailDataUrl && (
+            <img
+              src={form.thumbnailDataUrl}
+              alt="Paper thumbnail preview"
+              className="mt-3 h-32 w-48 rounded-lg border border-navy/10 object-cover"
+            />
+          )}
+          <p className="mt-1.5 text-xs text-navy/50">
+            This image appears at the top of library cards.
+          </p>
+        </label>
+
+        <label className="block md:col-span-2">
+          <span className="mb-2 block text-sm font-medium text-navy">Paper PDF</span>
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(event) => void handlePdfSelect(event.target.files?.[0] ?? null)}
+            className={inputClassName}
+          />
+          <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-navy/60">
+            <span>
+              {isUploading
+                ? 'Uploading PDF...'
+                : form.pdfFileName
+                  ? `Attached: ${form.pdfFileName}`
+                  : 'No PDF attached yet'}
+            </span>
+            {form.fileSize && <span>File size: {form.fileSize}</span>}
+            {form.pdfDataUrl && (
+              <button
+                type="button"
+                onClick={handleRemovePdf}
+                className="rounded-full border border-navy/15 px-3 py-1 text-xs text-navy transition hover:border-navy/30"
+              >
+                Remove PDF
+              </button>
+            )}
+          </div>
+        </label>
+
+        <label className="block md:col-span-2">
+          <span className="mb-2 block text-sm font-medium text-navy">File size (optional)</span>
+          <input
+            type="text"
+            value={form.fileSize ?? ''}
+            onChange={(event) => setForm((prev) => ({ ...prev, fileSize: event.target.value }))}
+            placeholder="Auto-filled when you upload a PDF, e.g. 2.4 MB"
+            className={inputClassName}
+          />
+          <p className="mt-1.5 text-xs text-navy/50">
+            Shown next to the publish date on library cards.
+          </p>
         </label>
       </div>
 

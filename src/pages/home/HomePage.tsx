@@ -1,5 +1,6 @@
-import { Footer } from '../../components/layout/Footer'
 import { Navbar } from '../../components/layout/Navbar'
+import { SiteClosing } from '../../components/layout/SiteClosing'
+import { TestimonialsSection } from '../../components/sections/TestimonialsSection'
 import { AboutSection } from './components/AboutSection'
 import { AffiliationsSection } from './components/AffiliationsSection'
 import { BlogsSection } from './components/BlogsSection'
@@ -7,8 +8,6 @@ import { DocumentLibrarySection } from './components/DocumentLibrarySection'
 import { ExperienceSection } from './components/ExperienceSection'
 import { ExpertiseSection } from './components/ExpertiseSection'
 import { HeroSection } from './components/HeroSection'
-import { NewsletterSection } from './components/NewsletterSection'
-import { TestimonialsSection } from './components/TestimonialsSection'
 
 export function HomePage() {
   return (
@@ -23,9 +22,8 @@ export function HomePage() {
         <ExperienceSection />
         <BlogsSection />
         <TestimonialsSection />
-        <NewsletterSection />
       </main>
-      <Footer />
+      <SiteClosing />
     </div>
   )
 }

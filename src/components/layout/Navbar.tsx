@@ -4,6 +4,8 @@ import { navLinks } from '../../pages/home/data/homeContent'
 
 function isNavActive(href: string, pathname: string) {
   if (href === '/') return pathname === '/'
+  if (href === '/about') return pathname === '/about'
+  if (href === '/library') return pathname === '/library'
   if (href === '/blogs') return pathname.startsWith('/blogs')
   if (href === '/contact') return pathname === '/contact'
   return false

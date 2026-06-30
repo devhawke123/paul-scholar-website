@@ -4,17 +4,12 @@ import { usePapers } from '../../../hooks/usePapers'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import type { Paper, PaperInput } from '../../../types/paper'
+import {
+  formatPaperDate,
+  getPaperExcerpt,
+  getPaperTags,
+} from '../../../utils/papers'
 import { PaperForm } from './PaperForm'
-
-function formatPaperDate(date: string) {
-  const parsed = new Date(date)
-  if (Number.isNaN(parsed.getTime())) return date
-  return parsed.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
 
 export function PapersManager() {
   const papers = usePapers()
@@ -51,8 +46,8 @@ export function PapersManager() {
           <div>
             <h1 className="text-3xl font-bold text-navy md:text-4xl">Manage Papers</h1>
             <p className="mt-2 max-w-2xl text-base text-navy/70">
-              Add, update, or remove research papers and publications. Changes are saved locally
-              for now and will power the library and other pages later.
+              Add, update, or remove research papers and publications. Changes appear on the
+              document library page.
             </p>
           </div>
           {!showForm && (
@@ -92,19 +87,45 @@ export function PapersManager() {
             </div>
           ) : (
             <ul className="divide-y divide-navy/10">
-              {papers.map((paper) => (
-                <li
-                  key={paper.id}
-                  className="flex flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between"
-                >
-                  <div className="flex gap-4">
-                    <span className="mt-1 text-navy/40" aria-hidden>
-                      📄
-                    </span>
-                    <div>
-                      <h3 className="font-medium text-navy">{paper.title}</h3>
-                      <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-navy/60">
-                        <span>{formatPaperDate(paper.date)}</span>
+              {papers.map((paper) => {
+                const tags = getPaperTags(paper)
+                const visibleTags = tags.slice(0, 2)
+                const hiddenTagCount = tags.length - visibleTags.length
+
+                return (
+                  <li
+                    key={paper.id}
+                    className="flex flex-col gap-4 px-6 py-6 md:flex-row md:items-start md:justify-between"
+                  >
+                    <div className="min-w-0 flex-1 space-y-3">
+                      <div>
+                        <h3 className="font-medium text-navy">{paper.title}</h3>
+                        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-navy/65">
+                          {getPaperExcerpt(paper)}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {visibleTags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-md bg-navy/5 px-2.5 py-1 text-xs font-medium text-navy/80"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {hiddenTagCount > 0 && (
+                          <span className="rounded-md bg-navy/5 px-2.5 py-1 text-xs font-medium text-navy/80">
+                            +{hiddenTagCount}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-navy/60">
+                        <span className="inline-flex items-center gap-1.5">
+                          <span aria-hidden>📅</span>
+                          {formatPaperDate(paper.date)}
+                        </span>
                         <span className="rounded-full bg-navy/5 px-3 py-0.5 text-xs">
                           {paper.category}
                         </span>
@@ -117,31 +138,51 @@ export function PapersManager() {
                         >
                           {paper.access}
                         </span>
+                        <span className="inline-flex items-center gap-1.5 text-xs">
+                          <span aria-hidden>📎</span>
+                          {paper.fileSize ?? '—'}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1.5 text-xs font-medium ${
+                            paper.pdfDataUrl ? 'text-green-700' : 'text-navy/40'
+                          }`}
+                        >
+                          <span aria-hidden>📄</span>
+                          {paper.pdfDataUrl ? 'PDF attached' : 'No PDF'}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1.5 text-xs font-medium ${
+                            paper.thumbnailDataUrl ? 'text-green-700' : 'text-navy/40'
+                          }`}
+                        >
+                          <span aria-hidden>🖼️</span>
+                          {paper.thumbnailDataUrl ? 'Thumbnail attached' : 'No thumbnail'}
+                        </span>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-2 md:shrink-0">
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setEditingPaper(paper)
-                        setShowForm(true)
-                      }}
-                      className="h-10 rounded-full px-5 text-sm"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleDelete(paper)}
-                      className="h-10 rounded-full px-5 text-sm text-red-700 hover:text-red-800"
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </li>
-              ))}
+                    <div className="flex items-center gap-2 md:shrink-0">
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setEditingPaper(paper)
+                          setShowForm(true)
+                        }}
+                        className="h-10 rounded-full px-5 text-sm"
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={() => handleDelete(paper)}
+                        className="h-10 rounded-full px-5 text-sm text-red-700 hover:text-red-800"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </li>
+                )
+              })}
             </ul>
           )}
         </div>

@@ -1,17 +1,19 @@
 import { useMemo, useState } from 'react'
-import { Footer } from '../../components/layout/Footer'
 import { Navbar } from '../../components/layout/Navbar'
+import { SiteClosing } from '../../components/layout/SiteClosing'
 import { SectionBadge } from '../../components/ui/SectionBadge'
-import { blogCategories, blogPosts } from '../../data/blogs'
+import { blogCategories } from '../../data/blogs'
+import { useBlogs } from '../../hooks/useBlogs'
 import { BlogCard } from './components/BlogCard'
 
 export function BlogsPage() {
+  const blogs = useBlogs()
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [search, setSearch] = useState('')
 
   const filteredPosts = useMemo(() => {
     const query = search.trim().toLowerCase()
-    return blogPosts.filter((post) => {
+    return blogs.filter((post) => {
       if (activeCategory !== 'All' && post.category !== activeCategory) return false
       if (!query) return true
       return (
@@ -20,7 +22,7 @@ export function BlogsPage() {
         post.category.toLowerCase().includes(query)
       )
     })
-  }, [activeCategory, search])
+  }, [activeCategory, blogs, search])
 
   return (
     <div className="min-h-screen bg-cream text-navy">
@@ -79,7 +81,7 @@ export function BlogsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <SiteClosing />
     </div>
   )
 }

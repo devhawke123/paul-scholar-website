@@ -1,5 +1,5 @@
-import { documents } from '../pages/home/data/homeContent'
-import type { Paper, PaperCategory, PaperInput } from '../types/paper'
+import { seedDocuments } from './paperSeedData'
+import type { Paper, PaperInput } from '../types/paper'
 
 const STORAGE_KEY = 'paul-scholar-papers'
 const PAPERS_UPDATED_EVENT = 'papers-updated'
@@ -11,12 +11,15 @@ function toIsoDate(date: string): string {
 }
 
 function seedPapers(): Paper[] {
-  return documents.map((doc, index) => ({
+  return seedDocuments.map((doc, index) => ({
     id: `paper-${index + 1}`,
     title: doc.title,
     date: toIsoDate(doc.date),
-    category: doc.category as PaperCategory,
+    category: doc.category,
     access: doc.access,
+    excerpt: doc.excerpt,
+    tags: doc.tags,
+    fileSize: doc.fileSize,
   }))
 }
 

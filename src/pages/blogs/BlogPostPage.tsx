@@ -1,19 +1,21 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { Footer } from '../../components/layout/Footer'
 import { Navbar } from '../../components/layout/Navbar'
+import { SiteClosing } from '../../components/layout/SiteClosing'
 import { SectionBadge } from '../../components/ui/SectionBadge'
-import { blogPosts, formatBlogDate, getBlogBySlug } from '../../data/blogs'
+import { formatBlogDate, getBlogBySlug, getBlogImage } from '../../data/blogs'
+import { useBlogs } from '../../hooks/useBlogs'
 import { BlogCard } from './components/BlogCard'
 
 export function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>()
+  const blogs = useBlogs()
   const post = slug ? getBlogBySlug(slug) : undefined
 
   if (!post) {
     return <Navigate to="/blogs" replace />
   }
 
-  const relatedPosts = blogPosts.filter((item) => item.slug !== post.slug).slice(0, 2)
+  const relatedPosts = blogs.filter((item) => item.slug !== post.slug).slice(0, 2)
 
   return (
     <div className="min-h-screen bg-cream text-navy">
@@ -37,7 +39,7 @@ export function BlogPostPage() {
             </h1>
 
             <img
-              src={post.image}
+              src={getBlogImage(post.imageKey)}
               alt={post.title}
               className="mt-8 aspect-[16/9] w-full rounded-2xl object-cover"
             />
@@ -50,7 +52,10 @@ export function BlogPostPage() {
 
             <div className="prose-navy mt-8 space-y-6">
               {post.body.map((paragraph) => (
-                <p key={paragraph.slice(0, 40)} className="text-base leading-relaxed text-navy/80 md:text-lg">
+                <p
+                  key={paragraph.slice(0, 40)}
+                  className="text-base leading-relaxed text-navy/80 md:text-lg"
+                >
                   {paragraph}
                 </p>
               ))}
@@ -71,7 +76,7 @@ export function BlogPostPage() {
           </section>
         )}
       </main>
-      <Footer />
+      <SiteClosing />
     </div>
   )
 }

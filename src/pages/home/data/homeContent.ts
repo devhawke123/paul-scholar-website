@@ -1,7 +1,7 @@
 export const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '/#about' },
-  { label: 'Library', href: '/#library' },
+  { label: 'About', href: '/about' },
+  { label: 'Library', href: '/library' },
   { label: 'Blogs', href: '/blogs' },
   { label: 'Contact', href: '/contact' },
 ] as const
@@ -132,16 +132,3 @@ export const experienceCards = [
       'Delivering specialized research and consulting services to major international entities, including the European Commission and various global NGOs.',
   },
 ] as const
-
-export const footerLinks = {
-  company: ['About', 'Contact', 'Career'],
-  support: ['Help Center', 'Documentation', 'FAQ'],
-  strategic: [
-    'Systemic Manpower Planning',
-    'Complexity Management',
-    'Adaptive Governance',
-    'Managerial Cybernetics (Advanced)',
-    'Institutional Resilience',
-  ],
-  legal: ['Terms of Use', 'Privacy Policy', 'Cookie Policy'],
-} as const

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { aboutIcons } from '../data/aboutAssets'
@@ -91,7 +92,9 @@ export function AboutSection() {
           </div>
 
           <div className="mt-8 flex justify-end">
-            <Button className="rounded-full px-10">Explore More</Button>
+            <Link to="/about">
+              <Button className="rounded-full px-10">Explore More</Button>
+            </Link>
           </div>
         </div>
       </div>

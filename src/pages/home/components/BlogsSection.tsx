@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
-import { blogPosts } from '../../../data/blogs'
+import { useBlogs } from '../../../hooks/useBlogs'
 import { BlogCard } from '../../blogs/components/BlogCard'
 
 export function BlogsSection() {
-  const featuredPosts = blogPosts.slice(0, 2)
+  const blogs = useBlogs()
+  const featuredPosts = blogs.slice(0, 2)
 
   return (
     <section id="blogs" className="bg-cream px-4 py-20 md:px-11">

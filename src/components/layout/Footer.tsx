@@ -1,5 +1,5 @@
 import { Button } from '../ui/Button'
-import { footerLinks } from '../../pages/home/data/homeContent'
+import { footerContent, footerLinks } from '../../data/footerContent'
 
 const socialIcons = [
   { label: 'Facebook', path: 'M14 8h2V6h-2v2zm0 4h2v-6h-2v6zM8 8h2V6H8v2zm0 4h2v-6H8v6z' },
@@ -38,16 +38,16 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
             <h2 className="text-2xl font-bold tracking-wide text-navy">
-              Dr. Paul A. Stokes
+              {footerContent.brand}
             </h2>
             <p className="mt-6 text-sm leading-relaxed text-navy/80">
-              Feel free to call or email me
+              {footerContent.contactLines[0]}
               <br />
-              for any kind of query.
+              {footerContent.contactLines[1]}
             </p>
             <div className="mt-4 space-y-2 text-sm text-navy/80">
-              <p>087-7915106</p>
-              <p>abc@gmail.com</p>
+              <p>{footerContent.phone}</p>
+              <p>{footerContent.email}</p>
             </div>
             <div className="mt-6 flex gap-4">
               {socialIcons.map((icon) => (
@@ -77,23 +77,23 @@ export function Footer() {
 
           <div>
             <h3 className="mb-4 text-base font-bold tracking-wide text-navy">
-              Subscribe to Newsletter
+              {footerContent.newsletterHeading}
             </h3>
             <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={footerContent.newsletterPlaceholder}
                 className="w-full rounded-[10px] border border-navy/20 px-4 py-2.5 text-sm text-navy outline-none focus:border-accent"
               />
               <Button className="w-full rounded-[10px] bg-[#ffb35c] py-2.5 hover:bg-[#ffb35c]/90">
-                Subscribe
+                {footerContent.newsletterSubmitLabel}
               </Button>
             </form>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-navy/20 pt-8 text-xs text-navy/70 md:flex-row md:items-center md:justify-between">
-          <p>Copyright © 2026 Dr. Paul A. Stokes. All rights reserved.</p>
+          <p>{footerContent.copyright}</p>
           <div className="flex flex-wrap gap-6">
             {footerLinks.legal.map((link) => (
               <a key={link} href="#" className="transition-colors hover:text-navy">

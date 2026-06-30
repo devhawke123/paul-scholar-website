@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { blogAuthorAvatar } from '../../../data/blogAssets'
-import { formatBlogDate } from '../../../data/blogs'
+import { formatBlogDate, getBlogImage } from '../../../data/blogs'
 import type { BlogPost } from '../../../types/blog'
 
 type BlogCardProps = {
@@ -12,7 +12,7 @@ export function BlogCard({ post }: BlogCardProps) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-sm">
       <img
-        src={post.image}
+        src={getBlogImage(post.imageKey)}
         alt={post.title}
         className="aspect-[585/339] w-full object-cover"
       />

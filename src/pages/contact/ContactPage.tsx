@@ -1,6 +1,5 @@
-import { Footer } from '../../components/layout/Footer'
 import { Navbar } from '../../components/layout/Navbar'
-import { NewsletterSection } from '../home/components/NewsletterSection'
+import { SiteClosing } from '../../components/layout/SiteClosing'
 import { ContactFaqSection } from './components/ContactFaqSection'
 import { ContactFormSection } from './components/ContactFormSection'
 import { ContactHeroSection } from './components/ContactHeroSection'
@@ -13,9 +12,8 @@ export function ContactPage() {
         <ContactHeroSection />
         <ContactFormSection />
         <ContactFaqSection />
-        <NewsletterSection />
       </main>
-      <Footer />
+      <SiteClosing />
     </div>
   )
 }

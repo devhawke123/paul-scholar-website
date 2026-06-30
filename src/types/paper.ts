@@ -16,6 +16,13 @@ export type Paper = {
   date: string
   category: PaperCategory
   access: PaperAccess
+  excerpt?: string
+  tags?: string[]
+  fileSize?: string
+  thumbnailDataUrl?: string
+  thumbnailFileName?: string
+  pdfDataUrl?: string
+  pdfFileName?: string
 }
 
 export type PaperInput = Omit<Paper, 'id'>
