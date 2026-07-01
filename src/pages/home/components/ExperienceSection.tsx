@@ -13,7 +13,7 @@ export function ExperienceSection() {
         className="pointer-events-none absolute left-2 top-16 w-20 opacity-90 md:left-8 md:w-24"
       />
 
-      <div className="relative mx-auto max-w-[1350px] overflow-hidden rounded-[32px] bg-gradient-to-br from-[#efb04a] via-[#f5c47a] to-[#fde8c8] px-6 py-10 shadow-sm md:px-12 md:py-14">
+      <div className="relative mx-auto max-w-[1350px] overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-12 md:py-14">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-16">
           <div>
             <SectionBadge label="Work & Experience" />

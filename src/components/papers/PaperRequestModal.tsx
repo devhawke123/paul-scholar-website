@@ -32,8 +32,12 @@ export function PaperRequestModal({ paper, onClose }: Props) {
         reason: reason.trim(),
       })
       setStatus('success')
-    } catch {
-      setErrorMsg('Failed to send request. Please try again.')
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Failed to send request. Please try again.'
+      setErrorMsg(message)
       setStatus('error')
     }
   }

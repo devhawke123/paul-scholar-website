@@ -1,7 +1,10 @@
+import { siteContact } from '../../../data/siteContact'
+
 export const contactInfo = {
-  phone: '087-7915106',
+  phone: siteContact.displayPhone,
   email: 'abc@gmail.com',
-  displayPhone: '087-7915106',
+  displayPhone: siteContact.displayPhone,
+  whatsappHref: siteContact.whatsappHref,
 } as const
 
 export const contactFaqs = [

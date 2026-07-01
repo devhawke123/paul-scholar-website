@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { Navbar } from '../../components/layout/Navbar'
 import { SiteClosing } from '../../components/layout/SiteClosing'
+import { PageHero } from '../../components/sections/PageHero'
 import { SectionBadge } from '../../components/ui/SectionBadge'
 import { blogCategories } from '../../data/blogs'
+import { pageHeroContent } from '../../data/pageHeroContent'
 import { useBlogs } from '../../hooks/useBlogs'
 import { BlogCard } from './components/BlogCard'
 
@@ -28,13 +30,14 @@ export function BlogsPage() {
     <div className="min-h-screen bg-cream text-navy">
       <Navbar />
       <main>
-        <section className="px-4 py-16 md:px-11 md:py-20">
+        <PageHero {...pageHeroContent.blogs} />
+
+        <section id="articles" className="px-4 py-16 md:px-11 md:py-20">
           <div className="mx-auto max-w-[1154px]">
             <SectionBadge label="Insights & Blogs" />
-            <h1 className="mt-6 text-3xl font-bold text-navy md:text-5xl">Insights & Blogs</h1>
+            <h2 className="mt-6 text-3xl font-bold text-navy md:text-5xl">Latest Articles</h2>
             <p className="mt-3 max-w-2xl text-base text-navy/70 md:text-lg">
-              Strategic perspectives on managerial cybernetics, systems thinking, and building
-              institutions that thrive on complexity.
+              Filter by category or search for topics that matter to your organization.
             </p>
 
             <div className="relative mt-8">

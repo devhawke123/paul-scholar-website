@@ -11,7 +11,7 @@ import { HeroSection } from './components/HeroSection'
 
 export function HomePage() {
   return (
-    <div className="min-h-screen bg-cream text-navy">
+    <div className="min-h-screen overflow-x-hidden bg-cream text-navy">
       <Navbar />
       <main>
         <HeroSection />

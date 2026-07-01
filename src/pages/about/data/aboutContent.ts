@@ -1,10 +1,3 @@
-export const aboutHero = {
-  title: 'About',
-  subtitle:
-    'Stay informed with the latest insights, stories, and program updates. We regularly share useful information to support your journey. Keep track of what’s new and relevant.',
-  cta: 'Request Private Consultation',
-} as const
-
 export const educationIntro = {
   badge: 'Education',
   title: 'Scholar of Organizational Thought & Managerial Cybernetics',
@@ -78,13 +71,13 @@ export const careerAchievements = {
       title: 'Research Leadership',
       description:
         'Led interdisciplinary research initiatives bridging managerial cybernetics, systems design, and institutional governance across public and private sectors.',
-      featured: false,
+      featured: true,
     },
     {
       title: 'Academic Excellence',
       description:
         'Sixteen years shaping future leaders through organizational theory, sociological economics, and rigorous systems-thinking in higher education.',
-      featured: false,
+      featured: true,
     },
     {
       title: 'Strategic Advisory Impact',
@@ -96,13 +89,13 @@ export const careerAchievements = {
       title: 'Published Scholarship',
       description:
         'Authored extensive research and industry insights spanning managerial cybernetics, complexity management, and institutional resilience.',
-      featured: false,
+      featured: true,
     },
     {
       title: 'Industry Collaboration',
       description:
         'Ten years leading consulting and technology ventures, translating cybernetic principles into practical organizational strategy.',
-      featured: false,
+      featured: true,
     },
   ],
 } as const

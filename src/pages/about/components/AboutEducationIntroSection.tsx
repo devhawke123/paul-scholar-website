@@ -1,3 +1,4 @@
+import { aboutIcons } from '../../home/data/aboutAssets'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { aboutPageAssets } from '../data/aboutPageAssets'
 import { educationIntro } from '../data/aboutContent'
@@ -20,25 +21,34 @@ export function AboutEducationIntroSection() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[528px]">
+        <div className="relative mx-auto aspect-[528/640] w-full max-w-[528px]">
           <div
-            className="absolute right-0 top-0 h-[88%] w-[88%] rounded-3xl bg-gradient-to-br from-[#f0a03d] via-[#f7b85a] to-[#fdd89a]"
             aria-hidden
+            className="absolute left-10 top-0 h-[72%] w-[90%] rounded-[60px] rounded-tl-[16px] bg-gradient-warm sm:rounded-tl-[120px]"
           />
-          <div className="relative ml-8 mt-8 aspect-[464/580] w-[82%] overflow-hidden rounded-3xl shadow-md">
+
+          <div className="absolute right-3 top-[16%] z-[1] aspect-[464/580] w-[78%] overflow-hidden  shadow-md sm:top-[14%] sm:w-[71%] sm:rounded-[18px]">
             <img
               src={aboutPageAssets.portraitMain}
               alt="Dr. Paul A. Stokes"
               className="size-full object-cover object-top"
             />
           </div>
-          <div className="absolute bottom-4 left-0 aspect-[288/255] w-[55%] overflow-hidden rounded-2xl shadow-sm">
+
+          <div className="absolute bottom-[8%] -left-10 z-[2] aspect-[388/305] w-[44%] overflow-hidden shadow-lg sm:bottom-[13%] sm:w-[50%] sm:rounded-[15px]">
             <img
               src={aboutPageAssets.portraitAccent}
               alt=""
-              className="size-full object-cover"
+              className="size-full object-cover object-center"
             />
           </div>
+
+          <img
+            src={aboutIcons.decorativeVector}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute bottom-[2%] right-[2%]  w-[72px] opacity-95 sm:bottom-[4%] sm:right-4 sm:w-[90px]"
+          />
         </div>
       </div>
     </section>

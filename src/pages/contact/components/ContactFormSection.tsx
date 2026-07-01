@@ -30,14 +30,18 @@ export function ContactFormSection() {
       })
       setStatus('success')
       formRef.current?.reset()
-    } catch {
-      setErrorMsg('Something went wrong. Please try again or email us directly.')
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again or email us directly.'
+      setErrorMsg(message)
       setStatus('error')
     }
   }
 
   return (
-    <section className="bg-cream px-4 py-16 md:px-11 md:py-20">
+    <section id="get-in-touch" className="bg-cream px-4 py-16 md:px-11 md:py-20">
       <div className="mx-auto max-w-[1280px]">
         <h2 className="text-3xl font-bold text-navy md:text-5xl">Get in Touch</h2>
 

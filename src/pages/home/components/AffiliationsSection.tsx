@@ -45,7 +45,7 @@ export function AffiliationsSection() {
           </p>
         </div>
 
-        <div className="mt-22 grid gap-6 md:grid-cols-3 md:items-end md:gap-6">
+        <div className="mt-12 grid gap-6 sm:mt-16 md:mt-20 md:grid-cols-3 md:items-end md:gap-6">
           {affiliations.map((item) => {
             const isFeatured = 'featured' in item && item.featured
 
@@ -67,7 +67,7 @@ export function AffiliationsSection() {
                   className={`px-6 py-8 text-center md:px-8 ${
                     isFeatured
                       ? 'bg-accent pb-10 md:pb-14 lg:pb-16'
-                      : 'bg-[#f9d5b0]'
+                      : 'bg-peach-surface'
                   }`}
                 >
                   <h3 className="text-xl font-bold text-navy md:text-2xl">{item.title}</h3>

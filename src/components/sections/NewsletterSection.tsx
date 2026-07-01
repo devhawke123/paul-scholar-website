@@ -2,7 +2,7 @@ import { newsletterContent } from '../../data/newsletterContent'
 
 export function NewsletterSection() {
   return (
-    <section className="bg-[#ffcc8f] px-4 py-16 md:px-11 md:py-20">
+    <section className="bg-peach-banner px-4 py-16 md:px-11 md:py-20">
       <div className="mx-auto max-w-[908px] text-center">
         <h2 className="text-2xl font-bold text-navy md:text-4xl md:leading-tight">
           {newsletterContent.heading}
