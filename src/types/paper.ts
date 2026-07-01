@@ -19,9 +19,9 @@ export type Paper = {
   excerpt?: string
   tags?: string[]
   fileSize?: string
-  thumbnailDataUrl?: string
+  thumbnailUrl?: string
   thumbnailFileName?: string
-  pdfDataUrl?: string
+  pdfUrl?: string
   pdfFileName?: string
 }
 

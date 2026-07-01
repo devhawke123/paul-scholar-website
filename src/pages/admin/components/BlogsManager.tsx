@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { addBlog, deleteBlog, formatBlogDate, updateBlog } from '../../../data/blogsStore'
+import { createBlog, deleteBlog, updateBlog, formatBlogDate } from '../../../services/blogs'
 import { useBlogs } from '../../../hooks/useBlogs'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
@@ -7,7 +7,7 @@ import type { BlogInput, BlogPost } from '../../../types/blog'
 import { BlogForm } from './BlogForm'
 
 export function BlogsManager() {
-  const blogs = useBlogs()
+  const { data: blogs, refetch } = useBlogs()
   const [showForm, setShowForm] = useState(false)
   const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null)
 
@@ -16,20 +16,23 @@ export function BlogsManager() {
     setEditingBlog(null)
   }
 
-  function handleAdd(input: BlogInput) {
-    addBlog(input)
+  async function handleAdd(input: BlogInput) {
+    await createBlog(input)
+    await refetch()
     closeForm()
   }
 
-  function handleUpdate(input: BlogInput) {
+  async function handleUpdate(input: BlogInput) {
     if (!editingBlog) return
-    updateBlog(editingBlog.id, input)
+    await updateBlog(editingBlog.id, input)
+    await refetch()
     closeForm()
   }
 
-  function handleDelete(blog: BlogPost) {
+  async function handleDelete(blog: BlogPost) {
     if (!window.confirm(`Delete "${blog.title}"?`)) return
-    deleteBlog(blog.id)
+    await deleteBlog(blog.id)
+    await refetch()
     if (editingBlog?.id === blog.id) closeForm()
   }
 
@@ -118,7 +121,7 @@ export function BlogsManager() {
                     </Button>
                     <Button
                       variant="ghost"
-                      onClick={() => handleDelete(blog)}
+                      onClick={() => void handleDelete(blog)}
                       className="h-10 rounded-full px-5 text-sm text-red-700 hover:text-red-800"
                     >
                       Delete

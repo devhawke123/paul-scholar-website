@@ -97,7 +97,7 @@ function hashString(value: string): number {
 }
 
 export function getPaperThumbnail(paper: Paper): string {
-  if (paper.thumbnailDataUrl) return paper.thumbnailDataUrl
+  if (paper.thumbnailUrl) return paper.thumbnailUrl
   const key = `${paper.id}:${paper.title}`
   const index = hashString(key) % defaultPaperThumbnails.length
   return defaultPaperThumbnails[index]

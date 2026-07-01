@@ -5,7 +5,7 @@ import { useBlogs } from '../../../hooks/useBlogs'
 import { BlogCard } from '../../blogs/components/BlogCard'
 
 export function BlogsSection() {
-  const blogs = useBlogs()
+  const { data: blogs } = useBlogs()
   const featuredPosts = blogs.slice(0, 2)
 
   return (

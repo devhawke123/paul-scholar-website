@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { blogImages } from '../../../data/blogAssets'
-import { slugifyTitle } from '../../../data/blogsStore'
+import { slugifyTitle } from '../../../services/blogs'
 import { Button } from '../../../components/ui/Button'
 import { blogPostCategories, type BlogInput, type BlogPost } from '../../../types/blog'
 

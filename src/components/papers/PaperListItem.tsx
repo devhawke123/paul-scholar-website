@@ -30,10 +30,11 @@ export function PaperListItem({ paper }: PaperListItemProps) {
         >
           {paper.access}
         </span>
-        {paper.pdfDataUrl ? (
+        {paper.pdfUrl ? (
           <a
-            href={paper.pdfDataUrl}
-            download={paper.pdfFileName || `${paper.title}.pdf`}
+            href={paper.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label={`Download ${paper.title}`}
             className="flex size-10 items-center justify-center rounded-lg border border-navy/10 text-navy transition hover:border-accent hover:text-accent"
           >

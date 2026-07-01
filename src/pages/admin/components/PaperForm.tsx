@@ -9,33 +9,31 @@ import {
 
 type PaperFormProps = {
   initial?: Paper
-  onSubmit: (input: PaperInput) => void
+  onSubmit: (
+    input: PaperInput,
+    files: { thumbnailFile?: File; pdfFile?: File },
+  ) => Promise<void>
   onCancel: () => void
 }
 
-const emptyInput: PaperInput = {
-  title: '',
-  excerpt: '',
-  date: new Date().toISOString().slice(0, 10),
-  category: 'Research Paper',
-  access: 'Public',
-  tags: [],
+type FormFields = {
+  title: string
+  excerpt: string
+  date: string
+  category: PaperInput['category']
+  access: PaperInput['access']
+  fileSize?: string
+  thumbnailUrl?: string
+  thumbnailFileName?: string
+  pdfUrl?: string
+  pdfFileName?: string
 }
 
 const inputClassName =
   'w-full rounded-xl border border-navy/15 bg-white px-4 py-3 text-sm text-navy outline-none transition focus:border-accent'
 
-function readFileAsDataUrl(file: File, errorMessage: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(String(reader.result))
-    reader.onerror = () => reject(new Error(errorMessage))
-    reader.readAsDataURL(file)
-  })
-}
-
 export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
-  const [form, setForm] = useState<PaperInput>(() =>
+  const [form, setForm] = useState<FormFields>(() =>
     initial
       ? {
           title: initial.title,
@@ -43,84 +41,97 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
           date: initial.date,
           category: initial.category,
           access: initial.access,
-          tags: initial.tags ?? [],
           fileSize: initial.fileSize,
-          thumbnailDataUrl: initial.thumbnailDataUrl,
+          thumbnailUrl: initial.thumbnailUrl,
           thumbnailFileName: initial.thumbnailFileName,
-          pdfDataUrl: initial.pdfDataUrl,
+          pdfUrl: initial.pdfUrl,
           pdfFileName: initial.pdfFileName,
         }
-      : emptyInput,
+      : {
+          title: '',
+          excerpt: '',
+          date: new Date().toISOString().slice(0, 10),
+          category: 'Research Paper',
+          access: 'Public',
+        },
   )
   const [tagsInput, setTagsInput] = useState(() => formatTagsInput(initial?.tags))
-  const [isUploading, setIsUploading] = useState(false)
+  const [thumbnailFile, setThumbnailFile] = useState<File | undefined>()
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | undefined>(
+    initial?.thumbnailUrl,
+  )
+  const [pdfFile, setPdfFile] = useState<File | undefined>()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     if (!form.title.trim() || !form.excerpt?.trim()) return
 
     const tags = parseTagsInput(tagsInput)
     const input: PaperInput = {
-      ...form,
       title: form.title.trim(),
       excerpt: form.excerpt.trim(),
+      date: form.date,
+      category: form.category,
+      access: form.access,
       tags: tags.length > 0 ? tags : undefined,
       fileSize: form.fileSize?.trim() || undefined,
+      thumbnailUrl: thumbnailFile ? undefined : form.thumbnailUrl,
+      thumbnailFileName: thumbnailFile ? thumbnailFile.name : form.thumbnailFileName,
+      pdfUrl: pdfFile ? undefined : form.pdfUrl,
+      pdfFileName: pdfFile ? pdfFile.name : form.pdfFileName,
     }
 
-    onSubmit(input)
-  }
-
-  async function handlePdfSelect(file: File | null) {
-    if (!file) return
-    if (file.type !== 'application/pdf') return
-
-    setIsUploading(true)
+    setIsSubmitting(true)
     try {
-      const dataUrl = await readFileAsDataUrl(file, 'Unable to read PDF file')
-      setForm((prev) => ({
-        ...prev,
-        pdfDataUrl: dataUrl,
-        pdfFileName: file.name,
-        fileSize: formatFileSize(file.size),
-      }))
+      await onSubmit(input, { thumbnailFile, pdfFile })
     } finally {
-      setIsUploading(false)
+      setIsSubmitting(false)
     }
   }
 
-  async function handleThumbnailSelect(file: File | null) {
-    if (!file) return
-    if (!file.type.startsWith('image/')) return
-
-    const dataUrl = await readFileAsDataUrl(file, 'Unable to read thumbnail image')
-    setForm((prev) => ({
-      ...prev,
-      thumbnailDataUrl: dataUrl,
-      thumbnailFileName: file.name,
-    }))
+  function handleThumbnailSelect(file: File | null) {
+    if (!file || !file.type.startsWith('image/')) return
+    setThumbnailFile(file)
+    setThumbnailPreview(URL.createObjectURL(file))
+    setForm((prev) => ({ ...prev, thumbnailUrl: undefined, thumbnailFileName: file.name }))
   }
 
   function handleRemoveThumbnail() {
+    setThumbnailFile(undefined)
+    setThumbnailPreview(undefined)
+    setForm((prev) => ({ ...prev, thumbnailUrl: undefined, thumbnailFileName: undefined }))
+  }
+
+  function handlePdfSelect(file: File | null) {
+    if (!file || file.type !== 'application/pdf') return
+    setPdfFile(file)
     setForm((prev) => ({
       ...prev,
-      thumbnailDataUrl: undefined,
-      thumbnailFileName: undefined,
+      pdfUrl: undefined,
+      pdfFileName: file.name,
+      fileSize: formatFileSize(file.size),
     }))
   }
 
   function handleRemovePdf() {
+    setPdfFile(undefined)
     setForm((prev) => ({
       ...prev,
-      pdfDataUrl: undefined,
+      pdfUrl: undefined,
       pdfFileName: undefined,
       fileSize: undefined,
     }))
   }
 
+  const hasThumbnail = !!(thumbnailFile || form.thumbnailUrl)
+  const hasPdf = !!(pdfFile || form.pdfUrl)
+  const displayPdfName = pdfFile?.name ?? form.pdfFileName
+  const displayThumbnailName = thumbnailFile?.name ?? form.thumbnailFileName
+
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => void handleSubmit(e)}
       className="rounded-2xl border border-navy/10 bg-white p-6 shadow-sm md:p-8"
     >
       <h3 className="text-lg font-semibold text-navy">
@@ -148,7 +159,7 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
           <textarea
             required
             rows={3}
-            value={form.excerpt ?? ''}
+            value={form.excerpt}
             onChange={(event) => setForm((prev) => ({ ...prev, excerpt: event.target.value }))}
             placeholder="Short summary shown under the title on library cards"
             className={`${inputClassName} resize-y`}
@@ -234,16 +245,14 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
           <input
             type="file"
             accept="image/*"
-            onChange={(event) => void handleThumbnailSelect(event.target.files?.[0] ?? null)}
+            onChange={(event) => handleThumbnailSelect(event.target.files?.[0] ?? null)}
             className={inputClassName}
           />
           <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-navy/60">
             <span>
-              {form.thumbnailFileName
-                ? `Attached: ${form.thumbnailFileName}`
-                : 'No thumbnail attached yet'}
+              {displayThumbnailName ? `Attached: ${displayThumbnailName}` : 'No thumbnail attached yet'}
             </span>
-            {form.thumbnailDataUrl && (
+            {hasThumbnail && (
               <button
                 type="button"
                 onClick={handleRemoveThumbnail}
@@ -253,9 +262,9 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
               </button>
             )}
           </div>
-          {form.thumbnailDataUrl && (
+          {thumbnailPreview && (
             <img
-              src={form.thumbnailDataUrl}
+              src={thumbnailPreview}
               alt="Paper thumbnail preview"
               className="mt-3 h-32 w-48 rounded-lg border border-navy/10 object-cover"
             />
@@ -270,19 +279,15 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
           <input
             type="file"
             accept="application/pdf"
-            onChange={(event) => void handlePdfSelect(event.target.files?.[0] ?? null)}
+            onChange={(event) => handlePdfSelect(event.target.files?.[0] ?? null)}
             className={inputClassName}
           />
           <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-navy/60">
             <span>
-              {isUploading
-                ? 'Uploading PDF...'
-                : form.pdfFileName
-                  ? `Attached: ${form.pdfFileName}`
-                  : 'No PDF attached yet'}
+              {displayPdfName ? `Attached: ${displayPdfName}` : 'No PDF attached yet'}
             </span>
             {form.fileSize && <span>File size: {form.fileSize}</span>}
-            {form.pdfDataUrl && (
+            {hasPdf && (
               <button
                 type="button"
                 onClick={handleRemovePdf}
@@ -310,10 +315,16 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">
-        <Button type="submit" className="rounded-full px-8">
-          {initial ? 'Save Changes' : 'Add Paper'}
+        <Button type="submit" disabled={isSubmitting} className="rounded-full px-8">
+          {isSubmitting ? 'Saving…' : initial ? 'Save Changes' : 'Add Paper'}
         </Button>
-        <Button type="button" variant="ghost" onClick={onCancel} className="rounded-full px-6">
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onCancel}
+          disabled={isSubmitting}
+          className="rounded-full px-6"
+        >
           Cancel
         </Button>
       </div>
