@@ -7,7 +7,7 @@ import { useBlogs } from '../../hooks/useBlogs'
 import { BlogCard } from './components/BlogCard'
 
 export function BlogsPage() {
-  const blogs = useBlogs()
+  const { data: blogs, isLoading } = useBlogs()
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [search, setSearch] = useState('')
 
@@ -67,7 +67,11 @@ export function BlogsPage() {
               ))}
             </div>
 
-            {filteredPosts.length === 0 ? (
+            {isLoading ? (
+              <div className="mt-12 rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
+                <p className="text-navy/40">Loading articles…</p>
+              </div>
+            ) : filteredPosts.length === 0 ? (
               <div className="mt-12 rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
                 <p className="text-navy/60">No articles match your search.</p>
               </div>

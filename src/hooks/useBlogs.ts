@@ -1,13 +1,27 @@
-import { useEffect, useState } from 'react'
-import { loadBlogs, subscribeToBlogs } from '../data/blogsStore'
+import { useCallback, useEffect, useState } from 'react'
+import { fetchBlogs } from '../services/blogs'
 import type { BlogPost } from '../types/blog'
 
 export function useBlogs() {
-  const [blogs, setBlogs] = useState<BlogPost[]>(() => loadBlogs())
+  const [data, setData] = useState<BlogPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
 
-  useEffect(() => {
-    return subscribeToBlogs(() => setBlogs(loadBlogs()))
+  const load = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      setData(await fetchBlogs())
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to load blogs'))
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
 
-  return blogs
+  useEffect(() => {
+    void load()
+  }, [load])
+
+  return { data, isLoading, error, refetch: load }
 }

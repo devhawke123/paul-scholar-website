@@ -1,13 +1,27 @@
-import { useEffect, useState } from 'react'
-import { loadPapers, subscribeToPapers } from '../data/papersStore'
+import { useCallback, useEffect, useState } from 'react'
+import { fetchPapers } from '../services/papers'
 import type { Paper } from '../types/paper'
 
 export function usePapers() {
-  const [papers, setPapers] = useState<Paper[]>(() => loadPapers())
+  const [data, setData] = useState<Paper[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
 
-  useEffect(() => {
-    return subscribeToPapers(() => setPapers(loadPapers()))
+  const load = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      setData(await fetchPapers())
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to load papers'))
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
 
-  return papers
+  useEffect(() => {
+    void load()
+  }, [load])
+
+  return { data, isLoading, error, refetch: load }
 }

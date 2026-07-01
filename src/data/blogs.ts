@@ -1,5 +1,5 @@
 import { blogImages } from './blogAssets'
-import { formatBlogDate, getBlogBySlug, loadBlogs } from './blogsStore'
+import { formatBlogDate } from '../services/blogs'
 import { blogPostCategories } from '../types/blog'
 import type { BlogImageKey } from '../types/blog'
 
@@ -9,4 +9,4 @@ export function getBlogImage(imageKey: BlogImageKey): string {
   return blogImages[imageKey]
 }
 
-export { formatBlogDate, getBlogBySlug, loadBlogs }
+export { formatBlogDate }

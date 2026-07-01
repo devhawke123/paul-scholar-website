@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { addPaper, deletePaper, updatePaper } from '../../../data/papersStore'
+import { createPaper, deletePaper, updatePaper } from '../../../services/papers'
+import type { PaperFiles } from '../../../services/papers'
 import { usePapers } from '../../../hooks/usePapers'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
@@ -12,7 +13,7 @@ import {
 import { PaperForm } from './PaperForm'
 
 export function PapersManager() {
-  const papers = usePapers()
+  const { data: papers, refetch } = usePapers()
   const [showForm, setShowForm] = useState(false)
   const [editingPaper, setEditingPaper] = useState<Paper | null>(null)
 
@@ -21,20 +22,23 @@ export function PapersManager() {
     setEditingPaper(null)
   }
 
-  function handleAdd(input: PaperInput) {
-    addPaper(input)
+  async function handleAdd(input: PaperInput, files: PaperFiles) {
+    await createPaper(input, files)
+    await refetch()
     closeForm()
   }
 
-  function handleUpdate(input: PaperInput) {
+  async function handleUpdate(input: PaperInput, files: PaperFiles) {
     if (!editingPaper) return
-    updatePaper(editingPaper.id, input)
+    await updatePaper(editingPaper.id, input, files)
+    await refetch()
     closeForm()
   }
 
-  function handleDelete(paper: Paper) {
+  async function handleDelete(paper: Paper) {
     if (!window.confirm(`Delete "${paper.title}"?`)) return
-    deletePaper(paper.id)
+    await deletePaper(paper.id)
+    await refetch()
     if (editingPaper?.id === paper.id) closeForm()
   }
 
@@ -144,19 +148,19 @@ export function PapersManager() {
                         </span>
                         <span
                           className={`inline-flex items-center gap-1.5 text-xs font-medium ${
-                            paper.pdfDataUrl ? 'text-green-700' : 'text-navy/40'
+                            paper.pdfUrl ? 'text-green-700' : 'text-navy/40'
                           }`}
                         >
                           <span aria-hidden>📄</span>
-                          {paper.pdfDataUrl ? 'PDF attached' : 'No PDF'}
+                          {paper.pdfUrl ? 'PDF attached' : 'No PDF'}
                         </span>
                         <span
                           className={`inline-flex items-center gap-1.5 text-xs font-medium ${
-                            paper.thumbnailDataUrl ? 'text-green-700' : 'text-navy/40'
+                            paper.thumbnailUrl ? 'text-green-700' : 'text-navy/40'
                           }`}
                         >
                           <span aria-hidden>🖼️</span>
-                          {paper.thumbnailDataUrl ? 'Thumbnail attached' : 'No thumbnail'}
+                          {paper.thumbnailUrl ? 'Thumbnail attached' : 'No thumbnail'}
                         </span>
                       </div>
                     </div>
@@ -174,7 +178,7 @@ export function PapersManager() {
                       </Button>
                       <Button
                         variant="ghost"
-                        onClick={() => handleDelete(paper)}
+                        onClick={() => void handleDelete(paper)}
                         className="h-10 rounded-full px-5 text-sm text-red-700 hover:text-red-800"
                       >
                         Delete

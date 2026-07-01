@@ -2,14 +2,25 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { Navbar } from '../../components/layout/Navbar'
 import { SiteClosing } from '../../components/layout/SiteClosing'
 import { SectionBadge } from '../../components/ui/SectionBadge'
-import { formatBlogDate, getBlogBySlug, getBlogImage } from '../../data/blogs'
+import { formatBlogDate, getBlogImage } from '../../data/blogs'
 import { useBlogs } from '../../hooks/useBlogs'
 import { BlogCard } from './components/BlogCard'
 
 export function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>()
-  const blogs = useBlogs()
-  const post = slug ? getBlogBySlug(slug) : undefined
+  const { data: blogs, isLoading } = useBlogs()
+  const post = slug ? blogs.find((b) => b.slug === slug) : undefined
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-cream text-navy">
+        <Navbar />
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <p className="text-navy/40">Loading…</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!post) {
     return <Navigate to="/blogs" replace />

@@ -11,7 +11,7 @@ import { libraryContent } from '../data/libraryContent'
 import { PaperCard } from './PaperCard'
 
 export function LibraryGridSection() {
-  const papers = usePapers()
+  const { data: papers, isLoading } = usePapers()
   const [activeTab, setActiveTab] = useState<LibraryTabId>('all')
   const [search, setSearch] = useState('')
 
@@ -81,7 +81,9 @@ export function LibraryGridSection() {
           </div>
         </div>
 
-        {filteredPapers.length === 0 ? (
+        {isLoading ? (
+          <p className="mt-12 text-center text-sm text-navy/40">Loading documents…</p>
+        ) : filteredPapers.length === 0 ? (
           <p className="mt-12 text-center text-sm text-navy/60">
             No documents match your search.
           </p>

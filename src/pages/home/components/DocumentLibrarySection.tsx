@@ -8,7 +8,7 @@ import { sortPapersByDate } from '../../../utils/papers'
 const HOME_PREVIEW_COUNT = 5
 
 export function DocumentLibrarySection() {
-  const papers = usePapers()
+  const { data: papers } = usePapers()
   const previewPapers = sortPapersByDate(papers).slice(0, HOME_PREVIEW_COUNT)
 
   return (
