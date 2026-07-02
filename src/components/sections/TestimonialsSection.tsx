@@ -97,7 +97,7 @@ export function TestimonialsSection({ showBadge = true }: TestimonialsSectionPro
   }
 
   return (
-    <section className="bg-[#f5f5f5] px-4 py-20 md:px-11">
+    <section className="bg-surface px-4 py-20 md:px-11">
       <div className="mx-auto max-w-[1440px] ">
       <div className="text-center ">
         {showBadge ? (
@@ -128,13 +128,13 @@ export function TestimonialsSection({ showBadge = true }: TestimonialsSectionPro
                     type="button"
                     aria-label="Next testimonial"
                     onClick={goToNext}
-                    className="flex size-12 items-center justify-center rounded-full bg-gradient-to-r from-[#ffb35c] to-[#f0a03d] text-navy shadow-sm transition hover:opacity-90"
+                    className="flex size-12 items-center justify-center rounded-full bg-gradient-accent text-navy shadow-sm transition hover:opacity-90"
                   >
                     <CarouselArrow direction="right" />
                   </button>
                 </div>
               ) : null}
-              <Button className="rounded-full bg-gradient-to-r from-[#ffb35c] to-[#f0a03d] px-8 hover:opacity-90">
+              <Button className="rounded-full bg-gradient-accent px-8 hover:opacity-90">
                 Explore More
               </Button>
             </div>

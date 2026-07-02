@@ -29,13 +29,13 @@ export function AboutSection() {
       />
 
       <div className="relative mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="relative min-h-[520px] lg:min-h-[663px]">
+        <div className="relative min-h-[420px] sm:min-h-[480px] lg:min-h-[663px]">
           <div
             aria-hidden
-            className="absolute left-[-50px] top-[-39px] h-[88%] w-[92%] rounded-[35px] rounded-tr-[100px] bg-gradient-to-br from-[#f0a03d] via-[#f7b85a] to-[#fdd89a] shadow-sm"
+            className="absolute left-[-24px] top-[-24px] h-[88%] w-[92%] rounded-[24px] rounded-tr-[72px] bg-gradient-warm shadow-sm sm:left-[-36px] sm:top-[-32px] sm:rounded-[35px] sm:rounded-tr-[100px]"
           />
 
-          <div className="relative ml-6 mt-4 overflow-hidden rounded-3xl shadow-md lg:ml-10 lg:mt-8">
+          <div className="relative ml-4 mt-3 overflow-hidden rounded-2xl shadow-md sm:ml-6 sm:mt-4 sm:rounded-3xl lg:ml-10 lg:mt-8">
             <img
               src={homeAssets.aboutPortrait}
               alt="Dr. Paul A. Stokes"
@@ -76,10 +76,10 @@ export function AboutSection() {
             {aboutHighlights.map((item) => (
               <article
                 key={item.title}
-                className="flex gap-5 rounded-2xl bg-[#fde8c8] p-5"
+                className="flex flex-col gap-4 rounded-2xl bg-peach-highlight p-4 sm:flex-row sm:gap-5 sm:p-5"
               >
-                <div className="flex size-[93px] shrink-0 items-center justify-center rounded-xl bg-navy">
-                  <AboutHighlightIcon variant={item.icon} className="size-11" />
+                <div className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-navy sm:size-[93px]">
+                  <AboutHighlightIcon variant={item.icon} className="size-9 sm:size-11" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-navy">{item.title}</h3>

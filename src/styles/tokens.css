@@ -1,0 +1,37 @@
+/**
+ * Paul design tokens — aligned with Figma variables.
+ * Use Tailwind names (bg-accent, text-peach) or utilities (bg-gradient-warm).
+ */
+
+@theme {
+  --color-navy: #0b1f3a;
+  --color-accent: #ffa947;
+  --color-peach: #ffc889;
+  --color-cream: #fdf8f3;
+  --color-surface: #f5f5f5;
+  --color-peach-surface: color-mix(in srgb, var(--color-peach) 52%, var(--color-cream));
+  --color-peach-highlight: color-mix(in srgb, var(--color-peach) 38%, var(--color-cream));
+  --color-peach-banner: color-mix(in srgb, var(--color-peach) 72%, var(--color-cream));
+
+  --gradient-warm: linear-gradient(
+    to bottom right,
+    var(--color-accent) 0%,
+    rgb(255 200 137 / 0.9) 50%,
+    rgb(255 200 137 / 0.8) 100%
+  );
+  --gradient-accent: linear-gradient(
+    to right,
+    var(--color-peach) 0%,
+    var(--color-accent) 100%
+  );
+}
+
+@layer utilities {
+  .bg-gradient-warm {
+    background-image: var(--gradient-warm);
+  }
+
+  .bg-gradient-accent {
+    background-image: var(--gradient-accent);
+  }
+}

@@ -44,7 +44,7 @@ export function ContactFaqSection() {
                   key={faq.question}
                   className={
                     isOpen
-                      ? 'my-3 rounded-2xl bg-[#ffc896]/45 px-5 py-5'
+                      ? 'my-3 rounded-2xl bg-peach/45 px-5 py-5'
                       : 'border-b border-navy/15 py-5'
                   }
                 >

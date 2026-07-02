@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { PaperRequestModal } from '../../../components/papers/PaperRequestModal'
 import type { Paper } from '../../../types/paper'
 import {
   formatPaperDate,
@@ -18,12 +20,17 @@ type PaperCardProps = {
 }
 
 export function PaperCard({ paper }: PaperCardProps) {
+  const [showModal, setShowModal] = useState(false)
   const tags = getPaperTags(paper)
   const visibleTags = tags.slice(0, 2)
   const hiddenTagCount = tags.length - visibleTags.length
 
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-navy/5">
+      {showModal && (
+        <PaperRequestModal paper={paper} onClose={() => setShowModal(false)} />
+      )}
+
       <div className="relative">
         <img
           src={getPaperThumbnail(paper)}
@@ -89,10 +96,34 @@ export function PaperCard({ paper }: PaperCardProps) {
               {paper.fileSize ?? '—'}
             </span>
           </div>
-          <span className="inline-flex items-center gap-1.5 font-medium text-navy/70">
-            <span aria-hidden>📄</span>
-            PDF
-          </span>
+
+          {paper.pdfUrl && paper.access === 'Public' ? (
+            <a
+              href={paper.pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Download ${paper.title}`}
+              className="inline-flex items-center gap-1.5 font-medium text-navy/70 transition hover:text-accent"
+            >
+              <span aria-hidden>📄</span>
+              PDF
+            </a>
+          ) : paper.pdfUrl && paper.access === 'Restricted' ? (
+            <button
+              type="button"
+              onClick={() => setShowModal(true)}
+              aria-label={`Request access to ${paper.title}`}
+              className="inline-flex items-center gap-1.5 font-medium text-amber-700 transition hover:text-amber-900"
+            >
+              <span aria-hidden>✉</span>
+              Request
+            </button>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 font-medium text-navy/40">
+              <span aria-hidden>📄</span>
+              No PDF
+            </span>
+          )}
         </div>
       </div>
     </article>

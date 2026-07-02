@@ -85,7 +85,7 @@ export function Footer() {
                 placeholder={footerContent.newsletterPlaceholder}
                 className="w-full rounded-[10px] border border-navy/20 px-4 py-2.5 text-sm text-navy outline-none focus:border-accent"
               />
-              <Button className="w-full rounded-[10px] bg-[#ffb35c] py-2.5 hover:bg-[#ffb35c]/90">
+              <Button className="w-full rounded-[10px] bg-peach py-2.5 hover:bg-peach/90">
                 {footerContent.newsletterSubmitLabel}
               </Button>
             </form>

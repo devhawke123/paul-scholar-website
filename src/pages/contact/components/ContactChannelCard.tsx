@@ -41,7 +41,7 @@ export function ContactChannelCard({
   onAction,
 }: ContactChannelCardProps) {
   return (
-    <div className="rounded-2xl bg-[#ffc896]/45 px-6 py-7">
+    <div className="rounded-2xl bg-peach/45 px-6 py-7">
       <h3 className="text-base font-bold text-navy">{title}</h3>
       <p className="mt-3 text-sm leading-relaxed text-navy/75">{description}</p>
       <button

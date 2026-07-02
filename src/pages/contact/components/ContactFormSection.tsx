@@ -1,4 +1,5 @@
-import { type FormEvent, useState } from 'react'
+import { type FormEvent, useRef, useState } from 'react'
+import { sendContactForm } from '../../../services/email'
 import { contactInfo } from '../data/contactContent'
 import { ContactChannelCard } from './ContactChannelCard'
 import { ContactSubmitButton } from './ContactSubmitButton'
@@ -7,15 +8,40 @@ const fieldClassName =
   'w-full border-0 border-b border-navy bg-transparent py-3 text-sm text-navy outline-none transition placeholder:text-navy/35 focus:border-accent'
 
 export function ContactFormSection() {
-  const [submitted, setSubmitted] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSubmitted(true)
+    const form = event.currentTarget
+    const data = new FormData(form)
+
+    setStatus('sending')
+    setErrorMsg('')
+
+    try {
+      await sendContactForm({
+        firstName: data.get('firstName') as string,
+        lastName: data.get('lastName') as string,
+        email: data.get('email') as string,
+        phone: (data.get('phone') as string) || '—',
+        message: data.get('message') as string,
+      })
+      setStatus('success')
+      formRef.current?.reset()
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again or email us directly.'
+      setErrorMsg(message)
+      setStatus('error')
+    }
   }
 
   return (
-    <section className="bg-cream px-4 py-16 md:px-11 md:py-20">
+    <section id="get-in-touch" className="bg-cream px-4 py-16 md:px-11 md:py-20">
       <div className="mx-auto max-w-[1280px]">
         <h2 className="text-3xl font-bold text-navy md:text-5xl">Get in Touch</h2>
 
@@ -28,7 +54,7 @@ export function ContactFormSection() {
               process would apply to your situation.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-10">
+            <form ref={formRef} onSubmit={(e) => void handleSubmit(e)} className="mt-10">
               <div className="grid gap-x-10 gap-y-7 sm:grid-cols-2">
                 <label className="block">
                   <span className="mb-1 block text-sm font-medium text-navy">First Name</span>
@@ -59,12 +85,15 @@ export function ContactFormSection() {
               </label>
 
               <div className="mt-10 flex flex-wrap items-center justify-end gap-4">
-                {submitted && (
+                {status === 'success' && (
                   <p className="text-sm text-green-700">
                     Thank you — your message has been received.
                   </p>
                 )}
-                <ContactSubmitButton />
+                {status === 'error' && (
+                  <p className="text-sm text-red-600">{errorMsg}</p>
+                )}
+                <ContactSubmitButton disabled={status === 'sending'} />
               </div>
             </form>
           </div>
