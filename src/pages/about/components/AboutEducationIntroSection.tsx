@@ -5,7 +5,7 @@ import { educationIntro } from '../data/aboutContent'
 
 export function AboutEducationIntroSection() {
   return (
-    <section className="relative overflow-hidden bg-cream px-4 py-16 md:px-11 md:py-24">
+    <section className="relative isolate overflow-hidden bg-cream px-4 py-16 md:px-11 md:py-24">
       <div className="mx-auto grid max-w-[1300px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div>
           <SectionBadge label={educationIntro.badge} />
@@ -47,7 +47,7 @@ export function AboutEducationIntroSection() {
             src={aboutIcons.decorativeVector}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute bottom-[2%] right-[2%]  w-[72px] opacity-95 sm:bottom-[4%] sm:right-4 sm:w-[90px]"
+            className="decorative-vector bottom-[2%] right-[2%] w-[72px] opacity-95 sm:bottom-[4%] sm:right-4 sm:w-[90px]"
           />
         </div>
       </div>

@@ -62,10 +62,25 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
   )
   const [pdfFile, setPdfFile] = useState<File | undefined>()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [pdfError, setPdfError] = useState('')
+  const [tagsError, setTagsError] = useState('')
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     if (!form.title.trim() || !form.excerpt?.trim()) return
+
+    if (!pdfFile && !form.pdfUrl) {
+      setPdfError('A PDF file is required.')
+      return
+    }
+    setPdfError('')
+
+    if (parseTagsInput(tagsInput).length === 0) {
+      setTagsError('At least one tag is required.')
+      return
+    }
+    setTagsError('')
 
     const tags = parseTagsInput(tagsInput)
     const input: PaperInput = {
@@ -83,9 +98,11 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
     }
 
     setIsSubmitting(true)
+    setSubmitError('')
     try {
       await onSubmit(input, { thumbnailFile, pdfFile })
-    } finally {
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
       setIsSubmitting(false)
     }
   }
@@ -227,21 +244,29 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
         </label>
 
         <label className="block md:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-navy">Tags</span>
+          <span className="mb-2 block text-sm font-medium text-navy">
+            Tags <span className="text-red-500">*</span>
+          </span>
           <input
             type="text"
             value={tagsInput}
-            onChange={(event) => setTagsInput(event.target.value)}
+            onChange={(event) => {
+              setTagsInput(event.target.value)
+              if (event.target.value.trim()) setTagsError('')
+            }}
             placeholder="Machine Learning, Climate Science"
             className={inputClassName}
           />
           <p className="mt-1.5 text-xs text-navy/50">
             Comma-separated. Up to two tags show on library cards, with a +N indicator for more.
           </p>
+          {tagsError && <p className="mt-1 text-xs text-red-600">{tagsError}</p>}
         </label>
 
         <label className="block md:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-navy">Thumbnail image</span>
+          <span className="mb-2 block text-sm font-medium text-navy">
+            Thumbnail image <span className="font-normal text-navy/40">(optional)</span>
+          </span>
           <input
             type="file"
             accept="image/*"
@@ -275,11 +300,16 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
         </label>
 
         <label className="block md:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-navy">Paper PDF</span>
+          <span className="mb-2 block text-sm font-medium text-navy">
+            Paper PDF <span className="text-red-500">*</span>
+          </span>
           <input
             type="file"
             accept="application/pdf"
-            onChange={(event) => handlePdfSelect(event.target.files?.[0] ?? null)}
+            onChange={(event) => {
+              handlePdfSelect(event.target.files?.[0] ?? null)
+              if (event.target.files?.[0]) setPdfError('')
+            }}
             className={inputClassName}
           />
           <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-navy/60">
@@ -297,6 +327,7 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
               </button>
             )}
           </div>
+          {pdfError && <p className="mt-1.5 text-xs text-red-600">{pdfError}</p>}
         </label>
 
         <label className="block md:col-span-2">
@@ -314,19 +345,26 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
         </label>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Button type="submit" disabled={isSubmitting} className="rounded-full px-8">
-          {isSubmitting ? 'Saving…' : initial ? 'Save Changes' : 'Add Paper'}
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={onCancel}
-          disabled={isSubmitting}
-          className="rounded-full px-6"
-        >
-          Cancel
-        </Button>
+      <div className="mt-8 space-y-3">
+        {submitError && (
+          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {submitError}
+          </p>
+        )}
+        <div className="flex flex-wrap gap-3">
+          <Button type="submit" disabled={isSubmitting} className="rounded-full px-8">
+            {isSubmitting ? 'Saving…' : initial ? 'Save Changes' : 'Add Paper'}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={onCancel}
+            disabled={isSubmitting}
+            className="rounded-full px-6"
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
     </form>
   )

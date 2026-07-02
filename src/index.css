@@ -11,3 +11,9 @@
     @apply bg-cream font-sans text-navy antialiased;
   }
 }
+
+@layer components {
+  .decorative-vector {
+    @apply pointer-events-none absolute -z-10 opacity-90;
+  }
+}

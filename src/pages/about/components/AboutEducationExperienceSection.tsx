@@ -20,27 +20,27 @@ function EducationCardIcon() {
 
 export function AboutEducationExperienceSection() {
   return (
-    <section className="relative overflow-hidden bg-cream px-4 py-16 md:px-11 md:py-24">
+    <section className="relative isolate overflow-hidden bg-cream px-4 py-16 md:px-11 md:py-24">
       <img
         src={aboutIcons.decorativeVector}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute left-2 top-20 w-16 opacity-90 md:left-8 md:top-24 md:w-20"
+        className="decorative-vector left-2 top-20 w-16 md:left-8 md:top-24 md:w-20"
       />
       <img
         src={aboutIcons.decorativeVector}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-2 top-28 w-14 scale-x-[-1] opacity-90 md:right-10 md:top-32 md:w-16"
+        className="decorative-vector right-2 top-28 w-14 scale-x-[-1] md:right-10 md:top-32 md:w-16"
       />
       <img
         src={aboutIcons.decorativeVector}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute bottom-12 right-4 w-16 opacity-90 md:bottom-16 md:right-10 md:w-20"
+        className="decorative-vector bottom-12 right-4 w-16 md:bottom-16 md:right-10 md:w-20"
       />
 
-      <div className="relative mx-auto max-w-[1350px] overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-10 md:py-14 lg:px-12 lg:py-16">
+      <div className="relative z-10 mx-auto max-w-[1350px] overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-10 md:py-14 lg:px-12 lg:py-16">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
           <div className="flex flex-col">
             <h2 className="max-w-sm text-3xl font-bold leading-tight text-navy md:text-4xl lg:text-[44px] lg:leading-[1.15]">
