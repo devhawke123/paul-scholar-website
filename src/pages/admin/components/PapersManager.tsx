@@ -23,21 +23,27 @@ export function PapersManager() {
   }
 
   async function handleAdd(input: PaperInput, files: PaperFiles) {
+    console.log('[Papers] Adding paper…', input.title)
     await createPaper(input, files)
+    console.log('[Papers] ✓ Paper added:', input.title)
     await refetch()
     closeForm()
   }
 
   async function handleUpdate(input: PaperInput, files: PaperFiles) {
     if (!editingPaper) return
+    console.log('[Papers] Updating paper…', editingPaper.id, input.title)
     await updatePaper(editingPaper.id, input, files)
+    console.log('[Papers] ✓ Paper updated:', input.title)
     await refetch()
     closeForm()
   }
 
   async function handleDelete(paper: Paper) {
     if (!window.confirm(`Delete "${paper.title}"?`)) return
+    console.log('[Papers] Deleting paper…', paper.id, paper.title)
     await deletePaper(paper.id)
+    console.log('[Papers] ✓ Paper deleted:', paper.title)
     await refetch()
     if (editingPaper?.id === paper.id) closeForm()
   }
@@ -70,6 +76,7 @@ export function PapersManager() {
         {showForm && (
           <div className="mt-8">
             <PaperForm
+              key={editingPaper?.id ?? 'new'}
               initial={editingPaper ?? undefined}
               onSubmit={editingPaper ? handleUpdate : handleAdd}
               onCancel={closeForm}

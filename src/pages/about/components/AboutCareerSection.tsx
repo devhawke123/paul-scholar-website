@@ -3,23 +3,25 @@ import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { aboutPageAssets } from '../data/aboutPageAssets'
 import { professionalCareer } from '../data/aboutContent'
 
+const decorativeVectorClass = 'decorative-vector'
+
 export function AboutCareerSection() {
   return (
-    <section className="relative overflow-hidden bg-cream px-4 py-16 md:px-11 md:py-24">
+    <section className="relative isolate overflow-hidden bg-cream px-4 py-16 md:px-11 md:py-24">
       <img
         src={aboutIcons.decorativeVector}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute left-2 top-20 w-16 opacity-90 md:left-8 md:top-24 md:w-20"
+        className={`${decorativeVectorClass} left-2 top-20 w-16 md:left-8 md:top-24 md:w-20`}
       />
       <img
         src={aboutIcons.decorativeVector}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute bottom-16 left-4 w-14 opacity-90 md:bottom-20 md:left-10 md:w-16"
+        className={`${decorativeVectorClass} bottom-16 left-4 w-14 md:bottom-20 md:left-10 md:w-16`}
       />
 
-      <div className="relative mx-auto max-w-[1355px]">
+      <div className="relative z-10 mx-auto max-w-[1355px]">
         <SectionBadge
           label={professionalCareer.badge}
           className="absolute right-0 top-0 hidden sm:inline-flex"

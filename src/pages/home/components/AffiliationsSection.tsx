@@ -20,21 +20,21 @@ function ExploreArrow() {
 
 export function AffiliationsSection() {
   return (
-    <section className="relative overflow-hidden bg-cream px-4 py-20 md:px-11">
+    <section className="relative isolate overflow-hidden bg-cream px-4 py-20 md:px-11">
       <img
         src={aboutIcons.decorativeVector}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute bottom-8 left-2 w-20 opacity-90 md:bottom-12 md:left-8 md:w-28"
+        className="decorative-vector bottom-8 left-2 w-20 md:bottom-12 md:left-8 md:w-28"
       />
       <img
         src={aboutIcons.decorativeVector}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-0 top-16 w-20 scale-x-[-1] opacity-90 md:top-20 md:w-28"
+        className="decorative-vector right-0 top-16 w-20 scale-x-[-1] md:top-20 md:w-28"
       />
 
-      <div className="relative mx-auto max-w-[1440px]">
+      <div className="relative z-10 mx-auto max-w-[1440px]">
         <div className="text-center">
           <SectionBadge label="Affiliations" className="mx-auto" />
           <h2 className="mt-6 text-3xl font-bold text-navy md:text-4xl lg:text-5xl">
