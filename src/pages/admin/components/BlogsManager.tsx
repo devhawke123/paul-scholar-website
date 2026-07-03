@@ -2,9 +2,47 @@ import { useState } from 'react'
 import { createBlog, deleteBlog, updateBlog, formatBlogDate } from '../../../services/blogs'
 import { useBlogs } from '../../../hooks/useBlogs'
 import { Button } from '../../../components/ui/Button'
-import { SectionBadge } from '../../../components/ui/SectionBadge'
 import type { BlogInput, BlogPost } from '../../../types/blog'
 import { BlogForm } from './BlogForm'
+
+/* ── inline SVG icon ──────────────────────────────────────────────────────── */
+
+function IconPencil() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mt-0.5 size-4 shrink-0 text-navy/40"
+    >
+      <path d="M11.5 2.5l2 2-8 8H3.5v-2l8-8z" />
+      <path d="M10 4l2 2" />
+    </svg>
+  )
+}
+
+/* ── stats bar ────────────────────────────────────────────────────────────── */
+
+function StatsBar({ blogs }: { blogs: BlogPost[] }) {
+  const categories = new Set(blogs.map((b) => b.category)).size
+  return (
+    <div className="mt-6 flex gap-px overflow-hidden rounded-xl border border-navy/10 bg-navy/10">
+      <div className="flex flex-1 flex-col bg-white px-5 py-4">
+        <span className="text-2xl font-semibold text-navy">{blogs.length}</span>
+        <span className="mt-0.5 text-xs text-navy/50">Total posts</span>
+      </div>
+      <div className="flex flex-1 flex-col bg-white px-5 py-4">
+        <span className="text-2xl font-semibold text-navy">{categories}</span>
+        <span className="mt-0.5 text-xs text-navy/50">Categories</span>
+      </div>
+    </div>
+  )
+}
+
+/* ── manager ──────────────────────────────────────────────────────────────── */
 
 export function BlogsManager() {
   const { data: blogs, refetch } = useBlogs()
@@ -39,8 +77,7 @@ export function BlogsManager() {
   return (
     <section className="px-4 py-12 md:px-11 md:py-16">
       <div className="mx-auto max-w-[1154px]">
-        <SectionBadge label="Doctor Dashboard" />
-        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-navy md:text-4xl">Manage Blogs</h1>
             <p className="mt-2 max-w-2xl text-base text-navy/70">
@@ -60,6 +97,8 @@ export function BlogsManager() {
             </Button>
           )}
         </div>
+
+        <StatsBar blogs={blogs} />
 
         {showForm && (
           <div className="mt-8">
@@ -88,12 +127,10 @@ export function BlogsManager() {
               {blogs.map((blog) => (
                 <li
                   key={blog.id}
-                  className="flex flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between"
+                  className="flex flex-col gap-4 px-6 py-6 transition hover:bg-navy/[0.025] md:flex-row md:items-center md:justify-between"
                 >
                   <div className="flex gap-4">
-                    <span className="mt-1 text-navy/40" aria-hidden>
-                      ✍️
-                    </span>
+                    <IconPencil />
                     <div>
                       <h3 className="font-medium text-navy">{blog.title}</h3>
                       <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-navy/60">

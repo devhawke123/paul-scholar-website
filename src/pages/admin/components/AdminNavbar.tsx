@@ -3,7 +3,7 @@ import { Button } from '../../../components/ui/Button'
 
 export function AdminNavbar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-navy/10 bg-cream/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 bg-cream/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4 lg:px-[72px]">
         <Link
           to="/admin"
@@ -21,6 +21,8 @@ export function AdminNavbar() {
           </Link>
         </div>
       </div>
+      {/* accent rule replaces plain navy/10 border */}
+      <div className="h-px bg-gradient-to-r from-accent/60 via-peach/40 to-transparent" />
     </header>
   )
 }
