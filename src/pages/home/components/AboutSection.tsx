@@ -1,4 +1,4 @@
-// import { Link } from 'react-router-dom' 
+import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
@@ -8,25 +8,6 @@ import { AboutHighlightIcon } from './AboutHighlightIcon'
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative isolate overflow-hidden bg-cream px-4 py-20 md:px-11">
-      <img
-        src={aboutIcons.decorativeVector}
-        alt=""
-        aria-hidden
-        className="decorative-vector -left-6 top-24 w-24 md:w-28"
-      />
-      <img
-        src={aboutIcons.decorativeVectorAlt}
-        alt=""
-        aria-hidden
-        className="decorative-vector -left-4 bottom-16 w-20 md:w-24"
-      />
-      <img
-        src={aboutIcons.decorativeVector}
-        alt=""
-        aria-hidden
-        className="decorative-vector right-0 top-1/2 w-20 -translate-y-1/2 md:w-24"
-      />
     <section id="about" className="relative overflow-hidden bg-cream px-4 pt-9 md:px-11">
       <DecorativeVector className="absolute -left-6 top-24 lg:-left-8 xl:-left-10" />
       <DecorativeVector className="absolute -left-4 bottom-16 lg:-left-6" />
@@ -96,9 +77,9 @@ export function AboutSection() {
           </div>
 
           <div className="mt-8 flex justify-end">
-            {/* <Link to="/about"> */}
-              <Button className="rounded-full px-10">Explore More</Button>
-            {/* </Link> */}
+            <Link to="/about">
+            <Button className="rounded-full px-10">Explore More</Button>
+            </Link>
           </div>
         </div>
       </div>
