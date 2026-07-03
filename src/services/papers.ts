@@ -8,11 +8,10 @@ export type PaperFiles = {
   pdfFile?: File
 }
 
-export async function fetchPapers(): Promise<Paper[]> {
-  const { data, error } = await supabase
-    .from('papers')
-    .select('*')
-    .order('date', { ascending: false })
+export async function fetchPapers(limit?: number): Promise<Paper[]> {
+  let query = supabase.from('papers').select('*').order('date', { ascending: false })
+  if (limit) query = query.limit(limit)
+  const { data, error } = await query
   if (error) throw error
   return (data as PaperRow[]).map(mapPaperRow)
 }

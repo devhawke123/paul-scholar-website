@@ -45,7 +45,7 @@ function StatsBar({ blogs }: { blogs: BlogPost[] }) {
 /* ── manager ──────────────────────────────────────────────────────────────── */
 
 export function BlogsManager() {
-  const { data: blogs, refetch } = useBlogs()
+  const { data: blogs, refetch } = useBlogs({ full: true })
   const [showForm, setShowForm] = useState(false)
   const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null)
 

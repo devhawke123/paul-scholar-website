@@ -3,13 +3,14 @@ import { Navbar } from '../../components/layout/Navbar'
 import { SiteClosing } from '../../components/layout/SiteClosing'
 import { SectionBadge } from '../../components/ui/SectionBadge'
 import { formatBlogDate, getBlogImage } from '../../data/blogs'
+import { useBlogPost } from '../../hooks/useBlogPost'
 import { useBlogs } from '../../hooks/useBlogs'
 import { BlogCard } from './components/BlogCard'
 
 export function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>()
-  const { data: blogs, isLoading } = useBlogs()
-  const post = slug ? blogs.find((b) => b.slug === slug) : undefined
+  const { data: post, isLoading } = useBlogPost(slug)
+  const { data: blogs } = useBlogs()
 
   if (isLoading) {
     return (

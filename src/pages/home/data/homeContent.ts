@@ -10,7 +10,7 @@ export const navLinks = [
   { label: 'About', href: '/about' },
   { label: 'Library', href: '/' },
   { label: 'Blogs', href: '/' },
-  { label: 'Contact', href: '/' },
+  { label: 'Contact', href: '/contact' },
 ] as const
 
 export const heroTags = ['Scholar, Strategist', 'Pioneer', 'Managerial Cybernetics'] as const

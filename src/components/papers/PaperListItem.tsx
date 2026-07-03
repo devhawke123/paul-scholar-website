@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { usePdfPrefetch } from '../../hooks/usePdfPrefetch'
 import type { Paper } from '../../types/paper'
 import { formatPaperDate } from '../../utils/papers'
 import { PaperRequestModal } from './PaperRequestModal'
@@ -9,6 +10,7 @@ type PaperListItemProps = {
 
 export function PaperListItem({ paper }: PaperListItemProps) {
   const [showModal, setShowModal] = useState(false)
+  usePdfPrefetch(paper.access === 'Public' ? paper.pdfUrl : undefined)
 
   return (
     <li className="flex flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between">

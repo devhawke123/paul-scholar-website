@@ -5,8 +5,7 @@ import { useBlogs } from '../../../hooks/useBlogs'
 import { BlogCard } from '../../blogs/components/BlogCard'
 
 export function BlogsSection() {
-  const { data: blogs } = useBlogs()
-  const featuredPosts = blogs.slice(0, 2)
+  const { data: featuredPosts } = useBlogs({ limit: 2 })
 
   return (
     <section id="blogs" className="bg-cream px-4 pb-15 md:px-11">

@@ -1,3 +1,4 @@
+import contactHeroBg from '../../assets/contactHero.jpg'
 import { Navbar } from '../../components/layout/Navbar'
 import { SiteClosing } from '../../components/layout/SiteClosing'
 import { PageHero } from '../../components/sections/PageHero'
@@ -10,7 +11,11 @@ export function ContactPage() {
     <div className="min-h-screen bg-cream text-navy">
       <Navbar />
       <main>
-        <PageHero {...pageHeroContent.contact} />
+        <PageHero
+          {...pageHeroContent.contact}
+          backgroundSrc={contactHeroBg}
+          backgroundAlt="Dr. Paul A. Stokes in a professional setting"
+        />
         <ContactFormSection />
         <ContactFaqSection />
       </main>

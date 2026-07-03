@@ -14,6 +14,7 @@ export function BlogCard({ post }: BlogCardProps) {
       <img
         src={getBlogImage(post.imageKey)}
         alt={post.title}
+        loading="lazy"
         className="aspect-[585/339] w-full object-cover"
       />
 

@@ -2,13 +2,27 @@ import { supabase } from '../lib/supabase'
 import type { BlogInput, BlogPost } from '../types/blog'
 import { mapBlogInput, mapBlogRow, type BlogRow } from './mappers'
 
-export async function fetchBlogs(): Promise<BlogPost[]> {
-  const { data, error } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .order('date', { ascending: false })
+const LIST_COLUMNS: string =
+  'id, slug, title, excerpt, author, read_time, date, category, image_key, created_at, updated_at'
+
+type FetchBlogsOptions = {
+  /** Cap the number of rows (DB-level, not client-side slicing). */
+  limit?: number
+  /** Include the heavy `body` column. Only the admin edit flow needs this. */
+  full?: boolean
+}
+
+export async function fetchBlogs(options: FetchBlogsOptions = {}): Promise<BlogPost[]> {
+  const { limit, full } = options
+  const columns: string = full ? '*' : LIST_COLUMNS
+  let query = supabase.from('blog_posts').select(columns).order('date', { ascending: false })
+  if (limit) query = query.limit(limit)
+
+  const { data, error } = await query
   if (error) throw error
-  return (data as BlogRow[]).map(mapBlogRow)
+  return (data as unknown as (BlogRow | Omit<BlogRow, 'body'>)[]).map((row) =>
+    mapBlogRow('body' in row ? row : { ...row, body: [] }),
+  )
 }
 
 export async function fetchBlogBySlug(slug: string): Promise<BlogPost | null> {
