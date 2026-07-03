@@ -1,6 +1,7 @@
 import { Button } from '../../../components/ui/Button'
 import {
   HeroWhatsAppCorner,
+  heroCornerVarsClass,
   heroImageScoopMaskClass,
 } from '../../../components/sections/HeroWhatsAppCorner'
 import { homeAssets } from '../data/homeAssets'
@@ -8,9 +9,9 @@ import { heroTags } from '../data/homeContent'
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-cream">
-      <div className="mx-auto max-w-[1440px] px-4 pb-4 pt-4 sm:px-6 sm:pb-25 sm:pt-6 md:px-11">
-        <div className="relative rounded-[20px] sm:rounded-[32px]">
+    <section className="relative overflow-x-hidden bg-cream">
+      <div className="mx-auto max-w-[1440px] px-4 pb-8 pt-4 sm:px-6 sm:pb-25 sm:pt-6 md:px-11">
+        <div className={`relative overflow-visible rounded-[20px] sm:rounded-[32px] ${heroCornerVarsClass}`}>
           <div
             className={`pointer-events-none absolute inset-0 overflow-hidden rounded-[20px] sm:rounded-[32px] ${heroImageScoopMaskClass}`}
           >

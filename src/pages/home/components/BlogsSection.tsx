@@ -9,7 +9,7 @@ export function BlogsSection() {
   const featuredPosts = blogs.slice(0, 2)
 
   return (
-    <section id="blogs" className="bg-cream px-4 py-20 md:px-11">
+    <section id="blogs" className="bg-cream px-4 pb-15 md:px-11">
       <div className="mx-auto max-w-[1440px]">
         <div className="text-center">
           <SectionBadge label="Insights & Blogs" className="mx-auto" />

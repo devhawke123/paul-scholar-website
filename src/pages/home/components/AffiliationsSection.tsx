@@ -1,6 +1,6 @@
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
-import { aboutIcons } from '../data/aboutAssets'
+import { DecorativeVector } from '../../../components/ui/DecorativeVector'
 import { homeAssets } from '../data/homeAssets'
 import { affiliations } from '../data/homeContent'
 
@@ -20,21 +20,11 @@ function ExploreArrow() {
 
 export function AffiliationsSection() {
   return (
-    <section className="relative isolate overflow-hidden bg-cream px-4 py-20 md:px-11">
-      <img
-        src={aboutIcons.decorativeVector}
-        alt=""
-        aria-hidden
-        className="decorative-vector bottom-8 left-2 w-20 md:bottom-12 md:left-8 md:w-28"
-      />
-      <img
-        src={aboutIcons.decorativeVector}
-        alt=""
-        aria-hidden
-        className="decorative-vector right-0 top-16 w-20 scale-x-[-1] md:top-20 md:w-28"
-      />
+    <section className="relative overflow-hidden bg-cream px-4 py-20 md:px-11">
+      <DecorativeVector className="absolute bottom-8 left-2 lg:bottom-12 lg:left-8 xl:left-10" />
+      <DecorativeVector flip className="absolute right-0 top-16 lg:top-20 xl:top-24" />
 
-      <div className="relative z-10 mx-auto max-w-[1440px]">
+      <div className="relative mx-auto max-w-[1440px]">
         <div className="text-center">
           <SectionBadge label="Affiliations" className="mx-auto" />
           <h2 className="mt-6 text-3xl font-bold text-navy md:text-4xl lg:text-5xl">

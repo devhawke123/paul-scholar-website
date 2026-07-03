@@ -5,9 +5,13 @@ type HeroWhatsAppCornerProps = {
   iconSrc?: string
 }
 
-/** Masks the hero image so the bottom-right corner scoops inward for the WhatsApp icon. */
+/** Shared sizing tokens — apply on the hero card wrapper that contains the image + WhatsApp link. */
+export const heroCornerVarsClass =
+  '[--wa-size:40px] [--wa-offset:10%] xs:[--wa-size:44px] xs:[--wa-offset:11%] sm:[--wa-size:52px] sm:[--wa-offset:13%] md:[--wa-size:60px] md:[--wa-offset:15%] lg:[--wa-size:72px] lg:[--wa-offset:20%] xl:[--wa-size:84px] xl:[--wa-offset:24%] 2xl:[--wa-size:96px] 2xl:[--wa-offset:26%]'
+
+/** Masks the hero image so the bottom-right corner scoops inward for the WhatsApp icon (laptop+ only). */
 export const heroImageScoopMaskClass =
-  '[-webkit-mask-image:radial-gradient(circle_44px_at_100%_100%,transparent_43px,#000_44px)] [mask-image:radial-gradient(circle_44px_at_100%_100%,transparent_43px,#000_44px)] sm:[-webkit-mask-image:radial-gradient(circle_54px_at_100%_100%,transparent_53px,#000_54px)] sm:[mask-image:radial-gradient(circle_54px_at_100%_100%,transparent_53px,#000_54px)]'
+  'lg:[-webkit-mask-image:radial-gradient(circle_calc(var(--wa-size)*0.62)_at_100%_100%,transparent_calc(var(--wa-size)*0.62_-_1px),#000_calc(var(--wa-size)*0.62))] lg:[mask-image:radial-gradient(circle_calc(var(--wa-size)*0.62)_at_100%_100%,transparent_calc(var(--wa-size)*0.62_-_1px),#000_calc(var(--wa-size)*0.62))]'
 
 export function HeroWhatsAppCorner({
   href = siteContact.whatsappHref,
@@ -21,12 +25,12 @@ export function HeroWhatsAppCorner({
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"
-      className="absolute bottom-0 right-0 z-30 translate-x-[22%] translate-y-[22%] transition hover:scale-105 sm:translate-x-[26%] sm:translate-y-[26%]"
+      className="absolute bottom-0 right-0 z-30 hidden translate-x-[var(--wa-offset)] translate-y-[var(--wa-offset)] transition hover:scale-105 lg:block"
     >
       <img
         src={iconSrc}
         alt=""
-        className="h-[72px] w-[71px] object-contain sm:h-[84px] sm:w-[83px]"
+        className="size-[var(--wa-size)] object-contain"
       />
     </a>
   )

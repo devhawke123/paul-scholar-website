@@ -12,7 +12,7 @@ export function DocumentLibrarySection() {
   const previewPapers = sortPapersByDate(papers).slice(0, HOME_PREVIEW_COUNT)
 
   return (
-    <section id="library" className="bg-cream px-4 py-20 md:px-11">
+    <section id="library" className="bg-cream px-4 py-2 md:px-11">
       <div className="mx-auto max-w-[1154px]">
         <SectionBadge label="Publications & Papers" />
         <h2 className="mt-6 text-3xl font-bold text-navy md:text-4xl">Document Library</h2>

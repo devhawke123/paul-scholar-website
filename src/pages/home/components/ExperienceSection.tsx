@@ -1,19 +1,14 @@
 import { ArrowLink } from '../../../components/ui/ArrowLink'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
-import { aboutIcons } from '../data/aboutAssets'
+import { DecorativeVector } from '../../../components/ui/DecorativeVector'
 import { experienceCards } from '../data/homeContent'
 
 export function ExperienceSection() {
   return (
-    <section className="relative isolate overflow-hidden bg-cream px-4 py-20 md:px-11">
-      <img
-        src={aboutIcons.decorativeVector}
-        alt=""
-        aria-hidden
-        className="decorative-vector left-2 top-16 w-20 md:left-8 md:w-24"
-      />
+    <section className="relative overflow-hidden bg-cream px-4 py-20 md:px-11">
+      <DecorativeVector className="absolute left-2 top-16 lg:left-8 xl:left-10" />
 
-      <div className="relative z-10 mx-auto max-w-[1350px] overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-12 md:py-14">
+      <div className="relative mx-auto max-w-[1350px] overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-12 md:py-14">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-16">
           <div>
             <SectionBadge label="Work & Experience" />

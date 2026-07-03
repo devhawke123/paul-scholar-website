@@ -1,7 +1,7 @@
 // import { Link } from 'react-router-dom' 
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
-import { aboutIcons } from '../data/aboutAssets'
+import { DecorativeVector } from '../../../components/ui/DecorativeVector'
 import { homeAssets } from '../data/homeAssets'
 import { aboutHighlights } from '../data/homeContent'
 import { AboutHighlightIcon } from './AboutHighlightIcon'
@@ -27,8 +27,12 @@ export function AboutSection() {
         aria-hidden
         className="decorative-vector right-0 top-1/2 w-20 -translate-y-1/2 md:w-24"
       />
+    <section id="about" className="relative overflow-hidden bg-cream px-4 pt-9 md:px-11">
+      <DecorativeVector className="absolute -left-6 top-24 lg:-left-8 xl:-left-10" />
+      <DecorativeVector className="absolute -left-4 bottom-16 lg:-left-6" />
+      <DecorativeVector className="absolute right-0 top-1/2 -translate-y-1/2 lg:right-2 xl:right-4" />
 
-      <div className="relative z-10 mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="relative mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="relative min-h-[420px] sm:min-h-[480px] lg:min-h-[663px]">
           <div
             aria-hidden
