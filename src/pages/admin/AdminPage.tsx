@@ -3,39 +3,41 @@ import { BlogsManager } from './components/BlogsManager'
 import { PapersManager } from './components/PapersManager'
 import { useState } from 'react'
 
+const tabs = [
+  { id: 'papers', label: 'Papers' },
+  { id: 'blogs', label: 'Blogs' },
+] as const
+
+type Tab = (typeof tabs)[number]['id']
+
 export function AdminPage() {
-  const [activeSection, setActiveSection] = useState<'papers' | 'blogs'>('papers')
+  const [activeSection, setActiveSection] = useState<Tab>('papers')
 
   return (
     <div className="min-h-screen bg-cream text-navy">
       <AdminNavbar />
       <main>
-        <section className="px-4 pt-8 md:px-11">
-          <div className="mx-auto flex max-w-[1154px] gap-3">
-            <button
-              type="button"
-              onClick={() => setActiveSection('papers')}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition ${
-                activeSection === 'papers'
-                  ? 'bg-navy text-white'
-                  : 'bg-white text-navy shadow-sm hover:bg-navy/5'
-              }`}
-            >
-              Papers
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveSection('blogs')}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition ${
-                activeSection === 'blogs'
-                  ? 'bg-navy text-white'
-                  : 'bg-white text-navy shadow-sm hover:bg-navy/5'
-              }`}
-            >
-              Blogs
-            </button>
+        {/* Tab bar */}
+        <div className="border-b border-navy/10 px-4 md:px-11">
+          <div className="mx-auto flex max-w-[1154px] gap-1">
+            {tabs.map(({ id, label }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setActiveSection(id)}
+                className={`relative px-5 py-3.5 text-sm font-medium transition-colors ${
+                  activeSection === id ? 'text-navy' : 'text-navy/50 hover:text-navy/80'
+                }`}
+              >
+                {label}
+                {activeSection === id && (
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-accent" />
+                )}
+              </button>
+            ))}
           </div>
-        </section>
+        </div>
+
         {activeSection === 'papers' ? <PapersManager /> : <BlogsManager />}
       </main>
     </div>
