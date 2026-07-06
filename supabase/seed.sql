@@ -37,6 +37,19 @@ create table if not exists papers (
   updated_at          timestamptz not null default now()
 );
 
+create table if not exists paper_requests (
+  id          uuid primary key default gen_random_uuid(),
+  full_name   text not null,
+  email       text not null,
+  paper_id    uuid not null references papers(id) on delete cascade,
+  reason      text not null,
+  status      text not null default 'Pending' check (status in ('Pending','Approved','Rejected')),
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+create index if not exists paper_requests_email_paper_idx on paper_requests(email, paper_id);
+
 -- ── RLS (temporary — open write policies until auth is added) ─
 -- WARNING: these allow anyone with the anon key to write.
 -- Tighten to authenticated-only writes before real production launch.
@@ -56,6 +69,12 @@ create policy "anon can delete blog_posts" on blog_posts for delete using (true)
 create policy "anon can insert papers" on papers for insert with check (true);
 create policy "anon can update papers" on papers for update using (true);
 create policy "anon can delete papers" on papers for delete using (true);
+
+alter table paper_requests enable row level security;
+
+create policy "public can read paper_requests" on paper_requests for select using (true);
+create policy "anon can insert paper_requests" on paper_requests for insert with check (true);
+create policy "anon can update paper_requests" on paper_requests for update using (true);
 
 -- ── Storage buckets ──────────────────────────────────────────
 -- Create these manually in Supabase Dashboard → Storage:
