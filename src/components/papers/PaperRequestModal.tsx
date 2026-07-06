@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Button } from '../ui/Button'
-import { sendPaperRequest } from '../../services/email'
+import { countRequestsFor, createPaperRequest } from '../../services/paperRequests'
 
 type Props = {
   paper: { id: string; title: string }
@@ -8,6 +8,7 @@ type Props = {
 }
 
 export function PaperRequestModal({ paper, onClose }: Props) {
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [reason, setReason] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
@@ -26,9 +27,17 @@ export function PaperRequestModal({ paper, onClose }: Props) {
     setStatus('sending')
     setErrorMsg('')
     try {
-      await sendPaperRequest({
-        paperTitle: paper.title,
-        requesterEmail: email.trim(),
+      const trimmedEmail = email.trim()
+      const existingCount = await countRequestsFor(trimmedEmail, paper.id)
+      if (existingCount >= 2) {
+        setErrorMsg("You've reached the maximum number of requests for this paper.")
+        setStatus('error')
+        return
+      }
+      await createPaperRequest({
+        fullName: fullName.trim(),
+        email: trimmedEmail,
+        paperId: paper.id,
         reason: reason.trim(),
       })
       setStatus('success')
@@ -58,11 +67,11 @@ export function PaperRequestModal({ paper, onClose }: Props) {
             <p className="text-4xl" aria-hidden>
               ✉️
             </p>
-            <h2 className="mt-4 text-xl font-bold text-navy">Request sent!</h2>
+            <h2 className="mt-4 text-xl font-bold text-navy">Request received!</h2>
             <p className="mt-2 text-sm leading-relaxed text-navy/70">
-              We&apos;ll review your request and send{' '}
-              <span className="font-medium text-navy">&ldquo;{paper.title}&rdquo;</span> to{' '}
-              <strong>{email}</strong> shortly.
+              We&apos;ll review your request for{' '}
+              <span className="font-medium text-navy">&ldquo;{paper.title}&rdquo;</span> and email{' '}
+              <strong>{email}</strong> if it&apos;s approved.
             </p>
             <Button onClick={onClose} className="mt-6 px-10">
               Close
@@ -86,6 +95,18 @@ export function PaperRequestModal({ paper, onClose }: Props) {
             </div>
 
             <form onSubmit={(e) => void handleSubmit(e)} className="mt-6 space-y-4">
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-medium text-navy">Full name</span>
+                <input
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Jane Doe"
+                  className={fieldClass}
+                />
+              </label>
+
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-navy">Your email</span>
                 <input
