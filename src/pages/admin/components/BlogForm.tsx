@@ -3,6 +3,8 @@ import { blogImages } from '../../../data/blogAssets'
 import { slugifyTitle } from '../../../services/blogs'
 import type { BlogFiles, BlogSectionFiles } from '../../../services/blogs'
 import { Button } from '../../../components/ui/Button'
+import { Alert } from '../../../components/ui/Alert'
+import { formatErrorMessage } from '../../../utils/errors'
 import {
   blogPostCategories,
   type BlogContentSection,
@@ -257,7 +259,7 @@ export function BlogForm({ initial, onSubmit, onCancel }: BlogFormProps) {
     try {
       await onSubmit(input, { coverFile, sectionFiles })
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      setSubmitError(formatErrorMessage(err))
       setIsSubmitting(false)
     }
   }
@@ -669,11 +671,7 @@ export function BlogForm({ initial, onSubmit, onCancel }: BlogFormProps) {
       </div>
 
       <div className="mt-8 space-y-3">
-        {submitError && (
-          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {submitError}
-          </p>
-        )}
+        {submitError && <Alert>{submitError}</Alert>}
         <div className="flex flex-wrap gap-3">
           <Button type="submit" disabled={isSubmitting} className="rounded-full px-8">
             {isSubmitting ? 'Saving…' : initial ? 'Save Changes' : 'Publish Post'}

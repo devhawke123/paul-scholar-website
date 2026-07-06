@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '../../../components/ui/Button'
+import { Alert } from '../../../components/ui/Alert'
+import { formatErrorMessage } from '../../../utils/errors'
 import { paperCategories, type Paper, type PaperInput } from '../../../types/paper'
 import type { ContentSection, ContentSectionVariant } from '../../../types/contentSection'
 import {
@@ -168,7 +170,7 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
     try {
       await onSubmit(input, { thumbnailFile, pdfFile })
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      setSubmitError(formatErrorMessage(err))
       setIsSubmitting(false)
     }
   }
@@ -547,11 +549,7 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
       </div>
 
       <div className="mt-8 space-y-3">
-        {submitError && (
-          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {submitError}
-          </p>
-        )}
+        {submitError && <Alert>{submitError}</Alert>}
         <div className="flex flex-wrap gap-3">
           <Button type="submit" disabled={isSubmitting} className="rounded-full px-8">
             {isSubmitting ? 'Saving…' : initial ? 'Save Changes' : 'Add Paper'}

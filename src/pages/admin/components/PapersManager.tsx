@@ -3,6 +3,7 @@ import { createPaper, deletePaper, updatePaper } from '../../../services/papers'
 import type { PaperFiles } from '../../../services/papers'
 import { usePapers } from '../../../hooks/usePapers'
 import { Button } from '../../../components/ui/Button'
+import { ConfirmDialog } from '../../../components/ui/ConfirmDialog'
 import type { Paper, PaperInput } from '../../../types/paper'
 import { formatPaperDate, getPaperExcerpt, getPaperTags } from '../../../utils/papers'
 import { PaperForm } from './PaperForm'
@@ -105,6 +106,8 @@ export function PapersManager() {
   const { data: papers, refetch } = usePapers()
   const [showForm, setShowForm] = useState(false)
   const [editingPaper, setEditingPaper] = useState<Paper | null>(null)
+  const [paperToDelete, setPaperToDelete] = useState<Paper | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   function closeForm() {
     setShowForm(false)
@@ -128,13 +131,19 @@ export function PapersManager() {
     closeForm()
   }
 
-  async function handleDelete(paper: Paper) {
-    if (!window.confirm(`Delete "${paper.title}"?`)) return
-    console.log('[Papers] Deleting paper…', paper.id, paper.title)
-    await deletePaper(paper.id)
-    console.log('[Papers] ✓ Paper deleted:', paper.title)
-    await refetch()
-    if (editingPaper?.id === paper.id) closeForm()
+  async function confirmDelete() {
+    if (!paperToDelete) return
+    setIsDeleting(true)
+    try {
+      console.log('[Papers] Deleting paper…', paperToDelete.id, paperToDelete.title)
+      await deletePaper(paperToDelete.id)
+      console.log('[Papers] ✓ Paper deleted:', paperToDelete.title)
+      await refetch()
+      if (editingPaper?.id === paperToDelete.id) closeForm()
+      setPaperToDelete(null)
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   return (
@@ -275,7 +284,7 @@ export function PapersManager() {
                       </Button>
                       <Button
                         variant="ghost"
-                        onClick={() => void handleDelete(paper)}
+                        onClick={() => setPaperToDelete(paper)}
                         className="h-10 rounded-full px-5 text-sm text-red-700 hover:text-red-800"
                       >
                         Delete
@@ -288,6 +297,27 @@ export function PapersManager() {
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={paperToDelete !== null}
+        title="Delete paper?"
+        description={
+          paperToDelete ? (
+            <>
+              Delete <strong>&ldquo;{paperToDelete.title}&rdquo;</strong>? This cannot be undone.
+            </>
+          ) : (
+            ''
+          )
+        }
+        confirmLabel="Delete"
+        variant="danger"
+        isLoading={isDeleting}
+        onConfirm={() => void confirmDelete()}
+        onCancel={() => {
+          if (!isDeleting) setPaperToDelete(null)
+        }}
+      />
     </section>
   )
 }

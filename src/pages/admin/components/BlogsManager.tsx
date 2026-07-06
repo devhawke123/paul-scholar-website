@@ -3,6 +3,7 @@ import { createBlog, deleteBlog, updateBlog, formatBlogDate } from '../../../ser
 import type { BlogFiles } from '../../../services/blogs'
 import { useBlogs } from '../../../hooks/useBlogs'
 import { Button } from '../../../components/ui/Button'
+import { ConfirmDialog } from '../../../components/ui/ConfirmDialog'
 import type { BlogInput, BlogPost } from '../../../types/blog'
 import { BlogForm } from './BlogForm'
 
@@ -49,6 +50,8 @@ export function BlogsManager() {
   const { data: blogs, refetch } = useBlogs({ full: true })
   const [showForm, setShowForm] = useState(false)
   const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null)
+  const [blogToDelete, setBlogToDelete] = useState<BlogPost | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   function closeForm() {
     setShowForm(false)
@@ -68,11 +71,17 @@ export function BlogsManager() {
     closeForm()
   }
 
-  async function handleDelete(blog: BlogPost) {
-    if (!window.confirm(`Delete "${blog.title}"?`)) return
-    await deleteBlog(blog.id)
-    await refetch()
-    if (editingBlog?.id === blog.id) closeForm()
+  async function confirmDelete() {
+    if (!blogToDelete) return
+    setIsDeleting(true)
+    try {
+      await deleteBlog(blogToDelete.id)
+      await refetch()
+      if (editingBlog?.id === blogToDelete.id) closeForm()
+      setBlogToDelete(null)
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   return (
@@ -159,7 +168,7 @@ export function BlogsManager() {
                     </Button>
                     <Button
                       variant="ghost"
-                      onClick={() => void handleDelete(blog)}
+                      onClick={() => setBlogToDelete(blog)}
                       className="h-10 rounded-full px-5 text-sm text-red-700 hover:text-red-800"
                     >
                       Delete
@@ -171,6 +180,27 @@ export function BlogsManager() {
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={blogToDelete !== null}
+        title="Delete blog post?"
+        description={
+          blogToDelete ? (
+            <>
+              Delete <strong>&ldquo;{blogToDelete.title}&rdquo;</strong>? This cannot be undone.
+            </>
+          ) : (
+            ''
+          )
+        }
+        confirmLabel="Delete"
+        variant="danger"
+        isLoading={isDeleting}
+        onConfirm={() => void confirmDelete()}
+        onCancel={() => {
+          if (!isDeleting) setBlogToDelete(null)
+        }}
+      />
     </section>
   )
 }

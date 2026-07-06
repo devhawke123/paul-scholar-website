@@ -1,6 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Button } from '../ui/Button'
+import { Alert } from '../ui/Alert'
 import { countRequestsFor, createPaperRequest } from '../../services/paperRequests'
+import { formatErrorMessage } from '../../utils/errors'
 
 type Props = {
   paper: { id: string; title: string }
@@ -42,11 +44,7 @@ export function PaperRequestModal({ paper, onClose }: Props) {
       })
       setStatus('success')
     } catch (err) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : 'Failed to send request. Please try again.'
-      setErrorMsg(message)
+      setErrorMsg(formatErrorMessage(err, 'Failed to send request. Please try again.'))
       setStatus('error')
     }
   }
@@ -136,9 +134,7 @@ export function PaperRequestModal({ paper, onClose }: Props) {
                 />
               </label>
 
-              {status === 'error' && (
-                <p className="text-sm text-red-600">{errorMsg}</p>
-              )}
+              {status === 'error' && errorMsg && <Alert>{errorMsg}</Alert>}
 
               <div className="flex items-center gap-3 pt-1">
                 <Button type="submit" disabled={status === 'sending'} className="px-8">

@@ -2,6 +2,9 @@ import { useMemo, useState } from 'react'
 import { approvePaperRequest, rejectPaperRequest } from '../../../services/paperRequests'
 import { usePaperRequests } from '../../../hooks/usePaperRequests'
 import { Button } from '../../../components/ui/Button'
+import { Alert } from '../../../components/ui/Alert'
+import { ConfirmDialog } from '../../../components/ui/ConfirmDialog'
+import { formatErrorMessage } from '../../../utils/errors'
 import type { PaperRequest, RequestStatus } from '../../../types/paperRequest'
 
 function IconClock() {
@@ -29,6 +32,11 @@ const statusBadgeClasses: Record<RequestStatus, string> = {
 
 const filters = ['All', 'Pending', 'Approved', 'Rejected'] as const
 type Filter = (typeof filters)[number]
+
+type PendingConfirmation = {
+  request: PaperRequest
+  action: 'approve' | 'reject'
+}
 
 function formatRequestDate(value: string) {
   const parsed = new Date(value)
@@ -72,38 +80,34 @@ export function RequestsManager() {
   const { data: requests, isLoading, error, refetch } = usePaperRequests()
   const [filter, setFilter] = useState<Filter>('All')
   const [pendingActionId, setPendingActionId] = useState<string | null>(null)
+  const [actionError, setActionError] = useState('')
+  const [confirmation, setConfirmation] = useState<PendingConfirmation | null>(null)
 
   const visibleRequests = useMemo(
     () => requests.filter((r) => filter === 'All' || r.status === filter),
     [requests, filter],
   )
 
-  async function handleApprove(request: PaperRequest) {
-    if (
-      !window.confirm(
-        `Approve ${request.fullName}'s request for "${request.paperTitle}"? They'll be emailed the paper.`,
+  async function runConfirmedAction() {
+    if (!confirmation) return
+    const { request, action } = confirmation
+    setPendingActionId(request.id)
+    setActionError('')
+    try {
+      if (action === 'approve') {
+        await approvePaperRequest(request.id)
+      } else {
+        await rejectPaperRequest(request.id)
+      }
+      setConfirmation(null)
+      await refetch()
+    } catch (err) {
+      setActionError(
+        formatErrorMessage(
+          err,
+          action === 'approve' ? 'Failed to approve request.' : 'Failed to reject request.',
+        ),
       )
-    )
-      return
-    setPendingActionId(request.id)
-    try {
-      await approvePaperRequest(request.id)
-      await refetch()
-    } catch (err) {
-      window.alert(err instanceof Error ? err.message : 'Failed to approve request.')
-    } finally {
-      setPendingActionId(null)
-    }
-  }
-
-  async function handleReject(request: PaperRequest) {
-    if (!window.confirm(`Reject ${request.fullName}'s request for "${request.paperTitle}"?`)) return
-    setPendingActionId(request.id)
-    try {
-      await rejectPaperRequest(request.id)
-      await refetch()
-    } catch (err) {
-      window.alert(err instanceof Error ? err.message : 'Failed to reject request.')
     } finally {
       setPendingActionId(null)
     }
@@ -121,6 +125,12 @@ export function RequestsManager() {
         </div>
 
         <StatsBar requests={requests} />
+
+        {actionError && (
+          <Alert className="mt-6" onDismiss={() => setActionError('')}>
+            {actionError}
+          </Alert>
+        )}
 
         <div className="mt-8 flex flex-wrap gap-2">
           {filters.map((f) => (
@@ -147,7 +157,7 @@ export function RequestsManager() {
 
           {error && (
             <div className="px-6 py-16 text-center">
-              <p className="text-red-600">Failed to load requests. Please refresh the page.</p>
+              <Alert>{formatErrorMessage(error, 'Failed to load requests. Please refresh the page.')}</Alert>
             </div>
           )}
 
@@ -197,7 +207,7 @@ export function RequestsManager() {
                       <Button
                         variant="outline"
                         disabled={pendingActionId === request.id}
-                        onClick={() => void handleApprove(request)}
+                        onClick={() => setConfirmation({ request, action: 'approve' })}
                         className="h-10 rounded-full border-green-600/40 px-5 text-sm text-green-700 hover:border-green-600 hover:bg-green-50 disabled:opacity-50"
                       >
                         Approve
@@ -205,7 +215,7 @@ export function RequestsManager() {
                       <Button
                         variant="ghost"
                         disabled={pendingActionId === request.id}
-                        onClick={() => void handleReject(request)}
+                        onClick={() => setConfirmation({ request, action: 'reject' })}
                         className="h-10 rounded-full px-5 text-sm text-red-700 hover:text-red-800 disabled:opacity-50"
                       >
                         Reject
@@ -218,6 +228,39 @@ export function RequestsManager() {
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmation !== null}
+        title={confirmation?.action === 'reject' ? 'Reject request?' : 'Approve request?'}
+        description={
+          confirmation ? (
+            <>
+              {confirmation.action === 'approve' ? (
+                <>
+                  Approve <strong>{confirmation.request.fullName}</strong>&apos;s request for{' '}
+                  <strong>&ldquo;{confirmation.request.paperTitle}&rdquo;</strong>? They&apos;ll be
+                  emailed the paper.
+                </>
+              ) : (
+                <>
+                  Reject <strong>{confirmation.request.fullName}</strong>&apos;s request for{' '}
+                  <strong>&ldquo;{confirmation.request.paperTitle}&rdquo;</strong>? They won&apos;t
+                  receive access.
+                </>
+              )}
+            </>
+          ) : (
+            ''
+          )
+        }
+        confirmLabel={confirmation?.action === 'reject' ? 'Reject' : 'Approve'}
+        variant={confirmation?.action === 'reject' ? 'danger' : 'default'}
+        isLoading={pendingActionId === confirmation?.request.id}
+        onConfirm={() => void runConfirmedAction()}
+        onCancel={() => {
+          if (pendingActionId !== confirmation?.request.id) setConfirmation(null)
+        }}
+      />
     </section>
   )
 }

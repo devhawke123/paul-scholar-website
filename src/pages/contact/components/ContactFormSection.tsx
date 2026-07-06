@@ -1,5 +1,7 @@
 import { type FormEvent, useRef, useState } from 'react'
+import { Alert } from '../../../components/ui/Alert'
 import { sendContactForm } from '../../../services/email'
+import { formatErrorMessage } from '../../../utils/errors'
 import { contactInfo } from '../data/contactContent'
 import { ContactChannelCard } from './ContactChannelCard'
 import { ContactSubmitButton } from './ContactSubmitButton'
@@ -31,11 +33,9 @@ export function ContactFormSection() {
       setStatus('success')
       formRef.current?.reset()
     } catch (err) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : 'Something went wrong. Please try again or email us directly.'
-      setErrorMsg(message)
+      setErrorMsg(
+        formatErrorMessage(err, 'Something went wrong. Please try again or email us directly.'),
+      )
       setStatus('error')
     }
   }
@@ -86,13 +86,9 @@ export function ContactFormSection() {
 
               <div className="mt-10 flex flex-wrap items-center justify-end gap-4">
                 {status === 'success' && (
-                  <p className="text-sm text-green-700">
-                    Thank you — your message has been received.
-                  </p>
+                  <Alert variant="success">Thank you — your message has been received.</Alert>
                 )}
-                {status === 'error' && (
-                  <p className="text-sm text-red-600">{errorMsg}</p>
-                )}
+                {status === 'error' && errorMsg && <Alert>{errorMsg}</Alert>}
                 <ContactSubmitButton disabled={status === 'sending'} />
               </div>
             </form>
