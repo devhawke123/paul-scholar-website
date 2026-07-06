@@ -7,7 +7,7 @@ import { useState } from 'react'
 const tabs = [
   { id: 'papers', label: 'Papers' },
   { id: 'blogs', label: 'Blogs' },
-  { id: 'requests', label: 'Access Requests' },
+  { id: 'access', label: 'Access Request' },
 ] as const
 
 type Tab = (typeof tabs)[number]['id']
@@ -42,7 +42,7 @@ export function AdminPage() {
 
         {activeSection === 'papers' && <PapersManager />}
         {activeSection === 'blogs' && <BlogsManager />}
-        {activeSection === 'requests' && <RequestsManager />}
+        {activeSection === 'access' && <RequestsManager />}
       </main>
     </div>
   )

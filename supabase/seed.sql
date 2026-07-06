@@ -11,19 +11,40 @@ create table if not exists blog_posts (
   title       text not null,
   excerpt     text not null,
   body        jsonb not null,
+  sections    jsonb not null default '[]',
+  hero_title  text,
+  author_title text,
+  hero_badge  text,
+  citations   text,
   author      text not null,
   read_time   text not null,
   date        date not null,
   category    text not null,
   image_key   text not null,
+  cover_image_url text,
+  cover_image_file_name text,
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
+
+alter table blog_posts add column if not exists sections jsonb not null default '[]';
+alter table blog_posts add column if not exists hero_title text;
+alter table blog_posts add column if not exists author_title text;
+alter table blog_posts add column if not exists hero_badge text;
+alter table blog_posts add column if not exists citations text;
+alter table blog_posts add column if not exists cover_image_url text;
+alter table blog_posts add column if not exists cover_image_file_name text;
 
 create table if not exists papers (
   id                  uuid primary key default gen_random_uuid(),
   title               text not null,
   excerpt             text,
+  sections            jsonb not null default '[]',
+  hero_title          text,
+  hero_badge          text,
+  citations           text,
+  author              text,
+  author_title        text,
   date                date not null,
   category            text not null,
   access              text not null default 'Public',
@@ -36,6 +57,13 @@ create table if not exists papers (
   created_at          timestamptz not null default now(),
   updated_at          timestamptz not null default now()
 );
+
+alter table papers add column if not exists sections jsonb not null default '[]';
+alter table papers add column if not exists hero_title text;
+alter table papers add column if not exists hero_badge text;
+alter table papers add column if not exists citations text;
+alter table papers add column if not exists author text;
+alter table papers add column if not exists author_title text;
 
 create table if not exists paper_requests (
   id          uuid primary key default gen_random_uuid(),

@@ -13,7 +13,26 @@ export async function fetchPapers(limit?: number): Promise<Paper[]> {
   if (limit) query = query.limit(limit)
   const { data, error } = await query
   if (error) throw error
-  return (data as PaperRow[]).map(mapPaperRow)
+  return (data as Partial<PaperRow>[]).map((row) =>
+    mapPaperRow({
+      ...row,
+      sections: row.sections ?? [],
+      hero_title: row.hero_title ?? null,
+      hero_badge: row.hero_badge ?? null,
+      citations: row.citations ?? null,
+      author: row.author ?? null,
+      author_title: row.author_title ?? null,
+    } as PaperRow),
+  )
+}
+
+export async function fetchPaperById(id: string): Promise<Paper | null> {
+  const { data, error } = await supabase.from('papers').select('*').eq('id', id).single()
+  if (error) {
+    if (error.code === 'PGRST116') return null
+    throw error
+  }
+  return mapPaperRow(data as PaperRow)
 }
 
 export async function createPaper(input: PaperInput, files?: PaperFiles): Promise<Paper> {

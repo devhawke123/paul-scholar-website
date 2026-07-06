@@ -1,20 +1,16 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { PaperRequestModal } from '../../../components/papers/PaperRequestModal'
+import { Button } from '../../../components/ui/Button'
 import { usePdfPrefetch } from '../../../hooks/usePdfPrefetch'
 import type { Paper } from '../../../types/paper'
 import {
   formatPaperDate,
+  getPaperCategoryLabel,
   getPaperExcerpt,
   getPaperTags,
   getPaperThumbnail,
 } from '../../../utils/papers'
-
-function shortCategoryLabel(category: Paper['category']) {
-  if (category === 'Journal Article' || category === 'Article') return 'Article'
-  if (category === 'Research Paper' || category === 'Conference Paper') return 'Research paper'
-  if (category === 'Report') return 'Blog'
-  return category
-}
 
 type PaperCardProps = {
   paper: Paper
@@ -28,7 +24,7 @@ export function PaperCard({ paper }: PaperCardProps) {
   const hiddenTagCount = tags.length - visibleTags.length
 
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-navy/5">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-navy/5">
       {showModal && (
         <PaperRequestModal paper={paper} onClose={() => setShowModal(false)} />
       )}
@@ -42,7 +38,7 @@ export function PaperCard({ paper }: PaperCardProps) {
         />
 
         <span className="absolute left-4 top-4 rounded-md bg-white/95 px-2.5 py-1 text-xs font-medium text-navy shadow-sm">
-          {shortCategoryLabel(paper.category)}
+          {getPaperCategoryLabel(paper.category)}
         </span>
 
         <span
@@ -61,7 +57,7 @@ export function PaperCard({ paper }: PaperCardProps) {
         </span>
       </div>
 
-      <div className="space-y-4 p-4 md:p-5">
+      <div className="flex flex-1 flex-col space-y-4 p-4 md:p-5">
         <div className="space-y-3">
           <h3 className="line-clamp-2 text-lg font-semibold leading-snug text-navy">
             {paper.title}
@@ -87,8 +83,8 @@ export function PaperCard({ paper }: PaperCardProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between text-xs text-navy/60">
-          <div className="flex flex-wrap items-center gap-3">
+        <div className="mt-auto flex flex-col gap-4 border-t border-navy/10 pt-4">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-navy/60">
             <span className="inline-flex items-center gap-1.5">
               <span aria-hidden>📅</span>
               {formatPaperDate(paper.date)}
@@ -99,33 +95,41 @@ export function PaperCard({ paper }: PaperCardProps) {
             </span>
           </div>
 
-          {paper.pdfUrl && paper.access === 'Public' ? (
-            <a
-              href={paper.pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Download ${paper.title}`}
-              className="inline-flex items-center gap-1.5 font-medium text-navy/70 transition hover:text-accent"
-            >
-              <span aria-hidden>📄</span>
-              PDF
-            </a>
-          ) : paper.pdfUrl && paper.access === 'Restricted' ? (
-            <button
-              type="button"
-              onClick={() => setShowModal(true)}
-              aria-label={`Request access to ${paper.title}`}
-              className="inline-flex items-center gap-1.5 font-medium text-amber-700 transition hover:text-amber-900"
-            >
-              <span aria-hidden>✉</span>
-              Request
-            </button>
-          ) : (
-            <span className="inline-flex items-center gap-1.5 font-medium text-navy/40">
-              <span aria-hidden>📄</span>
-              No PDF
-            </span>
-          )}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            {paper.pdfUrl && paper.access === 'Public' ? (
+              <a
+                href={paper.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Download ${paper.title}`}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-navy/70 transition hover:text-accent"
+              >
+                <span aria-hidden>📄</span>
+                Quick download
+              </a>
+            ) : paper.pdfUrl && paper.access === 'Restricted' ? (
+              <button
+                type="button"
+                onClick={() => setShowModal(true)}
+                aria-label={`Request access to ${paper.title}`}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900"
+              >
+                <span aria-hidden>✉</span>
+                Request access
+              </button>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-navy/40">
+                <span aria-hidden>📄</span>
+                No PDF
+              </span>
+            )}
+
+            <Link to={`/library/${paper.id}`}>
+              <Button variant="outline" className="h-10 rounded-full px-6 text-sm">
+                View Details
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </article>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createBlog, deleteBlog, updateBlog, formatBlogDate } from '../../../services/blogs'
+import type { BlogFiles } from '../../../services/blogs'
 import { useBlogs } from '../../../hooks/useBlogs'
 import { Button } from '../../../components/ui/Button'
 import type { BlogInput, BlogPost } from '../../../types/blog'
@@ -54,15 +55,15 @@ export function BlogsManager() {
     setEditingBlog(null)
   }
 
-  async function handleAdd(input: BlogInput) {
-    await createBlog(input)
+  async function handleAdd(input: BlogInput, files: BlogFiles) {
+    await createBlog(input, files)
     await refetch()
     closeForm()
   }
 
-  async function handleUpdate(input: BlogInput) {
+  async function handleUpdate(input: BlogInput, files: BlogFiles) {
     if (!editingBlog) return
-    await updateBlog(editingBlog.id, input)
+    await updateBlog(editingBlog.id, input, files)
     await refetch()
     closeForm()
   }

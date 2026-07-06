@@ -1,7 +1,7 @@
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { blogAuthorAvatar } from '../../../data/blogAssets'
-import { formatBlogDate, getBlogImage } from '../../../data/blogs'
+import { formatBlogDate, getBlogCoverImage } from '../../../data/blogs'
 import type { BlogPost } from '../../../types/blog'
 
 type BlogCardProps = {
@@ -12,7 +12,7 @@ export function BlogCard({ post }: BlogCardProps) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-sm">
       <img
-        src={getBlogImage(post.imageKey)}
+        src={getBlogCoverImage(post)}
         alt={post.title}
         loading="lazy"
         className="aspect-[585/339] w-full object-cover"
@@ -39,11 +39,11 @@ export function BlogCard({ post }: BlogCardProps) {
 
         <div className="mt-6 flex items-center justify-between gap-4">
           <span className="text-sm text-navy/60">{formatBlogDate(post.date)}</span>
-          {/* <Link to={`/blogs/${post.slug}`}> */}
+          <Link to={`/blogs/${post.slug}`}>
             <Button variant="outline" className="rounded-full px-8">
               Read More
             </Button>
-          {/* </Link> */}
+          </Link>
         </div>
       </div>
     </article>

@@ -102,3 +102,10 @@ export function getPaperThumbnail(paper: Paper): string {
   const index = hashString(key) % defaultPaperThumbnails.length
   return defaultPaperThumbnails[index]
 }
+
+export function getPaperCategoryLabel(category: Paper['category']) {
+  if (category === 'Journal Article' || category === 'Article') return 'Article'
+  if (category === 'Research Paper' || category === 'Conference Paper') return 'Research paper'
+  if (category === 'Report') return 'Blog'
+  return category
+}

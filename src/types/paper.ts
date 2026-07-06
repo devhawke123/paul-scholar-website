@@ -1,3 +1,5 @@
+import type { ContentSection } from './contentSection'
+
 export const paperCategories = [
   'Research Paper',
   'Journal Article',
@@ -17,6 +19,12 @@ export type Paper = {
   category: PaperCategory
   access: PaperAccess
   excerpt?: string
+  sections: ContentSection[]
+  heroTitle?: string
+  heroBadge?: string
+  citations?: string
+  author?: string
+  authorTitle?: string
   tags?: string[]
   fileSize?: string
   thumbnailUrl?: string

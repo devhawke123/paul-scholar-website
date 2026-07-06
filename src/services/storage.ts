@@ -23,6 +23,31 @@ export async function uploadPaperThumbnail(file: File, paperId: string) {
   return { url: data.publicUrl, fileName: file.name }
 }
 
+export async function uploadBlogCover(file: File, blogId: string) {
+  const path = `blogs/${blogId}/cover/${file.name}`
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, file, { upsert: true })
+  if (error) throw error
+  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
+  return { url: data.publicUrl, fileName: file.name }
+}
+
+export async function uploadBlogSectionImage(
+  file: File,
+  blogId: string,
+  sectionIndex: number,
+  kind: 'side' | 'full',
+) {
+  const path = `blogs/${blogId}/sections/${sectionIndex}/${kind}/${file.name}`
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, file, { upsert: true })
+  if (error) throw error
+  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
+  return { url: data.publicUrl, fileName: file.name }
+}
+
 export async function removeStorageFile(path: string) {
   await supabase.storage.from(BUCKET).remove([path])
 }

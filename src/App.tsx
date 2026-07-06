@@ -6,6 +6,7 @@ import { BlogsPage } from './pages/blogs/BlogsPage'
 import { ContactPage } from './pages/contact/ContactPage'
 import { HomePage } from './pages/home/HomePage'
 import { LibraryPage } from './pages/library/LibraryPage'
+import { PaperDetailPage } from './pages/library/PaperDetailPage'
 
 export function App() {
   return (
@@ -14,6 +15,7 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/library" element={<LibraryPage />} />
+        <Route path="/library/:id" element={<PaperDetailPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:slug" element={<BlogPostPage />} />
         <Route path="/contact" element={<ContactPage />} />
