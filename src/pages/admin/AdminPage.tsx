@@ -1,11 +1,13 @@
 import { AdminNavbar } from './components/AdminNavbar'
 import { BlogsManager } from './components/BlogsManager'
 import { PapersManager } from './components/PapersManager'
+import { RequestsManager } from './components/RequestsManager'
 import { useState } from 'react'
 
 const tabs = [
   { id: 'papers', label: 'Papers' },
   { id: 'blogs', label: 'Blogs' },
+  { id: 'requests', label: 'Access Requests' },
 ] as const
 
 type Tab = (typeof tabs)[number]['id']
@@ -38,7 +40,9 @@ export function AdminPage() {
           </div>
         </div>
 
-        {activeSection === 'papers' ? <PapersManager /> : <BlogsManager />}
+        {activeSection === 'papers' && <PapersManager />}
+        {activeSection === 'blogs' && <BlogsManager />}
+        {activeSection === 'requests' && <RequestsManager />}
       </main>
     </div>
   )
