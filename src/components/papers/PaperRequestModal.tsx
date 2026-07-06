@@ -118,7 +118,7 @@ export function PaperRequestModal({ paper, onClose }: Props) {
                   className={fieldClass}
                 />
                 <p className="mt-1 text-xs text-navy/50">
-                  The paper will be sent to this address.
+                  We&apos;ll email this address if your request is approved.
                 </p>
               </label>
 
