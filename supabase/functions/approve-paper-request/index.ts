@@ -29,7 +29,7 @@ Deno.serve(async (req: Request) => {
   try {
     const { requestId } = (await req.json()) as { requestId?: string }
     if (!requestId) {
-      return json({ ok: false, error: 'requestId is required' }, 400)
+      return json({ ok: false, error: 'requestId is required' })
     }
 
     const supabase = createClient(
@@ -44,10 +44,10 @@ Deno.serve(async (req: Request) => {
       .single()
 
     if (requestError || !paperRequest) {
-      return json({ ok: false, error: 'Request not found' }, 404)
+      return json({ ok: false, error: 'Request not found' })
     }
     if (paperRequest.status !== 'Pending') {
-      return json({ ok: false, error: `Request is already ${paperRequest.status}` }, 409)
+      return json({ ok: false, error: `Request is already ${paperRequest.status}` })
     }
 
     const { data: paper, error: paperError } = await supabase
@@ -57,12 +57,12 @@ Deno.serve(async (req: Request) => {
       .single()
 
     if (paperError || !paper?.pdf_url) {
-      return json({ ok: false, error: 'Paper or PDF not found' }, 404)
+      return json({ ok: false, error: 'Paper or PDF not found' })
     }
 
     const resendApiKey = Deno.env.get('RESEND_API_KEY')
     if (!resendApiKey) {
-      return json({ ok: false, error: 'Email is not configured (missing RESEND_API_KEY)' }, 500)
+      return json({ ok: false, error: 'Email is not configured (missing RESEND_API_KEY)' })
     }
     const fromEmail = Deno.env.get('RESEND_FROM_EMAIL') ?? 'onboarding@resend.dev'
 
@@ -91,7 +91,7 @@ Deno.serve(async (req: Request) => {
 
     if (!emailRes.ok) {
       const detail = await emailRes.text()
-      return json({ ok: false, error: `Failed to send email: ${detail}` }, 502)
+      return json({ ok: false, error: `Failed to send email: ${detail}` })
     }
 
     const { error: updateError } = await supabase
@@ -100,11 +100,11 @@ Deno.serve(async (req: Request) => {
       .eq('id', requestId)
 
     if (updateError) {
-      return json({ ok: false, error: 'Email sent, but failed to update status' }, 500)
+      return json({ ok: false, error: 'Email sent, but failed to update status' })
     }
 
     return json({ ok: true })
   } catch (err) {
-    return json({ ok: false, error: err instanceof Error ? err.message : 'Unknown error' }, 500)
+    return json({ ok: false, error: err instanceof Error ? err.message : 'Unknown error' })
   }
 })
