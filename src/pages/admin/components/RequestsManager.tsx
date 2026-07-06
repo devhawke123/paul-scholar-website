@@ -47,22 +47,22 @@ function StatsBar({ requests }: { requests: PaperRequest[] }) {
   const approved = requests.filter((r) => r.status === 'Approved').length
   const rejected = requests.filter((r) => r.status === 'Rejected').length
   return (
-    <div className="mt-6 flex gap-px overflow-hidden rounded-xl border border-navy/10 bg-navy/10">
+    <div className="border-navy/10 bg-navy/10 mt-6 flex gap-px overflow-hidden rounded-xl border">
       <div className="flex flex-1 flex-col bg-white px-5 py-4">
-        <span className="text-2xl font-semibold text-navy">{requests.length}</span>
-        <span className="mt-0.5 text-xs text-navy/50">Total requests</span>
+        <span className="text-navy text-2xl font-semibold">{requests.length}</span>
+        <span className="text-navy/50 mt-0.5 text-xs">Total requests</span>
       </div>
       <div className="flex flex-1 flex-col bg-white px-5 py-4">
-        <span className="text-2xl font-semibold text-navy">{pending}</span>
-        <span className="mt-0.5 text-xs text-navy/50">Pending</span>
+        <span className="text-navy text-2xl font-semibold">{pending}</span>
+        <span className="text-navy/50 mt-0.5 text-xs">Pending</span>
       </div>
       <div className="flex flex-1 flex-col bg-white px-5 py-4">
-        <span className="text-2xl font-semibold text-navy">{approved}</span>
-        <span className="mt-0.5 text-xs text-navy/50">Approved</span>
+        <span className="text-navy text-2xl font-semibold">{approved}</span>
+        <span className="text-navy/50 mt-0.5 text-xs">Approved</span>
       </div>
       <div className="flex flex-1 flex-col bg-white px-5 py-4">
-        <span className="text-2xl font-semibold text-navy">{rejected}</span>
-        <span className="mt-0.5 text-xs text-navy/50">Rejected</span>
+        <span className="text-navy text-2xl font-semibold">{rejected}</span>
+        <span className="text-navy/50 mt-0.5 text-xs">Rejected</span>
       </div>
     </div>
   )
@@ -113,8 +113,8 @@ export function RequestsManager() {
     <section className="px-4 py-12 md:px-11 md:py-16">
       <div className="mx-auto max-w-[1154px]">
         <div>
-          <h1 className="text-3xl font-bold text-navy md:text-4xl">Access Requests</h1>
-          <p className="mt-2 max-w-2xl text-base text-navy/70">
+          <h1 className="text-navy text-3xl font-bold md:text-4xl">Access Requests</h1>
+          <p className="text-navy/70 mt-2 max-w-2xl text-base">
             Review requests for restricted papers. Approving a request emails the paper to the
             requester; rejecting denies access.
           </p>
@@ -137,10 +137,10 @@ export function RequestsManager() {
           ))}
         </div>
 
-        <div className="mt-6 rounded-2xl border border-navy/10 bg-white shadow-sm">
-          <div className="flex items-center justify-between border-b border-navy/10 px-6 py-4">
-            <h2 className="font-semibold text-navy">Requests</h2>
-            <span className="rounded-full bg-navy/5 px-3 py-1 text-xs font-medium text-navy/70">
+        <div className="border-navy/10 mt-6 rounded-2xl border bg-white shadow-sm">
+          <div className="border-navy/10 flex items-center justify-between border-b px-6 py-4">
+            <h2 className="text-navy font-semibold">Requests</h2>
+            <span className="bg-navy/5 text-navy/70 rounded-full px-3 py-1 text-xs font-medium">
               {visibleRequests.length} shown
             </span>
           </div>
@@ -164,26 +164,26 @@ export function RequestsManager() {
           )}
 
           {!error && !isLoading && visibleRequests.length > 0 && (
-            <ul className="divide-y divide-navy/10">
+            <ul className="divide-navy/10 divide-y">
               {visibleRequests.map((request) => (
                 <li
                   key={request.id}
-                  className="flex flex-col gap-4 px-6 py-6 transition hover:bg-navy/[0.025] md:flex-row md:items-start md:justify-between"
+                  className="hover:bg-navy/[0.025] flex flex-col gap-4 px-6 py-6 transition md:flex-row md:items-start md:justify-between"
                 >
                   <div className="min-w-0 flex-1 space-y-2">
                     <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="font-medium text-navy">{request.fullName}</h3>
+                      <h3 className="text-navy font-medium">{request.fullName}</h3>
                       <span
                         className={`rounded-full px-3 py-0.5 text-xs font-medium ${statusBadgeClasses[request.status]}`}
                       >
                         {request.status}
                       </span>
                     </div>
-                    <p className="text-sm text-navy/70">{request.email}</p>
-                    <p className="text-sm text-navy/70">
-                      Requested: <span className="font-medium text-navy">{request.paperTitle}</span>
+                    <p className="text-navy/70 text-sm">{request.email}</p>
+                    <p className="text-navy/70 text-sm">
+                      Requested: <span className="text-navy font-medium">{request.paperTitle}</span>
                     </p>
-                    <span className="inline-flex items-center gap-1.5 text-xs text-navy/60">
+                    <span className="text-navy/60 inline-flex items-center gap-1.5 text-xs">
                       <IconClock />
                       {formatRequestDate(request.createdAt)}
                     </span>

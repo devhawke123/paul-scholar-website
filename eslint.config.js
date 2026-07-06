@@ -52,4 +52,10 @@ export default [
       globals: globals.node,
     },
   },
+  {
+    files: ['supabase/functions/**/*.ts'],
+    languageOptions: {
+      globals: { Deno: 'readonly' },
+    },
+  },
 ]
