@@ -183,6 +183,9 @@ export function RequestsManager() {
                     <p className="text-navy/70 text-sm">
                       Requested: <span className="text-navy font-medium">{request.paperTitle}</span>
                     </p>
+                    <p className="text-navy/60 line-clamp-2 text-sm italic">
+                      &ldquo;{request.reason}&rdquo;
+                    </p>
                     <span className="text-navy/60 inline-flex items-center gap-1.5 text-xs">
                       <IconClock />
                       {formatRequestDate(request.createdAt)}
