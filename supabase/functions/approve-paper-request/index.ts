@@ -6,6 +6,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// Always respond 200 — supabase-js discards the body and throws a generic
+// error for any non-2xx status, so `ok`/`error` in the body is the only
+// signal the caller can actually read. Do not pass a non-200 status here.
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
