@@ -1,5 +1,6 @@
 import type { BlogInput, BlogPost } from '../types/blog'
 import type { Paper, PaperInput } from '../types/paper'
+import type { PaperRequest, RequestStatus } from '../types/paperRequest'
 
 export type BlogRow = {
   id: string
@@ -92,5 +93,29 @@ export function mapPaperInput(input: PaperInput): Record<string, unknown> {
     pdf_url: input.pdfUrl ?? null,
     thumbnail_file_name: input.thumbnailFileName ?? null,
     pdf_file_name: input.pdfFileName ?? null,
+  }
+}
+
+export type PaperRequestRow = {
+  id: string
+  full_name: string
+  email: string
+  paper_id: string
+  reason: string
+  status: string
+  created_at: string
+  papers: { title: string } | null
+}
+
+export function mapPaperRequestRow(row: PaperRequestRow): PaperRequest {
+  return {
+    id: row.id,
+    fullName: row.full_name,
+    email: row.email,
+    paperId: row.paper_id,
+    paperTitle: row.papers?.title ?? 'Unknown paper',
+    reason: row.reason,
+    status: row.status as RequestStatus,
+    createdAt: row.created_at,
   }
 }
