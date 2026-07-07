@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import {
   HeroWhatsAppCorner,
   heroCornerVarsClass,
   heroImageScoopMaskClass,
 } from '../../../components/sections/HeroWhatsAppCorner'
+import { routes } from '../../../routes'
 import { homeAssets } from '../data/homeAssets'
 import { heroTags } from '../data/homeContent'
 
@@ -41,15 +43,19 @@ export function HeroSection() {
               </p>
 
               <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
-                <Button className="h-12 w-full rounded-full px-6 text-sm sm:h-14 sm:w-auto sm:px-8 sm:text-base">
-                  Learn More About Dr. Stokes
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-12 w-full rounded-full border-white/40 bg-white/10 px-6 text-sm text-white backdrop-blur-sm hover:bg-white/20 sm:h-14 sm:w-auto sm:px-8 sm:text-base"
-                >
-                  Explore Articles
-                </Button>
+                <Link to={routes.about}>
+                  <Button className="h-12 w-full rounded-full px-6 text-sm sm:h-14 sm:w-auto sm:px-8 sm:text-base">
+                    Learn More About Dr. Stokes
+                  </Button>
+                </Link>
+                <Link to={routes.blogs}>
+                  <Button
+                    variant="outline"
+                    className="h-12 w-full rounded-full border-white/40 bg-white/10 px-6 text-sm text-white backdrop-blur-sm hover:bg-white/20 sm:h-14 sm:w-auto sm:px-8 sm:text-base"
+                  >
+                    Explore Articles
+                  </Button>
+                </Link>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-4 sm:mt-10 sm:flex sm:flex-wrap sm:gap-8 md:gap-16">

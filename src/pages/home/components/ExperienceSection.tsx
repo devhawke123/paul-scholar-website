@@ -1,6 +1,7 @@
 import { ArrowLink } from '../../../components/ui/ArrowLink'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
+import { routes } from '../../../routes'
 import { experienceCards } from '../data/homeContent'
 
 export function ExperienceSection() {
@@ -51,6 +52,7 @@ export function ExperienceSection() {
                 </p>
                 <ArrowLink
                   label="Learn More"
+                  href={routes.about}
                   className={`mt-6 font-semibold ${
                     isFeatured ? 'text-navy hover:text-navy/70' : 'text-navy hover:text-accent'
                   }`}

@@ -1,7 +1,8 @@
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { PaperListItem } from '../../../components/papers/PaperListItem'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
+import { routes } from '../../../routes'
 import { usePapers } from '../../../hooks/usePapers'
 
 const HOME_PREVIEW_COUNT = 5
@@ -33,9 +34,9 @@ export function DocumentLibrarySection() {
 
         {hasMore && (
           <div className="mt-10 text-center">
-            {/* <Link to="/library"> */}
+            <Link to={routes.library}>
               <Button className="rounded-full px-10">Explore More</Button>
-            {/* </Link> */}
+            </Link>
           </div>
         )}
       </div>

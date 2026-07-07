@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+import { isInternalHref } from '../../routes'
+
 type ArrowLinkProps = {
   label: string
   href?: string
@@ -5,11 +8,10 @@ type ArrowLinkProps = {
 }
 
 export function ArrowLink({ label, href = '#', className = '' }: ArrowLinkProps) {
-  return (
-    <a
-      href={href}
-      className={`group inline-flex items-center gap-2 text-sm font-medium text-navy transition-colors hover:text-accent ${className}`}
-    >
+  const classNames = `group inline-flex items-center gap-2 text-sm font-medium text-navy transition-colors hover:text-accent ${className}`
+
+  const content = (
+    <>
       {label}
       <svg
         className="size-4 transition-transform group-hover:translate-x-0.5"
@@ -25,6 +27,20 @@ export function ArrowLink({ label, href = '#', className = '' }: ArrowLinkProps)
           strokeLinejoin="round"
         />
       </svg>
+    </>
+  )
+
+  if (isInternalHref(href)) {
+    return (
+      <Link to={href} className={classNames}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <a href={href} className={classNames}>
+      {content}
     </a>
   )
 }

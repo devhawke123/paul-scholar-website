@@ -1,3 +1,10 @@
+import { routes } from '../routes'
+
+export type FooterLink = {
+  label: string
+  href: string
+}
+
 export const footerContent = {
   brand: 'Dr. Paul A. Stokes',
   contactLines: ['Feel free to call or email me', 'for any kind of query.'] as const,
@@ -8,16 +15,29 @@ export const footerContent = {
   newsletterPlaceholder: 'Enter your email',
   newsletterSubmitLabel: 'Subscribe',
   links: {
-    company: ['About', 'Contact', 'Career'],
-    support: ['Help Center', 'Documentation', 'FAQ'],
-    strategic: [
-      'Systemic Manpower Planning',
-      'Complexity Management',
-      'Adaptive Governance',
-      'Managerial Cybernetics (Advanced)',
-      'Institutional Resilience',
+    pages: [
+      { label: 'About', href: routes.about },
+      { label: 'Contact', href: routes.contact },
+      { label: 'Library', href: routes.library },
+      { label: 'Blogs', href: routes.blogs },
     ],
-    legal: ['Terms of Use', 'Privacy Policy', 'Cookie Policy'],
+    support: [
+      { label: 'Help Center', href: routes.contact },
+      { label: 'Documentation', href: routes.library },
+      { label: 'FAQ', href: routes.contactFaq },
+    ],
+    strategic: [
+      { label: 'Systemic Manpower Planning', href: routes.about },
+      { label: 'Complexity Management', href: routes.about },
+      { label: 'Adaptive Governance', href: routes.about },
+      { label: 'Managerial Cybernetics (Advanced)', href: routes.about },
+      { label: 'Institutional Resilience', href: routes.about },
+    ],
+    legal: [
+      { label: 'Terms of Use', href: routes.contact },
+      { label: 'Privacy Policy', href: routes.contact },
+      { label: 'Cookie Policy', href: routes.contact },
+    ],
   },
 } as const
 

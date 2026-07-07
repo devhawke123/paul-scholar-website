@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { usePdfPrefetch } from '../../hooks/usePdfPrefetch'
+import { libraryPath } from '../../routes'
 import type { Paper } from '../../types/paper'
 import { formatPaperDate } from '../../utils/papers'
 import { PaperRequestModal } from './PaperRequestModal'
@@ -22,8 +24,13 @@ export function PaperListItem({ paper }: PaperListItemProps) {
         <span className="mt-1 text-navy/40" aria-hidden>
           📄
         </span>
-        <div>
-          <h3 className="font-medium text-navy">{paper.title}</h3>
+        <div className="min-w-0 flex-1">
+          <Link
+            to={libraryPath(paper.id)}
+            className="font-medium text-navy transition-colors hover:text-accent"
+          >
+            {paper.title}
+          </Link>
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-navy/60">
             <span>{formatPaperDate(paper.date)}</span>
             <span className="rounded-full bg-navy/5 px-3 py-0.5 text-xs">{paper.category}</span>

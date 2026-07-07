@@ -13,7 +13,7 @@ export function BlogPostRelatedSection({ posts }: BlogPostRelatedSectionProps) {
     <section className="bg-cream px-4 py-14 md:px-11 md:py-16">
       <div className="mx-auto max-w-[1296px]">
         <SectionBadge label="Insights & Blogs" />
-        <h2 className="mt-4 text-3xl font-semibold text-navy">Insights &amp; Blogs</h2>
+        <h2 className="mt-4 text-2xl font-semibold text-navy sm:text-3xl">Insights &amp; Blogs</h2>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
           {posts.map((post) => (

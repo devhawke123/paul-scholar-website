@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { blogAuthorAvatar } from '../../../data/blogAssets'
 import { formatBlogDate, getBlogCoverImage } from '../../../data/blogs'
+import { blogPath } from '../../../routes'
 import type { BlogPost } from '../../../types/blog'
 
 type BlogCardProps = {
@@ -34,12 +35,16 @@ export function BlogCard({ post }: BlogCardProps) {
           </span>
         </div>
 
-        <h3 className="mt-4 text-xl font-semibold text-navy">{post.title}</h3>
+        <h3 className="mt-4 text-xl font-semibold text-navy">
+          <Link to={blogPath(post.slug)} className="transition-colors hover:text-accent">
+            {post.title}
+          </Link>
+        </h3>
         <p className="mt-3 flex-1 text-sm leading-relaxed text-navy/70">{post.excerpt}</p>
 
         <div className="mt-6 flex items-center justify-between gap-4">
           <span className="text-sm text-navy/60">{formatBlogDate(post.date)}</span>
-          <Link to={`/blogs/${post.slug}`}>
+          <Link to={blogPath(post.slug)}>
             <Button variant="outline" className="rounded-full px-8">
               Read More
             </Button>

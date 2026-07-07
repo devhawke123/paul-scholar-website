@@ -1,6 +1,7 @@
 import { Navigate, useParams } from 'react-router-dom'
 import { Navbar } from '../../components/layout/Navbar'
 import { SiteClosing } from '../../components/layout/SiteClosing'
+import { routes } from '../../routes'
 import { getBlogSections } from '../../utils/blogContent'
 import { useBlogPost } from '../../hooks/useBlogPost'
 import { useBlogs } from '../../hooks/useBlogs'
@@ -26,14 +27,14 @@ export function BlogPostPage() {
   }
 
   if (!post) {
-    return <Navigate to="/blogs" replace />
+    return <Navigate to={routes.blogs} replace />
   }
 
   const relatedPosts = blogs.filter((item) => item.slug !== post.slug).slice(0, 2)
   const sections = getBlogSections(post)
 
   return (
-    <div className="min-h-screen bg-[#fdf7f3] text-navy">
+    <div className="min-h-screen overflow-x-hidden bg-[#fdf7f3] text-navy">
       <Navbar />
       <main>
         <BlogPostHero post={post} />

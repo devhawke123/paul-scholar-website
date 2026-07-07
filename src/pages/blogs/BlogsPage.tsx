@@ -6,6 +6,7 @@ import { SectionBadge } from '../../components/ui/SectionBadge'
 import { blogCategories } from '../../data/blogs'
 import { pageHeroContent } from '../../data/pageHeroContent'
 import { useBlogs } from '../../hooks/useBlogs'
+import blogsHero from '../../assets/blogsHero.png'
 import { BlogCard } from './components/BlogCard'
 
 export function BlogsPage() {
@@ -30,7 +31,7 @@ export function BlogsPage() {
     <div className="min-h-screen bg-cream text-navy">
       <Navbar />
       <main>
-        <PageHero {...pageHeroContent.blogs} />
+        <PageHero {...pageHeroContent.blogs} backgroundSrc={blogsHero} />
 
         <section id="articles" className="px-4 py-16 md:px-11 md:py-20">
           <div className="mx-auto max-w-[1154px]">

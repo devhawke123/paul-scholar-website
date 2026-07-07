@@ -1,6 +1,7 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { Navbar } from '../../components/layout/Navbar'
 import { SiteClosing } from '../../components/layout/SiteClosing'
+import { routes } from '../../routes'
 import { usePaper } from '../../hooks/usePaper'
 import { usePapers } from '../../hooks/usePapers'
 import { getPaperSections } from '../../utils/paperContent'
@@ -27,18 +28,18 @@ export function PaperDetailPage() {
   }
 
   if (!paper) {
-    return <Navigate to="/library" replace />
+    return <Navigate to={routes.library} replace />
   }
 
   const sections = getPaperSections(paper)
 
   return (
-    <div className="min-h-screen bg-[#fdf7f3] text-navy">
+    <div className="min-h-screen overflow-x-hidden bg-[#fdf7f3] text-navy">
       <Navbar />
       <main>
         <div className="px-4 pt-4 md:px-11">
           <Link
-            to="/library"
+            to={routes.library}
             className="mx-auto inline-flex max-w-[1296px] items-center gap-2 text-sm font-medium text-navy/70 transition-colors hover:text-accent"
           >
             ← Back to document library

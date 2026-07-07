@@ -12,14 +12,14 @@ type StructuredArticleContentProps = {
 function SectionHeading({ title, variant }: { title: string; variant: ContentSection['variant'] }) {
   if (variant === 'major') {
     return (
-      <h2 className="text-2xl font-medium leading-tight text-navy md:text-[28px] md:leading-[48px]">
+      <h2 className="break-words text-xl font-medium leading-snug text-navy sm:text-2xl sm:leading-tight md:text-[28px] md:leading-[1.35]">
         {title}
       </h2>
     )
   }
 
   return (
-    <h3 className="text-xl font-semibold leading-tight text-navy md:text-[25px] md:leading-[48px]">
+    <h3 className="break-words text-lg font-semibold leading-snug text-navy sm:text-xl sm:leading-tight md:text-[25px] md:leading-[1.35]">
       {title}
     </h3>
   )
@@ -28,7 +28,7 @@ function SectionHeading({ title, variant }: { title: string; variant: ContentSec
 function BlockRenderer({ block }: { block: ContentBlock }) {
   if (block.type === 'subheading') {
     return (
-      <p className="text-base font-bold leading-relaxed text-navy md:leading-[48px]">
+      <p className="break-words text-base font-bold leading-relaxed text-navy">
         {block.text}
       </p>
     )
@@ -39,14 +39,14 @@ function BlockRenderer({ block }: { block: ContentBlock }) {
     if (!src) return null
 
     return (
-      <figure className={block.layout === 'full' ? 'my-8 md:my-10' : 'my-6'}>
+      <figure className={block.layout === 'full' ? 'my-6 md:my-10' : 'my-4 md:my-6'}>
         <img
           src={src}
           alt=""
           className={
             block.layout === 'full'
-              ? 'aspect-[1289/422] w-full rounded-2xl object-cover'
-              : 'w-full rounded-xl object-cover'
+              ? 'aspect-[16/10] w-full max-w-full rounded-2xl object-cover sm:aspect-[1289/422]'
+              : 'w-full max-w-full rounded-xl object-cover'
           }
         />
       </figure>
@@ -54,7 +54,7 @@ function BlockRenderer({ block }: { block: ContentBlock }) {
   }
 
   return (
-    <p className="text-base leading-6 tracking-[0.32px] text-navy/90">{block.text}</p>
+    <p className="break-words text-base leading-6 tracking-[0.32px] text-navy/90">{block.text}</p>
   )
 }
 
@@ -96,20 +96,20 @@ export function StructuredArticleContent({
   footer,
 }: StructuredArticleContentProps) {
   return (
-    <article className="px-4 py-10 md:px-11 md:py-14">
-      <div className="mx-auto max-w-[1304px]">
-        <h1 className="text-3xl font-medium leading-tight text-navy md:text-[48px] md:leading-[48px]">
+    <article className="overflow-x-hidden px-4 py-8 sm:py-10 md:px-11 md:py-14">
+      <div className="mx-auto min-w-0 max-w-[1304px]">
+        <h1 className="break-words text-2xl font-medium leading-tight text-navy sm:text-3xl md:text-[48px] md:leading-[1.1]">
           {title}
         </h1>
 
         {(author || authorTitle) && (
-          <p className="mt-4 text-base font-medium text-navy/80 md:leading-[48px]">
+          <p className="mt-3 break-words text-sm font-medium leading-relaxed text-navy/80 sm:mt-4 sm:text-base">
             {author}
             {authorTitle ? ` ${authorTitle}` : ''}
           </p>
         )}
 
-        <div className="mt-10 space-y-10 md:mt-12 md:space-y-12">
+        <div className="mt-8 space-y-8 sm:mt-10 sm:space-y-10 md:mt-12 md:space-y-12">
           {sections.map((section) => (
             <section key={section.title} className="space-y-4">
               <SectionHeading title={section.title} variant={section.variant} />

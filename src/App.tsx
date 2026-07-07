@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { routes } from './routes'
 import { AboutPage } from './pages/about/AboutPage'
 import { AdminPage } from './pages/admin/AdminPage'
 import { BlogPostPage } from './pages/blogs/BlogPostPage'
@@ -12,14 +13,15 @@ export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/library" element={<LibraryPage />} />
-        <Route path="/library/:id" element={<PaperDetailPage />} />
-        <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/blogs/:slug" element={<BlogPostPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path={routes.home} element={<HomePage />} />
+        <Route path={routes.about} element={<AboutPage />} />
+        <Route path={routes.library} element={<LibraryPage />} />
+        <Route path={`${routes.library}/:id`} element={<PaperDetailPage />} />
+        <Route path={routes.blogs} element={<BlogsPage />} />
+        <Route path={`${routes.blogs}/:slug`} element={<BlogPostPage />} />
+        <Route path={routes.contact} element={<ContactPage />} />
+        <Route path={routes.admin} element={<AdminPage />} />
+        <Route path="*" element={<Navigate to={routes.home} replace />} />
       </Routes>
     </BrowserRouter>
   )

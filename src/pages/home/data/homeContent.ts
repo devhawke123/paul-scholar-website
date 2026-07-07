@@ -1,17 +1,13 @@
-// export const navLinks = [
-//   { label: 'Home', href: '/' },
-//   { label: 'About', href: '/about' },
-//   { label: 'Library', href: '/library' },
-//   { label: 'Blogs', href: '/blogs' },
-//   { label: 'Contact', href: '/contact' },
-// ] as const
+import { routes } from '../../../routes'
+
 export const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Library', href: '/' },
-  { label: 'Blogs', href: '/' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Home', href: routes.home },
+  { label: 'About', href: routes.about },
+  { label: 'Library', href: routes.library },
+  { label: 'Blogs', href: routes.blogs },
+  { label: 'Contact', href: routes.contact },
 ] as const
+
 
 export const heroTags = ['Scholar, Strategist', 'Pioneer', 'Managerial Cybernetics'] as const
 

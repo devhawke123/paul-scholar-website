@@ -38,20 +38,14 @@ async function post(body: Record<string, string>, kind: string) {
   log(`${kind} sent successfully`, json.message ?? 'OK')
 }
 
-export async function sendPaperRequest(params: {
-  paperTitle: string
-  requesterEmail: string
-  reason: string
-}) {
+export async function sendNewsletterSignup(email: string) {
   await post(
     {
-      subject: `Paper Access Request – ${params.paperTitle}`,
-      email: params.requesterEmail,
-      paper_title: params.paperTitle,
-      message: `Paper requested: ${params.paperTitle}\n\nReason for access:\n${params.reason}`,
-      reason: params.reason,
+      subject: 'New Newsletter Signup',
+      email,
+      message: `New newsletter subscriber: ${email}`,
     },
-    'paper request',
+    'newsletter signup',
   )
 }
 

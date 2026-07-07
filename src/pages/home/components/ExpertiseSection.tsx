@@ -1,4 +1,5 @@
 import { ArrowLink } from '../../../components/ui/ArrowLink'
+import { routes } from '../../../routes'
 // import { aboutIcons } from '../data/aboutAssets'
 import { expertiseCards } from '../data/homeContent'
 
@@ -34,6 +35,7 @@ export function ExpertiseSection() {
                 </p>
                 <ArrowLink
                   label="Learn More"
+                  href={routes.about}
                   className="mt-6 font-semibold text-navy hover:text-navy/70"
                 />
               </article>

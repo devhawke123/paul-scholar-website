@@ -1,5 +1,11 @@
+import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '../ui/Button'
-import { footerContent, footerLinks } from '../../data/footerContent'
+import { Alert } from '../ui/Alert'
+import { footerContent, footerLinks, type FooterLink } from '../../data/footerContent'
+import { sendNewsletterSignup } from '../../services/email'
+import { isInternalHref } from '../../routes'
+import { formatErrorMessage } from '../../utils/errors'
 
 const socialIcons = [
   { label: 'Facebook', path: 'M14 8h2V6h-2v2zm0 4h2v-6h-2v6zM8 8h2V6H8v2zm0 4h2v-6H8v6z' },
@@ -13,17 +19,29 @@ function FooterColumn({
   links,
 }: {
   title: string
-  links: readonly string[]
+  links: readonly FooterLink[]
 }) {
   return (
     <div>
       <h3 className="mb-4 text-base font-bold tracking-wide text-navy">{title}</h3>
       <ul className="space-y-2">
         {links.map((link) => (
-          <li key={link}>
-            <a href="#" className="text-sm text-navy/80 transition-colors hover:text-accent">
-              {link}
-            </a>
+          <li key={link.label}>
+            {isInternalHref(link.href) ? (
+              <Link
+                to={link.href}
+                className="text-sm text-navy/80 transition-colors hover:text-accent"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                href={link.href}
+                className="text-sm text-navy/80 transition-colors hover:text-accent"
+              >
+                {link.label}
+              </a>
+            )}
           </li>
         ))}
       </ul>
@@ -32,6 +50,24 @@ function FooterColumn({
 }
 
 export function Footer() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+
+  async function handleSubscribe(e: FormEvent) {
+    e.preventDefault()
+    setStatus('sending')
+    setErrorMsg('')
+    try {
+      await sendNewsletterSignup(email.trim())
+      setStatus('success')
+      setEmail('')
+    } catch (err) {
+      setErrorMsg(formatErrorMessage(err, 'Failed to subscribe. Please try again.'))
+      setStatus('error')
+    }
+  }
+
   return (
     <footer id="contact" className="border-t border-navy/10 bg-white">
       <div className="mx-auto max-w-[1440px] px-6 py-16 lg:px-8">
@@ -71,7 +107,7 @@ export function Footer() {
             </div>
           </div>
 
-          <FooterColumn title="Company" links={footerLinks.company} />
+          <FooterColumn title="Pages" links={footerLinks.pages} />
           <FooterColumn title="Support" links={footerLinks.support} />
           <FooterColumn title="Strategic Systems" links={footerLinks.strategic} />
 
@@ -79,27 +115,49 @@ export function Footer() {
             <h3 className="mb-4 text-base font-bold tracking-wide text-navy">
               {footerContent.newsletterHeading}
             </h3>
-            <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder={footerContent.newsletterPlaceholder}
-                className="w-full rounded-[10px] border border-navy/20 px-4 py-2.5 text-sm text-navy outline-none focus:border-accent"
-              />
-              <Button className="w-full rounded-[10px] bg-peach py-2.5 hover:bg-peach/90">
-                {footerContent.newsletterSubmitLabel}
-              </Button>
-            </form>
+            {status === 'success' ? (
+              <Alert variant="success">Thanks for subscribing!</Alert>
+            ) : (
+              <form className="space-y-3" onSubmit={(e) => void handleSubscribe(e)}>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={footerContent.newsletterPlaceholder}
+                  className="w-full rounded-[10px] border border-navy/20 px-4 py-2.5 text-sm text-navy outline-none focus:border-accent"
+                />
+                {status === 'error' && errorMsg && <Alert>{errorMsg}</Alert>}
+                <Button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="w-full rounded-[10px] bg-peach py-2.5 hover:bg-peach/90"
+                >
+                  {status === 'sending' ? 'Subscribing…' : footerContent.newsletterSubmitLabel}
+                </Button>
+              </form>
+            )}
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-navy/20 pt-8 text-xs text-navy/70 md:flex-row md:items-center md:justify-between">
           <p>{footerContent.copyright}</p>
           <div className="flex flex-wrap gap-6">
-            {footerLinks.legal.map((link) => (
-              <a key={link} href="#" className="transition-colors hover:text-navy">
-                {link}
-              </a>
-            ))}
+            {footerLinks.legal.map((link) =>
+              isInternalHref(link.href) ? (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className="transition-colors hover:text-navy"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a key={link.label} href={link.href} className="transition-colors hover:text-navy">
+                  {link.label}
+                </a>
+              ),
+            )}
           </div>
         </div>
       </div>

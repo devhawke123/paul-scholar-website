@@ -1,6 +1,7 @@
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
+import { routes } from '../../../routes'
 import { useBlogs } from '../../../hooks/useBlogs'
 import { BlogCard } from '../../blogs/components/BlogCard'
 
@@ -24,9 +25,9 @@ export function BlogsSection() {
         </div>
 
         <div className="mt-10 text-center">
-          {/* <Link to="/blogs"> */}
+          <Link to={routes.blogs}>
             <Button className="rounded-full px-10">View All Articles</Button>
-          {/* </Link> */}
+          </Link>
         </div>
       </div>
     </section>

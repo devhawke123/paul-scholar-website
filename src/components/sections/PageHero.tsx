@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import pageHeroBg from '../../assets/about/hero.png'
 import { siteContact } from '../../data/siteContact'
+import { isInternalHref } from '../../routes'
 import {
   HeroWhatsAppCorner,
   heroCornerVarsClass,
@@ -43,7 +44,8 @@ export function PageHero({
   whatsappIconSrc = siteContact.whatsappIcon,
 }: PageHeroProps) {
   const isExternal = ctaHref.startsWith('http')
-  const isHash = ctaHref.startsWith('#')
+  const isHashOnly = ctaHref.startsWith('#')
+  const isInternal = isInternalHref(ctaHref)
 
   const cta = (
     <span className="inline-flex h-10 max-w-full items-center gap-2 rounded-full bg-accent py-1 pl-4 pr-1 text-xs font-medium text-navy transition hover:bg-accent/90 sm:h-12 sm:gap-3 sm:pl-5 sm:pr-1.5 sm:text-sm md:h-[55px] md:gap-4 md:pl-8 md:pr-1.5 md:text-base">
@@ -56,14 +58,16 @@ export function PageHero({
 
   const ctaLink = (
     <>
-      {isHash ? (
+      {isHashOnly ? (
         <a href={ctaHref}>{cta}</a>
       ) : isExternal ? (
         <a href={ctaHref} target="_blank" rel="noreferrer">
           {cta}
         </a>
-      ) : (
+      ) : isInternal ? (
         <Link to={ctaHref}>{cta}</Link>
+      ) : (
+        <a href={ctaHref}>{cta}</a>
       )}
     </>
   )

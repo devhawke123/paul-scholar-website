@@ -18,7 +18,7 @@ export function ContactFaqSection() {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <section className="bg-white px-4 py-16 md:px-11 md:py-24">
+    <section id="faq" className="bg-white px-4 py-16 md:px-11 md:py-24">
       <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-2 lg:gap-20">
         <div className="lg:pr-8">
           <h2 className="font-serif text-4xl font-bold leading-[1.1] text-navy md:text-5xl lg:text-6xl">

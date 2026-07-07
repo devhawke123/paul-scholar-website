@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
+import { routes } from '../../../routes'
 import { homeAssets } from '../data/homeAssets'
 import { aboutHighlights } from '../data/homeContent'
 import { AboutHighlightIcon } from './AboutHighlightIcon'
@@ -77,7 +78,7 @@ export function AboutSection() {
           </div>
 
           <div className="mt-8 flex justify-end">
-            <Link to="/about">
+            <Link to={routes.about}>
             <Button className="rounded-full px-10">Explore More</Button>
             </Link>
           </div>

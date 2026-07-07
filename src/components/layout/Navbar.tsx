@@ -2,16 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from '../ui/Button'
 import { navLinks } from '../../pages/home/data/homeContent'
-
-function isNavActive(href: string, pathname: string) {
-  if (href === '/') return pathname === '/'
-  if (href === '/about') return pathname === '/about'
-  // if (href === '/library') return pathname === '/library'
-  // if (href === '/blogs') return pathname.startsWith('/blogs')
-  if (href === '/contact') return pathname === '/contact'
-  return false
-}
-
+import { isNavActive, routes } from '../../routes'
 export function Navbar() {
   const { pathname } = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -41,10 +32,9 @@ export function Navbar() {
     <header className="sticky top-0 z-50 bg-cream/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-[72px]">
         <Link
-          to="/"
+          to={routes.home}
           className="min-w-0 shrink font-serif text-lg font-semibold italic leading-tight text-navy sm:text-xl md:text-2xl"
-        >
-          Dr. Paul A. Stokes
+        >          Dr. Paul A. Stokes
         </Link>
 
         <nav className="hidden items-center gap-11 lg:flex" aria-label="Main navigation">
@@ -63,10 +53,11 @@ export function Navbar() {
           ))}
         </nav>
 
-        <Button className="hidden h-[55px] min-w-[172px] rounded-[27.5px] px-10 text-sm lg:inline-flex">
-          Subscribe
-        </Button>
-
+        <Link to={routes.homeNewsletter} className="hidden lg:inline-flex">
+          <Button className="h-[55px] min-w-[172px] rounded-[27.5px] px-10 text-sm">
+            Subscribe
+          </Button>
+        </Link>
         <button
           type="button"
           className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-navy/10 text-navy lg:hidden"
@@ -140,11 +131,12 @@ export function Navbar() {
       </nav>
 
       <div className="border-t border-navy/10 px-5 py-6">
-        <Button className="h-[55px] w-full rounded-[27.5px] px-10 text-sm">
-          Subscribe
-        </Button>
-      </div>
-    </aside>
+        <Link to={routes.homeNewsletter} className="block">
+          <Button className="h-[55px] w-full rounded-[27.5px] px-10 text-sm">
+            Subscribe
+          </Button>
+        </Link>
+      </div>    </aside>
     </>
   )
 }

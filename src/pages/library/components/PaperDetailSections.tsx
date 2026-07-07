@@ -1,14 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PaperRequestModal } from '../../../components/papers/PaperRequestModal'
+import { DetailPageHero } from '../../../components/sections/DetailPageHero'
 import { StructuredArticleContent } from '../../../components/sections/StructuredArticleContent'
-import {
-  HeroWhatsAppCorner,
-  heroCornerVarsClass,
-  heroImageScoopMaskClass,
-} from '../../../components/sections/HeroWhatsAppCorner'
 import { Button } from '../../../components/ui/Button'
 import { usePdfPrefetch } from '../../../hooks/usePdfPrefetch'
+import { libraryPath } from '../../../routes'
 import type { ContentSection } from '../../../types/contentSection'
 import type { Paper } from '../../../types/paper'
 import {
@@ -31,24 +28,30 @@ export function PaperDownloadActions({ paper, className = '' }: PaperDownloadAct
     <>
       {showModal && <PaperRequestModal paper={paper} onClose={() => setShowModal(false)} />}
 
-      <div className={`flex flex-wrap gap-3 ${className}`}>
+      <div className={`flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
         {paper.pdfUrl && paper.access === 'Public' ? (
-          <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer" download={paper.pdfFileName}>
-            <Button className="rounded-full px-8">Download PDF</Button>
+          <a
+            href={paper.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={paper.pdfFileName}
+            className="w-full sm:w-auto"
+          >
+            <Button className="w-full rounded-full px-8 sm:w-auto">Download PDF</Button>
           </a>
         ) : paper.pdfUrl && paper.access === 'Restricted' ? (
-          <Button className="rounded-full px-8" onClick={() => setShowModal(true)}>
+          <Button className="w-full rounded-full px-8 sm:w-auto" onClick={() => setShowModal(true)}>
             Request Access
           </Button>
         ) : (
-          <Button className="rounded-full px-8" disabled>
+          <Button className="w-full rounded-full px-8 sm:w-auto" disabled>
             PDF Unavailable
           </Button>
         )}
 
         {paper.pdfUrl && paper.access === 'Public' && (
-          <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" className="rounded-full px-8">
+          <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full rounded-full px-8 sm:w-auto">
               Open in Browser
             </Button>
           </a>
@@ -74,58 +77,38 @@ export function PaperDetailHero({ paper }: PaperDetailHeroProps) {
   const heroSummary = paper.excerpt?.trim() || getPaperExcerpt(paper)
 
   return (
-    <section className="px-4 pb-2 pt-3 sm:pb-4 sm:pt-5 md:px-11 md:pb-6 md:pt-8">
-      <div
-        className={`relative mx-auto max-w-[1296px] overflow-visible rounded-[16px] sm:rounded-[28px] md:rounded-[32px] ${heroCornerVarsClass}`}
-      >
-        <div
-          className={`relative overflow-hidden rounded-[16px] sm:rounded-[28px] md:rounded-[32px] ${heroImageScoopMaskClass}`}
-        >
-          <img
-            src={getPaperThumbnail(paper)}
-            alt={paper.title}
-            className="aspect-[4/3] w-full object-cover object-center sm:aspect-[16/9] md:aspect-[1296/609]"
-          />
-          <div className="absolute inset-0 bg-navy/35" />
-        </div>
-
-        <div className="absolute inset-0 flex flex-col justify-between px-6 py-6 sm:px-10 sm:py-8 md:px-[72px] md:py-10">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex w-fit rounded-[10px] bg-accent px-4 py-1.5 text-sm font-medium text-navy">
-              {badge}
-            </span>
-            <span
-              className={`rounded-[10px] px-4 py-1.5 text-sm font-medium ${
-                paper.access === 'Public'
-                  ? 'bg-white/95 text-green-700'
-                  : 'bg-white/95 text-amber-700'
-              }`}
-            >
-              {paper.access}
-            </span>
-          </div>
-
-          <div className="max-w-[857px]">
-            <h1 className="font-serif text-[26px] font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-[50px] lg:leading-[1.2]">
-              {heroTitle}
-            </h1>
-            <p className="mt-4 max-w-[802px] text-sm leading-relaxed text-white/90 sm:text-base md:text-lg">
-              {heroSummary}
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm font-semibold text-white sm:text-base">
-              <span>{formatPaperDate(paper.date)}</span>
-              {paper.citations ? (
-                <span>{paper.citations}</span>
-              ) : (
-                paper.fileSize && <span>{paper.fileSize}</span>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <HeroWhatsAppCorner />
-      </div>
-    </section>
+    <DetailPageHero
+      imageSrc={getPaperThumbnail(paper)}
+      imageAlt={paper.title}
+      badges={
+        <>
+          <span className="inline-flex w-fit rounded-[10px] bg-accent px-3 py-1.5 text-xs font-medium text-navy sm:px-4 sm:text-sm">
+            {badge}
+          </span>
+          <span
+            className={`rounded-[10px] px-3 py-1.5 text-xs font-medium sm:px-4 sm:text-sm ${
+              paper.access === 'Public'
+                ? 'bg-white/95 text-green-700'
+                : 'bg-white/95 text-amber-700'
+            }`}
+          >
+            {paper.access}
+          </span>
+        </>
+      }
+      title={heroTitle}
+      description={heroSummary}
+      meta={
+        <>
+          <span>{formatPaperDate(paper.date)}</span>
+          {paper.citations ? (
+            <span>{paper.citations}</span>
+          ) : (
+            paper.fileSize && <span>{paper.fileSize}</span>
+          )}
+        </>
+      }
+    />
   )
 }
 
@@ -174,7 +157,7 @@ export function PaperRelatedSection({ papers, currentId }: PaperRelatedSectionPr
               <div className="space-y-4 p-5">
                 <h3 className="line-clamp-2 text-lg font-semibold text-navy">{paper.title}</h3>
                 <p className="line-clamp-2 text-sm text-navy/70">{getPaperExcerpt(paper)}</p>
-                <Link to={`/library/${paper.id}`}>
+                <Link to={libraryPath(paper.id)}>
                   <Button variant="outline" className="rounded-full px-6">
                     View Details
                   </Button>

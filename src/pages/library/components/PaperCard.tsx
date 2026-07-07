@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { PaperRequestModal } from '../../../components/papers/PaperRequestModal'
 import { Button } from '../../../components/ui/Button'
 import { usePdfPrefetch } from '../../../hooks/usePdfPrefetch'
+import { libraryPath } from '../../../routes'
 import type { Paper } from '../../../types/paper'
 import {
   formatPaperDate,
@@ -124,7 +125,7 @@ export function PaperCard({ paper }: PaperCardProps) {
               </span>
             )}
 
-            <Link to={`/library/${paper.id}`}>
+            <Link to={libraryPath(paper.id)}>
               <Button variant="outline" className="h-10 rounded-full px-6 text-sm">
                 View Details
               </Button>

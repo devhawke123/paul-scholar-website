@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { Button } from '../../../components/ui/Button'
 import { usePapers } from '../../../hooks/usePapers'
+import { libraryPath, routes } from '../../../routes'
 import { getPaperExcerpt, getPaperThumbnail } from '../../../utils/papers'
 
 export function BlogPostResearchSection() {
@@ -14,7 +15,7 @@ export function BlogPostResearchSection() {
       <div className="mx-auto max-w-[1296px]">
         <div className="text-center">
           <SectionBadge label="Research Papers" className="mx-auto" />
-          <h2 className="mt-4 text-3xl font-semibold text-navy">Explore the Research</h2>
+          <h2 className="mt-4 text-2xl font-semibold text-navy sm:text-3xl">Explore the Research</h2>
         </div>
 
         <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -30,11 +31,11 @@ export function BlogPostResearchSection() {
                 className="aspect-[416/292] w-full object-cover"
               />
               <div className="flex flex-1 flex-col gap-3">
-                <h3 className="text-xl font-bold leading-7 text-navy">{paper.title}</h3>
+                <h3 className="break-words text-lg font-bold leading-7 text-navy sm:text-xl">{paper.title}</h3>
                 <p className="flex-1 text-sm leading-6 tracking-[0.28px] text-navy/75">
                   {getPaperExcerpt(paper)}
                 </p>
-                <Link to={`/library/${paper.id}`}>
+                <Link to={libraryPath(paper.id)}>
                   <Button variant="outline" className="rounded-full px-6">
                     View Details
                   </Button>
@@ -46,7 +47,7 @@ export function BlogPostResearchSection() {
 
         <div className="mt-10 text-center">
           <Link
-            to="/library"
+            to={routes.library}
             className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-8 text-sm font-medium text-navy transition hover:bg-accent/90"
           >
             View Document Library
