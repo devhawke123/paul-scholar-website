@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
+import { siteContact } from '../../../data/siteContact'
 import { routes } from '../../../routes'
 import { homeAssets } from '../data/homeAssets'
 import { aboutHighlights } from '../data/homeContent'
@@ -30,7 +31,7 @@ export function AboutSection() {
           </div>
 
           <a
-            href="mailto:pol@bhaile.ie"
+            href={`mailto:${siteContact.email}`}
             className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-full bg-accent px-8 py-3 text-sm font-medium text-navy shadow-lg transition hover:bg-accent/90"
           >
             <svg className="size-4" viewBox="0 0 20 16" fill="none" aria-hidden>
@@ -41,7 +42,7 @@ export function AboutSection() {
               />
               <path d="M1.5 4l8.5 6 8.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
-            pol@bhaile.ie
+            {siteContact.email}
           </a>
         </div>
 

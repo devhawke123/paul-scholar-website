@@ -1,4 +1,5 @@
 import { routes } from '../routes'
+import { siteContact } from './siteContact'
 
 export type FooterLink = {
   label: string
@@ -8,8 +9,8 @@ export type FooterLink = {
 export const footerContent = {
   brand: 'Dr. Paul A. Stokes',
   contactLines: ['Feel free to call or email me', 'for any kind of query.'] as const,
-  phone: '087-7915106',
-  email: 'abc@gmail.com',
+  phone: siteContact.displayPhone,
+  email: siteContact.email,
   copyright: 'Copyright © 2026 Dr. Paul A. Stokes. All rights reserved.',
   newsletterHeading: 'Subscribe to Newsletter',
   newsletterPlaceholder: 'Enter your email',

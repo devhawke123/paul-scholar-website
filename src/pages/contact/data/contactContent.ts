@@ -2,7 +2,7 @@ import { siteContact } from '../../../data/siteContact'
 
 export const contactInfo = {
   phone: siteContact.displayPhone,
-  email: 'abc@gmail.com',
+  email: siteContact.email,
   displayPhone: siteContact.displayPhone,
   whatsappHref: siteContact.whatsappHref,
 } as const
