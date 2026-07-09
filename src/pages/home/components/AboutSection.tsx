@@ -16,18 +16,18 @@ export function AboutSection() {
       <DecorativeVector className="absolute -left-4 bottom-16 lg:-left-6" />
       <DecorativeVector className="absolute right-0 top-1/2 -translate-y-1/2 lg:right-2 xl:right-4" />
 
-      <PageContainer className="relative grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <PageContainer className="relative grid gap-10 lg:grid-cols-2 lg:gap-10">
         <div className="relative min-h-[420px] sm:min-h-[480px] lg:min-h-[663px]">
           <div
             aria-hidden
-            className="absolute left-[-24px] top-[-24px] h-[88%] w-[92%] rounded-[24px] rounded-tr-[72px] bg-gradient-warm shadow-sm sm:left-[-36px] sm:top-[-32px] sm:rounded-[35px] sm:rounded-tr-[100px]"
+            className="absolute left-[-24px] top-[-24px] lg:h-[88%] sm:h-[80%] w-[92%] rounded-[24px] rounded-tr-[72px] bg-gradient-warm shadow-sm sm:left-[-0px] sm:top-[-32px] sm:rounded-[35px] sm:rounded-tr-[100px]"
           />
 
-          <div className="relative ml-4 mt-3 overflow-hidden rounded-2xl shadow-md sm:ml-6 sm:mt-4 sm:rounded-3xl lg:ml-10 lg:mt-8">
+          <div className="relative ml-4 mt-3 overflow-hidden rounded-2xl shadow-md sm:ml-6 sm:mt-4 sm:rounded-3xl lg:ml-20 lg:mt-8">
             <img
               src={homeAssets.aboutPortrait}
               alt="Dr. Paul A. Stokes"
-              className="aspect-[464/500] w-full object-cover object-top"
+              className="aspect-[504/500] w-full object-cover object-top"
             />
           </div>
 
