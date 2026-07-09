@@ -1,9 +1,4 @@
 import type { ReactNode } from 'react'
-import {
-  HeroWhatsAppCorner,
-  heroCornerVarsClass,
-  heroImageScoopMaskClass,
-} from './HeroWhatsAppCorner'
 
 export type DetailPageHeroProps = {
   imageSrc: string
@@ -24,9 +19,7 @@ export function DetailPageHero({
 }: DetailPageHeroProps) {
   return (
     <section className="px-4 pb-2 pt-3 sm:pb-4 sm:pt-5 md:px-11 md:pb-6 md:pt-8">
-      <div
-        className={`relative mx-auto max-w-[1296px] overflow-hidden rounded-[16px] sm:rounded-[28px] md:rounded-[32px] ${heroCornerVarsClass}`}
-      >
+      <div className="relative mx-auto max-w-[1296px] overflow-hidden rounded-[16px] sm:rounded-[28px] md:rounded-[32px]">
         {/* Mobile: image band + text panel (avoids overlay overflow) */}
         <div className="md:hidden">
           <div className="relative aspect-[16/10] w-full">
@@ -59,7 +52,7 @@ export function DetailPageHero({
 
         {/* Tablet/desktop: overlay layout */}
         <div className="relative hidden md:block">
-          <div className={`relative overflow-hidden ${heroImageScoopMaskClass}`}>
+          <div className="relative overflow-hidden">
             <img
               src={imageSrc}
               alt={imageAlt}
@@ -88,8 +81,6 @@ export function DetailPageHero({
             </div>
           </div>
         </div>
-
-        <HeroWhatsAppCorner />
       </div>
     </section>
   )
