@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { PAGE_GUTTER, PageContainer } from './PageContainer'
 import { Button } from '../ui/Button'
 import { Alert } from '../ui/Alert'
 import { footerContent, footerLinks, type FooterLink } from '../../data/footerContent'
@@ -69,9 +70,8 @@ export function Footer() {
   }
 
   return (
-    <footer id="contact" className="border-t border-navy/10 bg-white">
-      <div className="mx-auto max-w-[1440px] px-6 py-16 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+    <footer id="contact" className={`border-t border-navy/10 bg-white ${PAGE_GUTTER}`}>
+      <PageContainer className="py-16">        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
             <h2 className="text-2xl font-bold tracking-wide text-navy">
               {footerContent.brand}
@@ -111,7 +111,7 @@ export function Footer() {
           <FooterColumn title="Support" links={footerLinks.support} />
           <FooterColumn title="Strategic Systems" links={footerLinks.strategic} />
 
-          <div>
+          <div id="subscribe">
             <h3 className="mb-4 text-base font-bold tracking-wide text-navy">
               {footerContent.newsletterHeading}
             </h3>
@@ -160,7 +160,6 @@ export function Footer() {
             )}
           </div>
         </div>
-      </div>
-    </footer>
-  )
+      </PageContainer>
+    </footer>  )
 }

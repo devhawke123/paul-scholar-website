@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { PAGE_GUTTER, PageContainer } from '../../../components/layout/PageContainer'
 import { Button } from '../../../components/ui/Button'
 import {
   HeroWhatsAppCorner,
@@ -11,8 +12,8 @@ import { heroTags } from '../data/homeContent'
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-x-hidden bg-cream">
-      <div className="mx-auto max-w-[1440px] px-4 pb-8 pt-4 sm:px-6 sm:pb-25 sm:pt-6 md:px-11">
+    <section className={`relative overflow-x-hidden bg-cream ${PAGE_GUTTER} pb-16 pt-4 sm:pb-24 sm:pt-6 md:pb-28`}>
+      <PageContainer>
         <div className={`relative overflow-visible rounded-[20px] sm:rounded-[32px] ${heroCornerVarsClass}`}>
           <div
             className={`pointer-events-none absolute inset-0 overflow-hidden rounded-[20px] sm:rounded-[32px] ${heroImageScoopMaskClass}`}
@@ -87,7 +88,7 @@ export function HeroSection() {
 
           <HeroWhatsAppCorner />
         </div>
-      </div>
+      </PageContainer>
     </section>
   )
 }

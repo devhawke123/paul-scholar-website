@@ -1,5 +1,5 @@
 import testimonialPortrait from '../assets/homepage/prof-jane-smith.jpg'
-import drPaulPortrait from '../assets/homepage/dr-paul.png'
+import heroBg from '../assets/homepage/hero-bg.jpg'
 import blogCybernetic1 from '../assets/homepage/the-cybernetic1.jpg'
 import blogCybernetic2 from '../assets/homepage/the-cybernetic2.png'
 
@@ -23,7 +23,7 @@ export const testimonialsContent = {
         'Working with Dr. Stokes transformed how our policy team handles uncertainty. His frameworks are practical, focused, and immediately useful.',
       name: 'Michael Turner',
       role: 'Policy Advisor, Westminster Group',
-      image: drPaulPortrait,
+      image: heroBg,
       imageAlt: 'Michael Turner',
       rating: 5,
     },

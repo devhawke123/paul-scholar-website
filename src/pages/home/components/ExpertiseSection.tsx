@@ -1,3 +1,4 @@
+import { PAGE_GUTTER, PageContainer } from '../../../components/layout/PageContainer'
 import { ArrowLink } from '../../../components/ui/ArrowLink'
 import { routes } from '../../../routes'
 // import { aboutIcons } from '../data/aboutAssets'
@@ -5,15 +6,9 @@ import { expertiseCards } from '../data/homeContent'
 
 export function ExpertiseSection() {
   return (
-    <section className="relative z-10 -mt-10 bg-cream px-4 pb-16 sm:-mt-14 sm:pb-20 md:-mt-32 md:px-11 lg:mt-6">
-      {/* <img
-        src={aboutIcons.decorativeVector}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute bottom-6 left-2 w-20 opacity-90 md:bottom-10 md:left-8 md:w-28"
-      /> */}
+    <section className={`relative z-10 bg-cream pb-16 sm:-mt-14 sm:pb-20 md:-mt-32 md:pb-20 lg:mt-6 ${PAGE_GUTTER}`}>
 
-      <div className="relative mx-auto max-w-[1440px]">
+      <PageContainer>
         <div className="grid gap-5 md:grid-cols-3 md:items-end md:gap-6">
           {expertiseCards.map((card) => {
             const isFeatured = 'featured' in card && card.featured
@@ -42,7 +37,7 @@ export function ExpertiseSection() {
             )
           })}
         </div>
-      </div>
+      </PageContainer>
     </section>
   )
 }

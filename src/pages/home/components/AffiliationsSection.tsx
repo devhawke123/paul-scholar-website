@@ -1,3 +1,4 @@
+import { PAGE_GUTTER, PageContainer, SECTION_PY } from '../../../components/layout/PageContainer'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
@@ -20,11 +21,11 @@ function ExploreArrow() {
 
 export function AffiliationsSection() {
   return (
-    <section className="relative overflow-hidden bg-cream px-4 py-20 md:px-11">
+    <section className={`relative overflow-hidden bg-cream ${SECTION_PY} ${PAGE_GUTTER}`}>
       <DecorativeVector className="absolute bottom-8 left-2 lg:bottom-12 lg:left-8 xl:left-10" />
       <DecorativeVector flip className="absolute right-0 top-16 lg:top-20 xl:top-24" />
 
-      <div className="relative mx-auto max-w-[1440px]">
+      <PageContainer className="relative">
         <div className="text-center">
           <SectionBadge label="Affiliations" className="mx-auto" />
           <h2 className="mt-6 text-3xl font-bold text-navy md:text-4xl lg:text-5xl">
@@ -76,7 +77,7 @@ export function AffiliationsSection() {
             )
           })}
         </div>
-      </div>
+      </PageContainer>
     </section>
   )
 }

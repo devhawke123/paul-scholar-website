@@ -7,7 +7,7 @@ export const routes = {
   admin: '/admin',
   contactForm: '/contact#get-in-touch',
   contactFaq: '/contact#faq',
-  homeNewsletter: '/#newsletter',
+  subscribe: '#subscribe',
   blogsArticles: '/blogs#articles',
 } as const
 

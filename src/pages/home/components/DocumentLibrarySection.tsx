@@ -1,3 +1,4 @@
+import { PAGE_GUTTER, PageContainer, SECTION_PY } from '../../../components/layout/PageContainer'
 import { Link } from 'react-router-dom'
 import { PaperListItem } from '../../../components/papers/PaperListItem'
 import { Button } from '../../../components/ui/Button'
@@ -14,8 +15,8 @@ export function DocumentLibrarySection() {
   const hasMore = papers.length > HOME_PREVIEW_COUNT
 
   return (
-    <section id="library" className="bg-cream px-4 py-2 md:px-11">
-      <div className="mx-auto max-w-[1154px]">
+    <section id="library" className={`bg-cream ${SECTION_PY} ${PAGE_GUTTER}`}>
+      <PageContainer>
         <SectionBadge label="Publications & Papers" />
         <h2 className="mt-6 text-3xl font-bold text-navy md:text-4xl">Document Library</h2>
         <p className="mt-2 text-base text-navy/70">
@@ -35,11 +36,11 @@ export function DocumentLibrarySection() {
         {hasMore && (
           <div className="mt-10 text-center">
             <Link to={routes.library}>
-              <Button className="rounded-full px-10">Explore More</Button>
+              <Button className="rounded-full p-10">Explore More</Button>
             </Link>
           </div>
         )}
-      </div>
+      </PageContainer>
     </section>
   )
 }

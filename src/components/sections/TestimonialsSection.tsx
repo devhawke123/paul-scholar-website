@@ -1,4 +1,5 @@
 import { useEffect, useState, type TouchEvent } from 'react'
+import { PAGE_GUTTER, PageContainer, SECTION_PY } from '../layout/PageContainer'
 import { Button } from '../ui/Button'
 import { SectionBadge } from '../ui/SectionBadge'
 import { featuredTestimonial, testimonialsContent } from '../../data/testimonialsContent'
@@ -97,8 +98,8 @@ export function TestimonialsSection({ showBadge = true }: TestimonialsSectionPro
   }
 
   return (
-    <section className="bg-surface px-4 py-20 md:px-11">
-      <div className="mx-auto max-w-[1440px] ">
+    <section className={`bg-surface ${SECTION_PY} ${PAGE_GUTTER}`}>
+      <PageContainer>
       <div className="text-center ">
         {showBadge ? (
           <SectionBadge label={testimonialsContent.badge} className="mx-auto" />
@@ -170,7 +171,7 @@ export function TestimonialsSection({ showBadge = true }: TestimonialsSectionPro
             />
           </article>
         </div>
-      </div>
+      </PageContainer>
     </section>
   )
 }

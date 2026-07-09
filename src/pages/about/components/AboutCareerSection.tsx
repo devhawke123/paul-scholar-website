@@ -1,3 +1,4 @@
+import { PAGE_GUTTER, PageContainer } from '../../../components/layout/PageContainer'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { aboutPageAssets } from '../data/aboutPageAssets'
@@ -5,11 +6,11 @@ import { professionalCareer } from '../data/aboutContent'
 
 export function AboutCareerSection() {
   return (
-    <section className="relative overflow-x-hidden bg-cream px-4 pb-8 pt-4 sm:pb-12 sm:pt-6 md:px-11 md:pb-16 md:pt-8 lg:py-20">
+    <section className={`relative overflow-x-hidden bg-cream pb-8 pt-4 sm:pb-12 sm:pt-6 md:pb-16 md:pt-8 lg:py-20 ${PAGE_GUTTER}`}>
       <DecorativeVector className="absolute left-2 top-20 lg:left-8 lg:top-24 xl:left-10" />
       <DecorativeVector className="absolute bottom-16 left-4 lg:bottom-20 lg:left-10" />
 
-      <div className="relative mx-auto max-w-[1355px]">
+      <PageContainer className="relative">
         <div className="grid min-w-0 gap-8 sm:gap-10 lg:grid-cols-2 lg:items-start lg:gap-16 xl:gap-20">
           <div className="min-w-0 lg:max-w-xl">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between lg:flex-col lg:gap-0">
@@ -69,7 +70,7 @@ export function AboutCareerSection() {
             </div>
           </div>
         </div>
-      </div>
+      </PageContainer>
     </section>
   )
 }

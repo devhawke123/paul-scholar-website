@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { PAGE_GUTTER, PageContainer } from './PageContainer'
 import { Button } from '../ui/Button'
 import { navLinks } from '../../pages/home/data/homeContent'
 import { isNavActive, routes } from '../../routes'
+import { scrollToHashWithRetry } from '../../utils/scroll'
+
 export function Navbar() {
   const { pathname } = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const subscribeTo = { pathname, hash: routes.subscribe }
+
+  function handleSubscribeClick() {
+    setIsMenuOpen(false)
+    window.setTimeout(() => scrollToHashWithRetry('subscribe'), 0)
+  }
 
   useEffect(() => {
     setIsMenuOpen(false)
@@ -29,8 +38,8 @@ export function Navbar() {
 
   return (
     <>
-    <header className="sticky top-0 z-50 bg-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-[72px]">
+    <header className={`sticky top-0 z-50 bg-cream/95 backdrop-blur-sm ${PAGE_GUTTER}`}>
+      <PageContainer className="flex items-center justify-between gap-3 py-3 sm:py-4">
         <Link
           to={routes.home}
           className="min-w-0 shrink font-serif text-lg font-semibold italic leading-tight text-navy sm:text-xl md:text-2xl"
@@ -53,7 +62,11 @@ export function Navbar() {
           ))}
         </nav>
 
-        <Link to={routes.homeNewsletter} className="hidden lg:inline-flex">
+        <Link
+          to={subscribeTo}
+          onClick={handleSubscribeClick}
+          className="hidden lg:inline-flex"
+        >
           <Button className="h-[55px] min-w-[172px] rounded-[27.5px] px-10 text-sm">
             Subscribe
           </Button>
@@ -75,7 +88,7 @@ export function Navbar() {
             />
           </svg>
         </button>
-      </div>
+      </PageContainer>
     </header>
 
     {/* Mobile menu overlay — outside header so backdrop-blur doesn't trap fixed positioning */}
@@ -131,7 +144,7 @@ export function Navbar() {
       </nav>
 
       <div className="border-t border-navy/10 px-5 py-6">
-        <Link to={routes.homeNewsletter} className="block">
+        <Link to={subscribeTo} onClick={handleSubscribeClick} className="block">
           <Button className="h-[55px] w-full rounded-[27.5px] px-10 text-sm">
             Subscribe
           </Button>

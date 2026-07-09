@@ -1,3 +1,4 @@
+import { PAGE_GUTTER, PageContainer } from '../../../components/layout/PageContainer'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
 import { aboutPageAssets } from '../data/aboutPageAssets'
 import { educationExperience } from '../data/aboutContent'
@@ -20,12 +21,13 @@ function EducationCardIcon() {
 
 export function AboutEducationExperienceSection() {
   return (
-    <section className="relative overflow-x-hidden bg-cream px-4 pb-8 pt-0 sm:pb-12 md:px-11 md:pb-16 lg:py-20">
+    <section className={`relative overflow-x-hidden bg-cream pb-8 pt-0 sm:pb-12 md:pb-16 lg:py-20 ${PAGE_GUTTER}`}>
       <DecorativeVector className="absolute left-2 top-20 lg:left-8 lg:top-24 xl:left-10" />
       <DecorativeVector flip className="absolute right-2 top-28 lg:right-10 lg:top-32" />
       <DecorativeVector className="absolute bottom-12 right-4 lg:bottom-16 lg:right-10" />
 
-      <div className="relative mx-auto max-w-[1350px] overflow-hidden rounded-[16px] bg-gradient-warm px-4 py-5 shadow-sm sm:rounded-[28px] sm:px-6 sm:py-8 md:rounded-[32px] md:px-10 md:py-14 lg:px-12 lg:py-16">
+      <PageContainer>
+        <div className="relative overflow-hidden rounded-[16px] bg-gradient-warm px-4 py-5 shadow-sm sm:rounded-[28px] sm:px-6 sm:py-8 md:rounded-[32px] md:px-10 md:py-14 lg:px-12 lg:py-16">
         <div className="grid min-w-0 gap-4 sm:gap-6 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-x-14 lg:gap-y-8 xl:gap-x-16">
           <h2 className="order-1 text-xl font-bold leading-tight text-navy xs:text-2xl sm:text-3xl md:text-4xl lg:col-start-1 lg:row-start-1 lg:text-[44px] lg:leading-[1.15]">
             {educationExperience.title}
@@ -60,7 +62,8 @@ export function AboutEducationExperienceSection() {
             ))}
           </div>
         </div>
-      </div>
+        </div>
+      </PageContainer>
     </section>
   )
 }

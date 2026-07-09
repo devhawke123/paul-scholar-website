@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import pageHeroBg from '../../assets/about/hero.png'
+import { PAGE_GUTTER, PageContainer } from '../layout/PageContainer'
 import { siteContact } from '../../data/siteContact'
 import { isInternalHref } from '../../routes'
 import {
@@ -73,9 +74,10 @@ export function PageHero({
   )
 
   return (
-    <section className="px-4 pb-2 pt-3 sm:pb-4 sm:pt-5 md:px-11 md:pb-6 md:pt-8">
+    <section className={`pb-2 pt-3 sm:pb-4 sm:pt-5 md:pb-6 md:pt-8 ${PAGE_GUTTER}`}>
+      <PageContainer>
       <div
-        className={`relative mx-auto max-w-[1296px] overflow-visible rounded-[16px] sm:rounded-[28px] md:rounded-[32px] ${heroCornerVarsClass}`}
+        className={`relative overflow-visible rounded-[16px] sm:rounded-[28px] md:rounded-[32px] ${heroCornerVarsClass}`}
       >
         <div
           className={`relative overflow-hidden rounded-[16px] sm:rounded-[28px] md:rounded-[32px] ${heroImageScoopMaskClass}`}
@@ -83,7 +85,7 @@ export function PageHero({
           <img
             src={backgroundSrc}
             alt={backgroundAlt}
-            className="aspect-[4/3] w-full object-cover object-center sm:aspect-[16/9] md:aspect-[1296/609]"
+            className="aspect-[4/3] w-full object-cover object-center sm:aspect-[16/9] md:aspect-[1440/609]"
           />
           <div className="absolute inset-0 bg-navy/35" />
         </div>
@@ -102,6 +104,7 @@ export function PageHero({
 
         <HeroWhatsAppCorner href={whatsappHref} iconSrc={whatsappIconSrc} />
       </div>
+      </PageContainer>
     </section>
   )
 }

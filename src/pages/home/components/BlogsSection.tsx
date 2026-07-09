@@ -1,3 +1,4 @@
+import { PAGE_GUTTER, PageContainer, SECTION_PY } from '../../../components/layout/PageContainer'
 import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
@@ -9,8 +10,8 @@ export function BlogsSection() {
   const { data: featuredPosts } = useBlogs({ limit: 2 })
 
   return (
-    <section id="blogs" className="bg-cream px-4 pb-15 md:px-11">
-      <div className="mx-auto max-w-[1440px]">
+    <section id="blogs" className={`bg-cream ${SECTION_PY} ${PAGE_GUTTER}`}>
+      <PageContainer>
         <div className="text-center">
           <SectionBadge label="Insights & Blogs" className="mx-auto" />
           <h2 className="mt-6 text-3xl font-bold text-navy md:text-4xl">
@@ -29,7 +30,7 @@ export function BlogsSection() {
             <Button className="rounded-full px-10">View All Articles</Button>
           </Link>
         </div>
-      </div>
+      </PageContainer>
     </section>
   )
 }

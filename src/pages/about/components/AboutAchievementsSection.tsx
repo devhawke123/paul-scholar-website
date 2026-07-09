@@ -1,11 +1,12 @@
+import { PAGE_GUTTER, PageContainer } from '../../../components/layout/PageContainer'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { aboutPageAssets } from '../data/aboutPageAssets'
 import { careerAchievements } from '../data/aboutContent'
 
 export function AboutAchievementsSection() {
   return (
-    <section className="bg-cream px-4 pb-10 pt-4 sm:pb-14 sm:pt-6 md:px-11 md:pb-20 md:pt-8">
-      <div className="mx-auto max-w-[1260px] text-center">
+    <section className={`bg-cream pb-10 pt-4 sm:pb-14 sm:pt-6 md:pb-20 md:pt-8 ${PAGE_GUTTER}`}>
+      <PageContainer className="text-center">
         <SectionBadge label={careerAchievements.badge} className="mx-auto" />
         <h2 className="mx-auto mt-3 max-w-3xl text-2xl font-bold text-navy xs:text-[26px] sm:mt-4 md:text-4xl lg:text-5xl">
           {careerAchievements.title}
@@ -37,7 +38,7 @@ export function AboutAchievementsSection() {
             </article>
           ))}
         </div>
-      </div>
+      </PageContainer>
     </section>
   )
 }

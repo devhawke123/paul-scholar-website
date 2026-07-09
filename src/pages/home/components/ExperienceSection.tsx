@@ -1,3 +1,4 @@
+import { PAGE_GUTTER, PageContainer, SECTION_PY } from '../../../components/layout/PageContainer'
 import { ArrowLink } from '../../../components/ui/ArrowLink'
 import { SectionBadge } from '../../../components/ui/SectionBadge'
 import { DecorativeVector } from '../../../components/ui/DecorativeVector'
@@ -6,10 +7,11 @@ import { experienceCards } from '../data/homeContent'
 
 export function ExperienceSection() {
   return (
-    <section className="relative overflow-hidden bg-cream px-4 py-20 md:px-11">
+    <section className={`relative overflow-hidden bg-cream ${SECTION_PY} ${PAGE_GUTTER}`}>
       <DecorativeVector className="absolute left-2 top-16 lg:left-8 xl:left-10" />
 
-      <div className="relative mx-auto max-w-[1350px] overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-12 md:py-14">
+      <PageContainer>
+        <div className="relative overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-12 md:py-14">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-16">
           <div>
             <SectionBadge label="Work & Experience" />
@@ -61,7 +63,8 @@ export function ExperienceSection() {
             )
           })}
         </div>
-      </div>
+        </div>
+      </PageContainer>
     </section>
   )
 }
