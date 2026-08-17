@@ -22,7 +22,7 @@ function ExploreArrow() {
 export function AffiliationsSection() {
   return (
     <section className={`relative overflow-hidden bg-cream ${SECTION_PY} ${PAGE_GUTTER}`}>
-      <DecorativeVector className="absolute bottom-8 left-2 lg:bottom-12 lg:left-8 xl:left-10" />
+      <DecorativeVector className="absolute bottom-8 left-2 lg:bottom-12 lg:left-0 xl:left-0" />
       <DecorativeVector flip className="absolute right-0 top-16 lg:top-20 xl:top-24" />
 
       <PageContainer className="relative">

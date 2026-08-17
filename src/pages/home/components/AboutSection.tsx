@@ -12,9 +12,9 @@ import { AboutHighlightIcon } from './AboutHighlightIcon'
 export function AboutSection() {
   return (
     <section id="about" className={`relative overflow-hidden bg-cream ${SECTION_PY} ${PAGE_GUTTER}`}>
-      <DecorativeVector className="absolute -left-6 top-24 lg:-left-8 xl:-left-10" />
-      <DecorativeVector className="absolute -left-4 bottom-16 lg:-left-6" />
-      <DecorativeVector className="absolute right-0 top-1/2 -translate-y-1/2 lg:right-2 xl:right-4" />
+      <DecorativeVector className="absolute -left-6 top-24 lg:-left-0 xl:-left-0" />
+      <DecorativeVector className="absolute bottom-16 lg:-left-0" />
+      <DecorativeVector className="absolute right-0 top-1/2 -translate-y-1/2 lg:right-0 xl:right-0" />
 
       <PageContainer className="relative grid gap-10 lg:grid-cols-2 lg:gap-10">
         <div className="relative min-h-[420px] sm:min-h-[480px] lg:min-h-[663px]">

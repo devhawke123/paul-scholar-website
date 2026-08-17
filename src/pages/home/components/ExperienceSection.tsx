@@ -8,7 +8,7 @@ import { experienceCards } from '../data/homeContent'
 export function ExperienceSection() {
   return (
     <section className={`relative overflow-hidden bg-cream ${SECTION_PY} ${PAGE_GUTTER}`}>
-      <DecorativeVector className="absolute left-2 top-16 lg:left-8 xl:left-10" />
+      <DecorativeVector className="absolute left-2 top-16 lg:left-8 xl:left-0" />
 
       <PageContainer>
         <div className="relative overflow-hidden rounded-[32px] bg-gradient-warm px-6 py-10 shadow-sm md:px-12 md:py-14">

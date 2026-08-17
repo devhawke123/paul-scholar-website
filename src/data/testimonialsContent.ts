@@ -17,7 +17,8 @@ export const testimonialsContent = {
       image: testimonialPortrait,
       imageAlt: 'Professor Jane Smith',
       rating: 5,
-    },
+      rating2:7,
+       },
     {
       quote:
         'Working with Dr. Stokes transformed how our policy team handles uncertainty. His frameworks are practical, focused, and immediately useful.',

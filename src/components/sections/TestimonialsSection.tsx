@@ -154,6 +154,9 @@ export function TestimonialsSection({ showBadge = true }: TestimonialsSectionPro
               <p className="text-accent" aria-label={`${testimonial.rating} star rating`}>
                 {'★'.repeat(testimonial.rating)}
               </p>
+              <p className="text-accent" aria-label={`${testimonial.rating2} star rating`}>
+                {'★'.repeat(testimonial.rating2)}
+              </p>
               <blockquote className="mt-6 h-[7.5rem] overflow-hidden text-lg leading-relaxed text-navy/80">
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
