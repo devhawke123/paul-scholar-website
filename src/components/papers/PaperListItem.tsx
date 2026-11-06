@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom'
 import { usePdfPrefetch } from '../../hooks/usePdfPrefetch'
 import { libraryPath } from '../../routes'
 import type { Paper } from '../../types/paper'
+import {
+  buildDownloadFileName,
+  downloadFromUrl,
+  isBrowserViewableFileName,
+} from '../../utils/documentFiles'
 import { formatPaperDate } from '../../utils/papers'
 import { PaperRequestModal } from './PaperRequestModal'
 
@@ -12,7 +17,11 @@ type PaperListItemProps = {
 
 export function PaperListItem({ paper }: PaperListItemProps) {
   const [showModal, setShowModal] = useState(false)
-  usePdfPrefetch(paper.access === 'Public' ? paper.pdfUrl : undefined)
+  usePdfPrefetch(
+    paper.access === 'Public' && isBrowserViewableFileName(paper.pdfFileName)
+      ? paper.pdfUrl
+      : undefined,
+  )
 
   return (
     <li className="flex flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between">
@@ -52,24 +61,28 @@ export function PaperListItem({ paper }: PaperListItemProps) {
         {!paper.pdfUrl ? (
           <button
             type="button"
-            aria-label={`No PDF uploaded for ${paper.title}`}
-            title="No PDF uploaded yet"
+            aria-label={`No document uploaded for ${paper.title}`}
+            title="No document uploaded yet"
             disabled
             className="flex size-10 cursor-not-allowed items-center justify-center rounded-lg border border-navy/10 text-navy/40"
           >
             ↓
           </button>
         ) : paper.access === 'Public' ? (
-          <a
-            href={paper.pdfUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => {
+              void downloadFromUrl(
+                paper.pdfUrl!,
+                buildDownloadFileName(paper.title, paper.pdfFileName ?? paper.pdfUrl),
+              )
+            }}
             aria-label={`Download ${paper.title}`}
-            title="Download PDF"
+            title="Download document"
             className="flex size-10 items-center justify-center rounded-lg border border-navy/10 text-navy transition hover:border-accent hover:text-accent"
           >
             ↓
-          </a>
+          </button>
         ) : (
           <button
             type="button"

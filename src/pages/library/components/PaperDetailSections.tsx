@@ -9,6 +9,12 @@ import { libraryPath } from '../../../routes'
 import type { ContentSection } from '../../../types/contentSection'
 import type { Paper } from '../../../types/paper'
 import {
+  buildDownloadFileName,
+  downloadFromUrl,
+  getDownloadButtonLabel,
+  isBrowserViewableFileName,
+} from '../../../utils/documentFiles'
+import {
   formatPaperDate,
   getPaperCategoryLabel,
   getPaperExcerpt,
@@ -22,7 +28,10 @@ type PaperDownloadActionsProps = {
 
 export function PaperDownloadActions({ paper, className = '' }: PaperDownloadActionsProps) {
   const [showModal, setShowModal] = useState(false)
-  usePdfPrefetch(paper.access === 'Public' ? paper.pdfUrl : undefined)
+  const canOpenInBrowser = isBrowserViewableFileName(paper.pdfFileName)
+  usePdfPrefetch(
+    paper.access === 'Public' && canOpenInBrowser ? paper.pdfUrl : undefined,
+  )
 
   return (
     <>
@@ -30,26 +39,28 @@ export function PaperDownloadActions({ paper, className = '' }: PaperDownloadAct
 
       <div className={`flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
         {paper.pdfUrl && paper.access === 'Public' ? (
-          <a
-            href={paper.pdfUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            download={paper.pdfFileName}
-            className="w-full sm:w-auto"
+          <Button
+            className="w-full rounded-full px-8 sm:w-auto"
+            onClick={() => {
+              void downloadFromUrl(
+                paper.pdfUrl!,
+                buildDownloadFileName(paper.title, paper.pdfFileName ?? paper.pdfUrl),
+              )
+            }}
           >
-            <Button className="w-full rounded-full px-8 sm:w-auto">Download PDF</Button>
-          </a>
+            {getDownloadButtonLabel(paper.pdfFileName)}
+          </Button>
         ) : paper.pdfUrl && paper.access === 'Restricted' ? (
           <Button className="w-full rounded-full px-8 sm:w-auto" onClick={() => setShowModal(true)}>
             Request Access
           </Button>
         ) : (
           <Button className="w-full rounded-full px-8 sm:w-auto" disabled>
-            PDF Unavailable
+            Document unavailable
           </Button>
         )}
 
-        {paper.pdfUrl && paper.access === 'Public' && (
+        {paper.pdfUrl && paper.access === 'Public' && canOpenInBrowser && (
           <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
             <Button variant="outline" className="w-full rounded-full px-8 sm:w-auto">
               Open in Browser

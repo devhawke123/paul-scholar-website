@@ -3,46 +3,73 @@ import { formatFileSize } from '../utils/papers'
 
 const BUCKET = "Paul's papers and thumbnails"
 
-/** Safe object key segment for Supabase Storage (no spaces / unicode dashes / etc.). */
-function safeStorageName(name: string) {
+/**
+ * Storage object keys must stay ASCII-safe for Supabase.
+ * Display / download names can still use the full paper title.
+ */
+function safeExtension(name: string): string {
   const lastDot = name.lastIndexOf('.')
-  const ext = lastDot >= 0 ? name.slice(lastDot).toLowerCase() : ''
-  const base = lastDot >= 0 ? name.slice(0, lastDot) : name
-  const safeBase =
-    base
+  if (lastDot < 0) return ''
+  const ext = name
+    .slice(lastDot + 1)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
+  return ext ? `.${ext}` : ''
+}
+
+function safeStorageBase(name: string, fallback = 'file') {
+  return (
+    name
       .normalize('NFKD')
       .replace(/[^\w.-]+/g, '-')
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '')
-      .toLowerCase() || 'file'
-  return `${safeBase}${ext}`
+      .toLowerCase()
+      .slice(0, 80) || fallback
+  )
 }
 
-export async function uploadPaperPdf(file: File, paperId: string) {
-  const path = `pdfs/${paperId}/${safeStorageName(file.name)}`
-  const { error } = await supabase.storage
-    .from(BUCKET)
-    .upload(path, file, { upsert: true })
+function displayFileName(title: string, file: File) {
+  const ext = safeExtension(file.name)
+  const base =
+    title
+      .replace(/[<>:"/\\|?*\u0000-\u001f]+/g, '')
+      .replace(/\s+/g, ' ')
+      .trim() || file.name.replace(/\.[^.]+$/, '') || 'document'
+  return `${base}${ext}`
+}
+
+export async function uploadPaperPdf(file: File, paperId: string, title: string) {
+  const ext = safeExtension(file.name)
+  const path = `documents/${paperId}/${safeStorageBase(title, 'document')}${ext}`
+  const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
+    upsert: true,
+    contentType: file.type || undefined,
+  })
   if (error) throw error
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
-  return { url: data.publicUrl, fileName: file.name, fileSize: formatFileSize(file.size) }
+  return {
+    url: data.publicUrl,
+    fileName: displayFileName(title, file),
+    fileSize: formatFileSize(file.size),
+  }
 }
 
 export async function uploadPaperThumbnail(file: File, paperId: string) {
-  const path = `thumbnails/${paperId}/${safeStorageName(file.name)}`
+  const path = `thumbnails/${paperId}/${safeStorageBase(file.name, 'thumbnail')}${safeExtension(file.name)}`
   const { error } = await supabase.storage
     .from(BUCKET)
-    .upload(path, file, { upsert: true })
+    .upload(path, file, { upsert: true, contentType: file.type || undefined })
   if (error) throw error
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
   return { url: data.publicUrl, fileName: file.name }
 }
 
 export async function uploadBlogCover(file: File, blogId: string) {
-  const path = `blogs/${blogId}/cover/${safeStorageName(file.name)}`
+  const path = `blogs/${blogId}/cover/${safeStorageBase(file.name, 'cover')}${safeExtension(file.name)}`
   const { error } = await supabase.storage
     .from(BUCKET)
-    .upload(path, file, { upsert: true })
+    .upload(path, file, { upsert: true, contentType: file.type || undefined })
   if (error) throw error
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
   return { url: data.publicUrl, fileName: file.name }
@@ -54,10 +81,10 @@ export async function uploadBlogSectionImage(
   sectionIndex: number,
   kind: 'side' | 'full',
 ) {
-  const path = `blogs/${blogId}/sections/${sectionIndex}/${kind}/${safeStorageName(file.name)}`
+  const path = `blogs/${blogId}/sections/${sectionIndex}/${kind}${safeExtension(file.name)}`
   const { error } = await supabase.storage
     .from(BUCKET)
-    .upload(path, file, { upsert: true })
+    .upload(path, file, { upsert: true, contentType: file.type || undefined })
   if (error) throw error
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
   return { url: data.publicUrl, fileName: file.name }

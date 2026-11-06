@@ -6,6 +6,11 @@ import { usePdfPrefetch } from '../../../hooks/usePdfPrefetch'
 import { libraryPath } from '../../../routes'
 import type { Paper } from '../../../types/paper'
 import {
+  buildDownloadFileName,
+  downloadFromUrl,
+  isBrowserViewableFileName,
+} from '../../../utils/documentFiles'
+import {
   formatPaperDate,
   getPaperCategoryLabel,
   getPaperExcerpt,
@@ -19,7 +24,11 @@ type PaperCardProps = {
 
 export function PaperCard({ paper }: PaperCardProps) {
   const [showModal, setShowModal] = useState(false)
-  usePdfPrefetch(paper.access === 'Public' ? paper.pdfUrl : undefined)
+  usePdfPrefetch(
+    paper.access === 'Public' && isBrowserViewableFileName(paper.pdfFileName)
+      ? paper.pdfUrl
+      : undefined,
+  )
   const tags = getPaperTags(paper)
   const visibleTags = tags.slice(0, 2)
   const hiddenTagCount = tags.length - visibleTags.length
@@ -98,16 +107,20 @@ export function PaperCard({ paper }: PaperCardProps) {
 
           <div className="flex flex-wrap items-center justify-between gap-3">
             {paper.pdfUrl && paper.access === 'Public' ? (
-              <a
-                href={paper.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => {
+                  void downloadFromUrl(
+                    paper.pdfUrl!,
+                    buildDownloadFileName(paper.title, paper.pdfFileName ?? paper.pdfUrl),
+                  )
+                }}
                 aria-label={`Download ${paper.title}`}
                 className="inline-flex items-center gap-1.5 text-xs font-medium text-navy/70 transition hover:text-accent"
               >
                 <span aria-hidden>📄</span>
                 Quick download
-              </a>
+              </button>
             ) : paper.pdfUrl && paper.access === 'Restricted' ? (
               <button
                 type="button"
@@ -121,7 +134,7 @@ export function PaperCard({ paper }: PaperCardProps) {
             ) : (
               <span className="inline-flex items-center gap-1.5 text-xs font-medium text-navy/40">
                 <span aria-hidden>📄</span>
-                No PDF
+                No document
               </span>
             )}
 

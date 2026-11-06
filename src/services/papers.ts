@@ -45,7 +45,7 @@ export async function createPaper(input: PaperInput, files?: PaperFiles): Promis
     thumbnailFileName = r.fileName
   }
   if (files?.pdfFile) {
-    const r = await uploadPaperPdf(files.pdfFile, id)
+    const r = await uploadPaperPdf(files.pdfFile, id, input.title)
     pdfUrl = r.url
     pdfFileName = r.fileName
     fileSize = r.fileSize
@@ -81,7 +81,7 @@ export async function updatePaper(
     thumbnailFileName = r.fileName
   }
   if (files?.pdfFile) {
-    const r = await uploadPaperPdf(files.pdfFile, id)
+    const r = await uploadPaperPdf(files.pdfFile, id, input.title)
     pdfUrl = r.url
     pdfFileName = r.fileName
     fileSize = r.fileSize

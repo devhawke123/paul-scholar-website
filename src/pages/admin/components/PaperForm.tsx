@@ -10,6 +10,11 @@ import {
   excerptToSections,
   parseSectionBlocks,
 } from '../../../utils/contentSections'
+import {
+  DOCUMENT_FILE_ACCEPT,
+  DOCUMENT_FORMAT_HINT,
+  isAllowedDocumentFile,
+} from '../../../utils/documentFiles'
 import { formatFileSize, formatTagsInput, parseTagsInput } from '../../../utils/papers'
 
 type PaperFormProps = {
@@ -124,7 +129,7 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
     if (!form.title.trim() || !form.excerpt.trim()) return
 
     if (!pdfFile && !form.pdfUrl) {
-      setPdfError('A PDF file is required.')
+      setPdfError('A document file is required.')
       return
     }
     setPdfError('')
@@ -189,7 +194,12 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
   }
 
   function handlePdfSelect(file: File | null) {
-    if (!file || file.type !== 'application/pdf') return
+    if (!file) return
+    if (!isAllowedDocumentFile(file)) {
+      setPdfError(`Unsupported file type. Use ${DOCUMENT_FORMAT_HINT}.`)
+      return
+    }
+    setPdfError('')
     setPdfFile(file)
     setForm((prev) => ({
       ...prev,
@@ -516,20 +526,20 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
 
             <label className="block md:col-span-2">
               <span className="mb-2 block text-sm font-medium text-navy">
-                Paper PDF <span className="text-red-500">*</span>
+                Document file <span className="text-red-500">*</span>
               </span>
               <input
                 type="file"
-                accept="application/pdf"
+                accept={DOCUMENT_FILE_ACCEPT}
                 onChange={(event) => {
                   handlePdfSelect(event.target.files?.[0] ?? null)
-                  if (event.target.files?.[0]) setPdfError('')
                 }}
                 className={inputClassName}
               />
+              <p className="mt-1.5 text-xs text-navy/50">{DOCUMENT_FORMAT_HINT}</p>
               <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-navy/60">
                 <span>
-                  {displayPdfName ? `Attached: ${displayPdfName}` : 'No PDF attached yet'}
+                  {displayPdfName ? `Attached: ${displayPdfName}` : 'No document attached yet'}
                 </span>
                 {form.fileSize && <span>File size: {form.fileSize}</span>}
                 {hasPdf && (
@@ -538,7 +548,7 @@ export function PaperForm({ initial, onSubmit, onCancel }: PaperFormProps) {
                     onClick={handleRemovePdf}
                     className="rounded-full border border-navy/15 px-3 py-1 text-xs text-navy transition hover:border-navy/30"
                   >
-                    Remove PDF
+                    Remove document
                   </button>
                 )}
               </div>

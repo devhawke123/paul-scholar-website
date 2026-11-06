@@ -258,7 +258,7 @@ export function PapersManager() {
                           }`}
                         >
                           <IconDocument />
-                          {paper.pdfUrl ? 'PDF attached' : 'No PDF'}
+                          {paper.pdfUrl ? 'Document attached' : 'No document'}
                         </span>
                         <span
                           className={`inline-flex items-center gap-1.5 text-xs font-medium ${

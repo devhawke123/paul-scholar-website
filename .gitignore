@@ -24,6 +24,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Markdown — only README.md is tracked
-*.md
-!README.md
+# # Markdown — only README.md is tracked
+# *.md
+# !README.md

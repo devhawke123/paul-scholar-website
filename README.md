@@ -52,23 +52,28 @@ Use **View Site** in the admin header anytime to open the public website.
    - Content sections (title + text for each part of the paper page)
    - Category, publish date, and tags
 4. Choose **Access**:
-   - **Public** — anyone can download the PDF from the library  
+   - **Public** — anyone can download the file from the library  
    - **Restricted** — visitors must request access; you approve or reject later  
 5. Upload:
    - A **cover thumbnail** (optional image for the card)
-   - The **Paper PDF** (required for a downloadable document)
+   - The **document file** (required for a downloadable item)
 6. Click **Add Paper**
+
+Accepted document formats:
+- **PDF**
+- **Microsoft Office** (Word, Excel, PowerPoint, Access, Publisher, Visio, Project, OneNote, Outlook — including older formats such as `.doc`, `.xls`, `.ppt` and newer ones such as `.docx`, `.xlsx`, `.pptx`)
+- **Common images** (JPG, PNG, GIF, WEBP, TIFF, BMP, SVG, and similar)
 
 The paper appears on the **Library** page shortly after you save.
 
 ### Edit or remove a paper
 
-- In **Your Papers**, click **Edit** to change details or replace the PDF/thumbnail  
+- In **Your Papers**, click **Edit** to change details or replace the document/thumbnail  
 - Click **Delete** to remove it (you will be asked to confirm)
 
-### Tip for file names
+### Titles, tags, and file names
 
-If an upload fails with an “Invalid key” style message, rename the file to something simple (letters, numbers, hyphens) and try again. Spaces and special characters in file names can cause problems.
+You can use punctuation freely in titles, summaries, tags, and file names — including characters like `- . / ! @ # $ %` and spaces. Keep the original document name; the site stores a safe copy behind the scenes for uploading.
 
 ---
 
